@@ -127,6 +127,26 @@ export default function RegistrationForm() {
 
     try {
       // Prepare registration data (tidak perlu activityId karena hanya 1 kegiatan)
+      // Upload image first if exists
+      let instagramProofUrl = null
+      if (instagramProof) {
+        const uploadFormData = new FormData()
+        uploadFormData.append('file', instagramProof)
+
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: uploadFormData
+        })
+
+        const uploadResult = await uploadResponse.json()
+        
+        if (!uploadResponse.ok || !uploadResult.success) {
+          throw new Error(uploadResult.message || 'Gagal mengupload foto bukti follow Instagram')
+        }
+
+        instagramProofUrl = uploadResult.data.url
+      }
+
       const registrationData = {
         email: formData.email,
         fullName: formData.fullName,
@@ -137,7 +157,7 @@ export default function RegistrationForm() {
         instagramHandle: formData.instagramHandle,
         motivation: formData.motivation || null,
         specialRequest: formData.specialRequest || null,
-        instagramProof: instagramProof ? 'uploaded-screenshot.jpg' : null // For now, just placeholder
+        instagramProof: instagramProofUrl
       }
 
       // Submit to API
