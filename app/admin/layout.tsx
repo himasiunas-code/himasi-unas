@@ -157,7 +157,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   alt="FTKI Logo"
                   width={32}
                   height={32}
-                  className="h-8 w-8 ml-2"
+                  className="h-8 w-16 ml-2"
                 />
                 <div className="ml-3">
                   <h1 className="text-xl font-bold text-[#4B061A]">Admin HIMASI</h1>
