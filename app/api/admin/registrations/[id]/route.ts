@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { RegistrationStatus } from '@prisma/client'
+import { RegistrationStatus, Prisma } from '@prisma/client'
 
 // PATCH /api/admin/registrations/[id] - Update status pendaftaran
 export async function PATCH(
@@ -24,7 +24,7 @@ export async function PATCH(
     }
 
     // Update registration
-    const updateData: any = {
+    const updateData: Prisma.RegistrationUpdateInput = {
       status,
       updatedAt: new Date()
     }
