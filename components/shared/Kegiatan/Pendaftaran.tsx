@@ -108,11 +108,6 @@ export default function Pendaftaran() {
                                 {activity.title}
                             </h1>
                             <div className="w-24 md:w-32 h-1 bg-[#4B061A] mx-auto rounded-full"></div>
-                            {activity.description && (
-                                <p className="text-lg text-[#732E39] mt-4 max-w-2xl mx-auto">
-                                    {activity.description}
-                                </p>
-                            )}
                         </div>
 
                         {/* Banner Image */}
