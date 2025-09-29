@@ -6,7 +6,12 @@ const nextConfig = {
     unoptimized: true,
   },
   // Updated to use new Next.js 15 config option
-  serverExternalPackages: ['@prisma/client']
+  serverExternalPackages: ['@prisma/client'],
+  
+  // Allow ngrok cross-origin requests
+  allowedDevOrigins: [
+    'hexaemeric-jaida-unbuffed.ngrok-free.dev'
+  ]
 };
 
 module.exports = nextConfig;
