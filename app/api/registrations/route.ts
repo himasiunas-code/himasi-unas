@@ -180,7 +180,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      data: registrations
+      registrations: registrations
     })
   } catch (error) {
     console.error('Error fetching registrations:', error)
