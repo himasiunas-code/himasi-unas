@@ -4,12 +4,13 @@ import { prisma } from '@/lib/prisma'
 // GET /api/activities/[id] - Get specific activity
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const activity = await prisma.activity.findUnique({
       where: {
-        id: params.id
+        id: id
       },
       include: {
         registrations: {
@@ -52,9 +53,10 @@ export async function GET(
 // PUT /api/activities/[id] - Update activity
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     const {
       title,
@@ -85,7 +87,7 @@ export async function PUT(
 
     // Check if activity exists
     const existingActivity = await prisma.activity.findUnique({
-      where: { id: params.id }
+      where: { id: id }
     })
 
     if (!existingActivity) {
@@ -107,7 +109,7 @@ export async function PUT(
 
     const updatedActivity = await prisma.activity.update({
       where: {
-        id: params.id
+        id: id
       },
       data: {
         title,
@@ -156,12 +158,13 @@ export async function PUT(
 // DELETE /api/activities/[id] - Delete activity
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     // Check if activity exists
     const existingActivity = await prisma.activity.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         _count: {
           select: { registrations: true }
@@ -179,7 +182,7 @@ export async function DELETE(
     // Delete the activity (registrations will be cascade deleted due to schema)
     await prisma.activity.delete({
       where: {
-        id: params.id
+        id: id
       }
     })
 
