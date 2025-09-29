@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Commented out 'output: export' because it's incompatible with API routes
-  // output: 'export',
+  // output: 'export',  // Enable for static export only
   images: {
     unoptimized: true,
   },
