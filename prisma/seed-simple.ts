@@ -43,7 +43,8 @@ async function main() {
       endDate: new Date('2025-10-15T17:00:00'),
       location: "Lab FTKI UNAS",
       maxParticipants: 50,
-      registrationOpen: true,
+      registrationOpen: false,
+      registrationStartDate: new Date('2025-10-01T00:00:00'), // 1 Oktober 2025
       registrationDeadline: new Date('2025-10-10T23:59:59'),
       requiresApproval: false,
       isPublished: true

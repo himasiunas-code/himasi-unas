@@ -21,6 +21,7 @@ model Activity {
   maxParticipants      Int?
   currentParticipants  Int            @default(0)
   registrationOpen     Boolean        @default(false)
+  registrationStartDate DateTime?
   registrationDeadline DateTime?
   requiresApproval     Boolean        @default(false)
   isPublished          Boolean        @default(false)

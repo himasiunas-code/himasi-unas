@@ -1,42 +1,55 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-// GET /api/activities - Ambil kegiatan utama (hanya 1 kegiatan)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// GET /api/activities - Ambil semua kegiatan dengan option filtering
 export async function GET(request: NextRequest) {
   try {
-    // Ambil kegiatan pertama atau yang published
-    const activity = await prisma.activity.findFirst({
-      where: {
-        isPublished: true
-      },
+    const { searchParams } = new URL(request.url)
+    const type = searchParams.get('type') // 'public' or 'admin'
+    const published = searchParams.get('published')
+
+    let whereClause: any = {}
+
+    // Untuk public API, hanya tampilkan yang published
+    if (type === 'public') {
+      whereClause.isPublished = true
+    }
+
+    // Filter berdasarkan published status
+    if (published === 'true') {
+      whereClause.isPublished = true
+    } else if (published === 'false') {
+      whereClause.isPublished = false
+    }
+
+    const activities = await prisma.activity.findMany({
+      where: whereClause,
       include: {
         _count: {
           select: { registrations: true }
         }
       },
       orderBy: {
-        createdAt: 'desc'
+        startDate: 'desc'
       }
     })
 
-    if (!activity) {
-      return NextResponse.json({
-        success: false,
-        message: 'No activity found'
-      }, { status: 404 })
-    }
+    // Add currentParticipants field
+    const activitiesWithCount = activities.map(activity => ({
+      ...activity,
+      currentParticipants: activity._count.registrations
+    }))
 
     return NextResponse.json({
       success: true,
-      data: activity
+      activities: activitiesWithCount
     })
   } catch (error) {
-    console.error('Error fetching activity:', error)
+    console.error('Error fetching activities:', error)
     return NextResponse.json(
       {
         success: false,
-        message: 'Failed to fetch activity'
+        message: 'Failed to fetch activities'
       },
       { status: 500 }
     )
@@ -44,6 +57,7 @@ export async function GET(request: NextRequest) {
 }
 
 // POST /api/activities - Buat kegiatan baru (untuk admin)
+// OTOMATIS MENGHAPUS SEMUA KEGIATAN SEBELUMNYA
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -58,7 +72,10 @@ export async function POST(request: NextRequest) {
       location,
       maxParticipants,
       registrationDeadline,
-      requiresApproval
+      registrationStartDate,
+      requiresApproval,
+      isPublished,
+      registrationOpen
     } = body
 
     if (!title || !description || !startDate) {
@@ -71,12 +88,25 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate slug from title
+    // STEP 1: Hapus semua kegiatan sebelumnya beserta registrasinya
+    console.log('Menghapus semua kegiatan sebelumnya...')
+    
+    // Hapus semua registrasi terlebih dahulu
+    await prisma.registration.deleteMany({})
+    console.log('Semua registrasi telah dihapus')
+    
+    // Kemudian hapus semua kegiatan
+    await prisma.activity.deleteMany({})
+    console.log('Semua kegiatan sebelumnya telah dihapus')
+
+    // STEP 2: Generate slug dari title
     const slug = title
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/[^a-z0-9\s]/g, '')
+      .replace(/\s+/g, '-')
       .replace(/^-|-$/g, '')
 
+    // STEP 3: Buat kegiatan baru
     const activity = await prisma.activity.create({
       data: {
         title,
@@ -88,15 +118,21 @@ export async function POST(request: NextRequest) {
         startDate: new Date(startDate),
         endDate: endDate ? new Date(endDate) : null,
         location,
-        maxParticipants,
+        maxParticipants: maxParticipants || null,
         registrationDeadline: registrationDeadline ? new Date(registrationDeadline) : null,
-        requiresApproval: requiresApproval || false
+        registrationStartDate: registrationStartDate ? new Date(registrationStartDate) : null,
+        requiresApproval: requiresApproval || false,
+        isPublished: isPublished || false,
+        registrationOpen: registrationOpen || false
       }
     })
 
+    console.log('Kegiatan baru berhasil dibuat:', activity.title)
+
     return NextResponse.json({
       success: true,
-      data: activity
+      data: activity,
+      message: 'Kegiatan baru berhasil dibuat. Semua kegiatan sebelumnya telah dihapus.'
     }, { status: 201 })
 
   } catch (error) {
