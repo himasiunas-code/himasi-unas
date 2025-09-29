@@ -277,13 +277,13 @@ export default function AdminActivitiesPage() {
         
         <Dialog open={isDialogOpen} onOpenChange={resetDialog}>
           <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-blue-600 hover:bg-blue-700 hidden">
               <Plus className="h-4 w-4 mr-2" />
               Buat Kegiatan Baru
             </Button>
           </DialogTrigger>
           
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[70vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingActivity ? 'Edit Kegiatan' : 'Buat Kegiatan Baru'}
@@ -464,7 +464,7 @@ export default function AdminActivitiesPage() {
               </div>
 
               {/* Settings */}
-              <div className="space-y-4 border-t pt-4">
+              <div className="space-y-4 border-t pt-4 hidden">
                 <h3 className="font-semibold">Pengaturan</h3>
                 
                 <div className="flex items-center justify-between">
