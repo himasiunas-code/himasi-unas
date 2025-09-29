@@ -58,26 +58,32 @@ export default function RegistrationForm() {
     if (!file) return
 
     // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
     if (!allowedTypes.includes(file.type)) {
-      setErrors(prev => ({ ...prev, instagramProof: 'File harus berformat JPG, JPEG, atau PNG' }))
+      setErrors(prev => ({ ...prev, instagramProof: 'File harus berformat JPG, JPEG, PNG, atau WEBP' }))
       return
     }
 
     // Validate file size (max 5MB)
     const maxSize = 5 * 1024 * 1024
     if (file.size > maxSize) {
-      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 5MB' }))
+      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 5MB. Kompres gambar terlebih dahulu.' }))
       return
     }
 
-    setInstagramProof(file)
+    // Clear any previous errors
     setErrors(prev => ({ ...prev, instagramProof: '' }))
+    
+    // Set file state
+    setInstagramProof(file)
 
     // Create preview
     const reader = new FileReader()
     reader.onload = () => {
       setPreviewUrl(reader.result as string)
+    }
+    reader.onerror = () => {
+      setErrors(prev => ({ ...prev, instagramProof: 'Gagal membaca file. Silakan coba file lain.' }))
     }
     reader.readAsDataURL(file)
   }
@@ -127,24 +133,35 @@ export default function RegistrationForm() {
 
     try {
       // Prepare registration data (tidak perlu activityId karena hanya 1 kegiatan)
-      // Upload image first if exists
+      // Process image for serverless environment
       let instagramProofUrl = null
       if (instagramProof) {
-        const uploadFormData = new FormData()
-        uploadFormData.append('file', instagramProof)
+        try {
+          const uploadFormData = new FormData()
+          uploadFormData.append('file', instagramProof)
+          uploadFormData.append('type', 'instagram-proof')
 
-        const uploadResponse = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData
-        })
+          console.log('🔄 Uploading file:', instagramProof.name, 'Size:', instagramProof.size)
 
-        const uploadResult = await uploadResponse.json()
-        
-        if (!uploadResponse.ok || !uploadResult.success) {
-          throw new Error(uploadResult.message || 'Gagal mengupload foto bukti follow Instagram')
+          const uploadResponse = await fetch('/api/upload', {
+            method: 'POST',
+            body: uploadFormData
+          })
+
+          const uploadResult = await uploadResponse.json()
+          console.log('📤 Upload response:', uploadResult)
+          
+          if (!uploadResponse.ok || !uploadResult.success) {
+            throw new Error(uploadResult.message || 'Upload failed')
+          }
+
+          instagramProofUrl = uploadResult.data?.url || uploadResult.url
+          console.log('✅ File processed successfully:', instagramProofUrl ? 'Data URL generated' : 'No URL')
+          
+        } catch (uploadError) {
+          console.error('❌ Upload error:', uploadError)
+          throw new Error(`Gagal memproses gambar: ${uploadError instanceof Error ? uploadError.message : 'Unknown error'}`)
         }
-
-        instagramProofUrl = uploadResult.data.url
       }
 
       const registrationData = {
@@ -202,7 +219,20 @@ export default function RegistrationForm() {
       
       // Show specific error message from API if available
       if (error instanceof Error) {
-        setSubmitMessage(error.message)
+        // More user-friendly error messages
+        let userMessage = error.message
+        if (error.message.includes('Failed to process file') || error.message.includes('Upload failed')) {
+          userMessage = 'Gagal memproses gambar. Pastikan file berformat JPG/PNG dan berukuran kurang dari 5MB.'
+        } else if (error.message.includes('already registered')) {
+          userMessage = 'Email Anda sudah terdaftar untuk kegiatan ini.'
+        } else if (error.message.includes('Registration is closed')) {
+          userMessage = 'Pendaftaran untuk kegiatan ini sudah ditutup.'
+        } else if (error.message.includes('deadline has passed')) {
+          userMessage = 'Batas waktu pendaftaran sudah berakhir.'
+        } else if (error.message.includes('Activity is full')) {
+          userMessage = 'Kegiatan ini sudah penuh. Maksimal peserta sudah tercapai.'
+        }
+        setSubmitMessage(userMessage)
       } else {
         setSubmitMessage('Terjadi kesalahan saat mengirim pendaftaran. Silakan coba lagi.')
       }
@@ -427,8 +457,9 @@ export default function RegistrationForm() {
                       >
                         Pilih File Gambar
                       </button>
-                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG (Max: 5MB)</p>
+                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG, WEBP (Max: 5MB)</p>
                       <p className="text-gray-500 text-xs mt-1">Screenshot harus menunjukkan bahwa Anda sudah follow @himasi_unas</p>
+                      <p className="text-blue-600 text-xs mt-1">💡 Tip: Kompres gambar jika ukuran terlalu besar</p>
                     </div>
                   ) : (
                     <div className="relative">
