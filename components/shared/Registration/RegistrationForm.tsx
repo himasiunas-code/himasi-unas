@@ -20,6 +20,23 @@ interface FormErrors {
   [key: string]: string
 }
 
+interface ActivityStatus {
+  id: string
+  title: string
+  registrationOpen: boolean
+  registrationStartDate: string | null
+  registrationDeadline: string | null
+  currentParticipants: number
+  maxParticipants: number | null
+  computedRegistrationOpen: boolean
+  registrationStatus: {
+    isAutoOpenTime: boolean
+    isWithinDeadline: boolean
+    manuallyOpen: boolean
+    finalStatus: boolean
+  }
+}
+
 export default function RegistrationForm() {
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -39,7 +56,7 @@ export default function RegistrationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
-  const [activityStatus, setActivityStatus] = useState<any>(null)
+  const [activityStatus, setActivityStatus] = useState<ActivityStatus | null>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
