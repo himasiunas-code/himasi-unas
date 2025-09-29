@@ -59,3 +59,7 @@ instance/
 .netlify
 
 /lib/generated/prisma
+
+# Uploaded files (keep .gitkeep but ignore actual uploads)
+/public/uploads/*
+!/public/uploads/.gitkeep
