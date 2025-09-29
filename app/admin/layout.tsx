@@ -166,7 +166,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </div>
               
               {/* Desktop Navigation */}
-              <div className="hidden md:ml-8 md:flex md:space-x-1">
+              <div className="hidden lg:ml-8 lg:flex lg:space-x-1">
                 {navigation.map((item) => {
                   const Icon = item.icon
                   return (
@@ -190,7 +190,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </div>
 
             {/* Right side - Profile & Actions */}
-            <div className="hidden md:flex md:items-center md:space-x-4">
+            <div className="hidden lg:flex lg:items-center lg:space-x-4">
               {/* Back to Website */}
               <Link
                 href="/"
@@ -244,7 +244,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
+            <div className="lg:hidden flex items-center">
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 className="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
@@ -258,7 +258,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div 
             className="fixed inset-0 bg-gray-600 bg-opacity-75"
             onClick={() => setMobileMenuOpen(false)}
