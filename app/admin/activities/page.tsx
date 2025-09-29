@@ -370,12 +370,13 @@ export default function AdminActivitiesPage() {
                     className="mb-2"
                   />
                   {imagePreview && (
-                    <div className="mt-2 relative h-40">
+                    <div className="mt-2">
                       <Image 
                         src={imagePreview} 
                         alt="Preview" 
-                        fill
-                        className="object-cover rounded-lg border"
+                        width={320}
+                        height={160}
+                        className="object-cover rounded-lg border w-full h-40"
                       />
                     </div>
                   )}
@@ -557,8 +558,9 @@ export default function AdminActivitiesPage() {
                     <Image 
                       src={activity.image} 
                       alt={activity.title}
-                      fill
-                      className="object-cover"
+                      width={192}
+                      height={160}
+                      className="object-cover w-full h-full"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
