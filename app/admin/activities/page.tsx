@@ -1,11 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   Dialog, 
@@ -84,8 +85,6 @@ export default function AdminActivitiesPage() {
   const [submitting, setSubmitting] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string>('')
-
-  const router = useRouter()
 
   // Fetch activities
   const fetchActivities = async () => {
@@ -371,11 +370,12 @@ export default function AdminActivitiesPage() {
                     className="mb-2"
                   />
                   {imagePreview && (
-                    <div className="mt-2">
-                      <img 
+                    <div className="mt-2 relative h-40">
+                      <Image 
                         src={imagePreview} 
                         alt="Preview" 
-                        className="w-full h-40 object-cover rounded-lg border"
+                        fill
+                        className="object-cover rounded-lg border"
                       />
                     </div>
                   )}
@@ -554,10 +554,11 @@ export default function AdminActivitiesPage() {
                 {/* Image */}
                 <div className="w-48 h-40 bg-gray-100 flex-shrink-0">
                   {activity.image ? (
-                    <img 
+                    <Image 
                       src={activity.image} 
                       alt={activity.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">

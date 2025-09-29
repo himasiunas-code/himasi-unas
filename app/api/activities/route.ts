@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type') // 'public' or 'admin'
     const published = searchParams.get('published')
 
-    let whereClause: any = {}
+    const whereClause: { isPublished?: boolean } = {}
 
     // Untuk public API, hanya tampilkan yang published
     if (type === 'public') {

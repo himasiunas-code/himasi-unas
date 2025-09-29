@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 // GET /api/activities/current - Ambil kegiatan aktif saat ini untuk halaman utama
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Ambil kegiatan yang paling terbaru dan published
     // TIDAK perlu registrationOpen: true karena halaman utama harus tetap show kegiatan
