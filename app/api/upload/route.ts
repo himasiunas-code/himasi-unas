@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { writeFile, mkdir } from 'fs/promises'
+import path from 'path'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,13 +32,30 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // For now, just return a placeholder URL
-    // In production, upload to cloud storage (Cloudinary, AWS S3, etc)
+    // Convert file to bytes
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    // Generate unique filename
     const timestamp = Date.now()
-    const filename = `instagram-proof-${timestamp}-${file.name}`
+    const randomStr = Math.random().toString(36).substring(2, 8)
+    const fileExtension = file.name.split('.').pop() || 'jpg'
+    const filename = `instagram-proof-${timestamp}-${randomStr}.${fileExtension}`
     
-    // TODO: Implement actual file upload to cloud storage
-    const fileUrl = `/uploads/${filename}` // Placeholder URL
+    // Create uploads directory if it doesn't exist
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+    try {
+      await mkdir(uploadDir, { recursive: true })
+    } catch (error) {
+      // Directory might already exist, continue
+    }
+
+    // Save file to public/uploads directory
+    const filePath = path.join(uploadDir, filename)
+    await writeFile(filePath, buffer)
+    
+    // Return the public URL
+    const fileUrl = `/uploads/${filename}`
 
     return NextResponse.json({
       success: true,
