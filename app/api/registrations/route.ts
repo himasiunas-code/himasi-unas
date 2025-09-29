@@ -115,24 +115,54 @@ export async function POST(request: NextRequest) {
 
     console.log('🔍 Checking registration status...')
     
-    if (!activity.registrationOpen) {
-      console.log('❌ Registration is closed')
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Registration is closed for this activity'
-        },
-        { status: 400 }
-      )
+    // Check auto-open based on registrationStartDate
+    const now = new Date()
+    const isAutoOpenTime = activity.registrationStartDate ? now >= new Date(activity.registrationStartDate) : true
+    const isWithinDeadline = activity.registrationDeadline ? now <= new Date(activity.registrationDeadline) : true
+    
+    console.log('📅 Time check:', {
+      now: now.toISOString(),
+      registrationStartDate: activity.registrationStartDate,
+      registrationDeadline: activity.registrationDeadline,
+      isAutoOpenTime,
+      isWithinDeadline,
+      manuallyOpen: activity.registrationOpen
+    })
+    
+    // Registration is open if manually opened OR auto-open time has arrived (and within deadline)
+    const isRegistrationOpen = activity.registrationOpen || (isAutoOpenTime && isWithinDeadline)
+    
+    if (!isRegistrationOpen) {
+      if (!isAutoOpenTime) {
+        console.log('❌ Registration not started yet')
+        const startDate = activity.registrationStartDate ? new Date(activity.registrationStartDate).toLocaleDateString('id-ID') : 'segera'
+        return NextResponse.json(
+          {
+            success: false,
+            message: `Pendaftaran belum dibuka. Pendaftaran akan dimulai pada ${startDate}`
+          },
+          { status: 400 }
+        )
+      } else {
+        console.log('❌ Registration is closed')
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Pendaftaran untuk kegiatan ini sudah ditutup'
+          },
+          { status: 400 }
+        )
+      }
     }
 
-    // Cek deadline pendaftaran
-    if (activity.registrationDeadline && new Date() > activity.registrationDeadline) {
+    // Additional deadline check (already checked above, but keeping for clarity)
+    if (activity.registrationDeadline && now > new Date(activity.registrationDeadline)) {
       console.log('❌ Registration deadline passed:', activity.registrationDeadline)
+      const deadlineDate = new Date(activity.registrationDeadline).toLocaleDateString('id-ID')
       return NextResponse.json(
         {
           success: false,
-          message: 'Registration deadline has passed'
+          message: `Batas waktu pendaftaran sudah berakhir pada ${deadlineDate}`
         },
         { status: 400 }
       )

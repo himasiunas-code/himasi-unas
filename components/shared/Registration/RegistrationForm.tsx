@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Upload, User, Mail, Phone, Calendar, Building, FileImage, Instagram, MessageSquare, AlertCircle, CheckCircle, X } from 'lucide-react'
 
@@ -39,8 +39,27 @@ export default function RegistrationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
+  const [activityStatus, setActivityStatus] = useState<any>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Check activity status for debugging
+  useEffect(() => {
+    const checkActivityStatus = async () => {
+      try {
+        const response = await fetch('/api/activities/current')
+        const result = await response.json()
+        if (result.success && result.data) {
+          setActivityStatus(result.data)
+          console.log('🔍 Activity Status Check:', result.data.registrationStatus)
+        }
+      } catch (error) {
+        console.error('Failed to check activity status:', error)
+      }
+    }
+    
+    checkActivityStatus()
+  }, [])
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -588,7 +607,7 @@ export default function RegistrationForm() {
               ) : (
                 <span className="flex items-center justify-center">
                   <Upload className="w-5 h-5 mr-2" />
-                  Kirim Pendaftaran (Test Mode)
+                  Kirim Pendaftaran
                 </span>
               )}
             </button>
@@ -606,6 +625,46 @@ export default function RegistrationForm() {
           </div>
         </div>
       </form>
+
+      {/* Activity Status Debug Panel */}
+      {activityStatus && (
+        <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200 hidden">
+          <h4 className="font-semibold text-blue-800 mb-3">📊 Status Kegiatan</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="space-y-2">
+              <p><strong>Judul:</strong> {activityStatus.title}</p>
+              <p><strong>Manual Open:</strong> {activityStatus.registrationOpen ? '✅ Ya' : '❌ Tidak'}</p>
+              <p><strong>Auto Open Time:</strong> {activityStatus.registrationStatus?.isAutoOpenTime ? '✅ Sudah Tiba' : '❌ Belum Tiba'}</p>
+              <p><strong>Within Deadline:</strong> {activityStatus.registrationStatus?.isWithinDeadline ? '✅ Masih Berlaku' : '❌ Sudah Lewat'}</p>
+            </div>
+            <div className="space-y-2">
+              <p><strong>Final Status:</strong> 
+                <span className={`ml-2 px-2 py-1 rounded text-xs font-bold ${
+                  activityStatus.registrationStatus?.finalStatus ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
+                }`}>
+                  {activityStatus.registrationStatus?.finalStatus ? 'TERBUKA' : 'TERTUTUP'}
+                </span>
+              </p>
+              <p><strong>Start Date:</strong> {activityStatus.registrationStartDate ? new Date(activityStatus.registrationStartDate).toLocaleString('id-ID') : 'Tidak ada'}</p>
+              <p><strong>Deadline:</strong> {activityStatus.registrationDeadline ? new Date(activityStatus.registrationDeadline).toLocaleString('id-ID') : 'Tidak ada'}</p>
+              <p><strong>Peserta:</strong> {activityStatus.currentParticipants}/{activityStatus.maxParticipants || '∞'}</p>
+            </div>
+          </div>
+          {!activityStatus.registrationStatus?.finalStatus && (
+            <div className="mt-3 p-3 bg-red-100 rounded border border-red-300">
+              <p className="text-red-700 text-sm font-medium">
+                ⚠️ <strong>Alasan Pendaftaran Tertutup:</strong><br/>
+                {!activityStatus.registrationStatus?.isAutoOpenTime && '• Belum waktu pembukaan pendaftaran'}<br/>
+                {!activityStatus.registrationStatus?.isWithinDeadline && '• Sudah melewati batas waktu pendaftaran'}<br/>
+                {!activityStatus.registrationOpen && activityStatus.registrationStatus?.isAutoOpenTime && activityStatus.registrationStatus?.isWithinDeadline && '• Admin belum membuka pendaftaran secara manual'}
+              </p>
+            </div>
+          )}
+          <div className="mt-3 p-2 bg-gray-100 rounded text-xs text-gray-600">
+            <p><strong>Waktu Sekarang:</strong> {new Date().toLocaleString('id-ID')}</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
