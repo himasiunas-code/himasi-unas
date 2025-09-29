@@ -268,11 +268,11 @@ export default function AdminActivitiesPage() {
   }
 
   return (
-    <div className="container mx-auto py-6 px-4 text-black">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container mx-auto py-4 md:py-6 px-4 text-black">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manajemen Kegiatan</h1>
-          <p className="text-gray-600 mt-2">Kelola kegiatan HIMASI UNAS</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Manajemen Kegiatan</h1>
+          <p className="text-gray-600 mt-2 text-sm md:text-base">Kelola kegiatan HIMASI UNAS</p>
         </div>
         
         <Dialog open={isDialogOpen} onOpenChange={resetDialog}>
@@ -283,7 +283,7 @@ export default function AdminActivitiesPage() {
             </Button>
           </DialogTrigger>
           
-          <DialogContent className="max-w-2xl max-h-[70vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[70vh] overflow-y-auto mx-4 md:mx-0">
             <DialogHeader>
               <DialogTitle>
                 {editingActivity ? 'Edit Kegiatan' : 'Buat Kegiatan Baru'}
@@ -376,7 +376,7 @@ export default function AdminActivitiesPage() {
                         alt="Preview" 
                         width={320}
                         height={160}
-                        className="object-cover rounded-lg border w-full h-40"
+                        className="object-cover rounded-lg border w-full h-32 sm:h-40"
                       />
                     </div>
                   )}
@@ -395,7 +395,7 @@ export default function AdminActivitiesPage() {
               </div>
 
               {/* Dates */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="startDate">Tanggal Mulai *</Label>
                   <Input
@@ -442,7 +442,7 @@ export default function AdminActivitiesPage() {
               </div>
 
               {/* Registration Period */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="registrationStartDate">Mulai Pendaftaran</Label>
                   <Input
@@ -513,11 +513,11 @@ export default function AdminActivitiesPage() {
                 </div>
               )}
 
-              <div className="flex justify-end gap-2 pt-4">
-                <Button type="button" variant="outline" onClick={resetDialog}>
+              <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
+                <Button type="button" variant="outline" onClick={resetDialog} className="w-full sm:w-auto">
                   Batal
                 </Button>
-                <Button type="submit" disabled={submitting}>
+                <Button type="submit" disabled={submitting} className="w-full sm:w-auto">
                   {submitting ? 'Menyimpan...' : (editingActivity ? 'Update' : 'Buat Kegiatan')}
                 </Button>
               </div>
@@ -533,7 +533,7 @@ export default function AdminActivitiesPage() {
       )}
 
       {/* Activities List */}
-      <div className="grid gap-6">
+      <div className="grid gap-4 md:gap-6">
         {activities.length === 0 ? (
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
@@ -551,9 +551,9 @@ export default function AdminActivitiesPage() {
         ) : (
           activities.map((activity) => (
             <Card key={activity.id} className="overflow-hidden">
-              <div className="flex">
+              <div className="flex flex-col md:flex-row">
                 {/* Image */}
-                <div className="w-48 h-40 bg-gray-100 flex-shrink-0">
+                <div className="w-full md:w-48 h-48 md:h-40 bg-gray-100 flex-shrink-0">
                   {activity.image ? (
                     <Image 
                       src={activity.image} 
@@ -570,53 +570,56 @@ export default function AdminActivitiesPage() {
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <div className="flex-1 p-4 md:p-6">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
                         {activity.title}
                       </h3>
-                      <p className="text-gray-600 mb-3">{activity.description}</p>
+                      <p className="text-gray-600 mb-3 text-sm md:text-base">{activity.description}</p>
                       
                       <div className="flex flex-wrap gap-2 mb-3">
                         {activity.category && (
-                          <Badge variant="secondary">{activity.category}</Badge>
+                          <Badge variant="secondary" className="text-xs">{activity.category}</Badge>
                         )}
-                        <Badge variant={activity.isPublished ? "default" : "secondary"}>
+                        <Badge variant={activity.isPublished ? "default" : "secondary"} className="text-xs">
                           {activity.isPublished ? "Published" : "Draft"}
                         </Badge>
-                        <Badge variant={activity.registrationOpen ? "default" : "secondary"}>
+                        <Badge variant={activity.registrationOpen ? "default" : "secondary"} className="text-xs">
                           {activity.registrationOpen ? "Open" : "Closed"}
                         </Badge>
                       </div>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 mt-2 sm:mt-0 sm:ml-4">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleEdit(activity)}
+                        className="flex-1 sm:flex-none"
                       >
-                        <Edit className="h-4 w-4" />
+                        <Edit className="h-4 w-4 sm:mr-0" />
+                        <span className="ml-2 sm:hidden">Edit</span>
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleDelete(activity.id)}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-600 hover:text-red-700 flex-1 sm:flex-none"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4 sm:mr-0" />
+                        <span className="ml-2 sm:hidden">Delete</span>
                       </Button>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs md:text-sm">
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      <span>{new Date(activity.startDate).toLocaleDateString('id-ID')}</span>
+                      <Calendar className="h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{new Date(activity.startDate).toLocaleDateString('id-ID')}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-gray-400" />
+                      <Users className="h-4 w-4 text-gray-400 flex-shrink-0" />
                       <span>
                         {activity.currentParticipants}
                         {activity.maxParticipants ? `/${activity.maxParticipants}` : ''}
@@ -624,14 +627,14 @@ export default function AdminActivitiesPage() {
                     </div>
                     {activity.location && (
                       <div className="flex items-center gap-2">
-                        <Settings className="h-4 w-4 text-gray-400" />
+                        <Settings className="h-4 w-4 text-gray-400 flex-shrink-0" />
                         <span className="truncate">{activity.location}</span>
                       </div>
                     )}
                     {activity.registrationDeadline && (
                       <div className="flex items-center gap-2 text-orange-600">
-                        <Calendar className="h-4 w-4" />
-                        <span>Deadline: {new Date(activity.registrationDeadline).toLocaleDateString('id-ID')}</span>
+                        <Calendar className="h-4 w-4 flex-shrink-0" />
+                        <span className="truncate">Deadline: {new Date(activity.registrationDeadline).toLocaleDateString('id-ID')}</span>
                       </div>
                     )}
                   </div>
