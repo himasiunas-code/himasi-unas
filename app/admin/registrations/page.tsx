@@ -2,16 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import Image from 'next/image'
 import {
   Users,
   Search,
-  Filter,
   Download,
   Check,
   X,
   Eye,
   Trash2,
-  ChevronDown,
   RefreshCw,
   User
 } from 'lucide-react'
@@ -283,9 +282,11 @@ export default function RegistrationsPage() {
                           <div className="text-xs text-gray-500 mb-1 font-medium">Bukti Follow IG</div>
                           {registration.instagramProof ? (
                             <div className="relative group">
-                              <img
+                              <Image
                                 src={registration.instagramProof}
                                 alt={`Bukti follow Instagram ${registration.fullName}`}
+                                width={64}
+                                height={64}
                                 className="h-16 w-16 rounded-lg object-cover border-2 border-gray-200 cursor-pointer hover:shadow-lg transition-shadow duration-200"
                                 onClick={() => setSelectedImage(registration.instagramProof!)}
                                 onError={(e) => {
@@ -547,10 +548,13 @@ export default function RegistrationsPage() {
             </button>
 
             {/* Image */}
-            <img
+            <Image
               src={selectedImage}
               alt="Bukti follow Instagram - Full size"
+              width={800}
+              height={600}
               className="max-w-full max-h-full object-contain"
+              style={{ width: 'auto', height: 'auto' }}
               onClick={(e) => e.stopPropagation()}
             />
           </div>
