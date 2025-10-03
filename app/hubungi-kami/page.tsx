@@ -136,7 +136,7 @@ export default function HubungiKamiPage() {
                   Chat dengan bersangkutan
                 </p>
                 <Link
-                  href="https://wa.me/6281234567890"
+                  href="https://wa.me/qr/4AZXPQ4P7H4CG1"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
@@ -167,7 +167,7 @@ export default function HubungiKamiPage() {
                   Chat dengan bersangkutan
                 </p>
                 <Link
-                  href="https://wa.me/6281987654321"
+                  href="https://wa.me/qr/4AZXPQ4P7H4CG1"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
@@ -198,7 +198,7 @@ export default function HubungiKamiPage() {
                   Kirim pesan formal
                 </p>
                 <Link
-                  href="mailto:himasi@unas.ac.id"
+                  href="mailto:himasiunas@gmail.com"
                   className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
                 >
                   Kirim Email
@@ -227,7 +227,7 @@ export default function HubungiKamiPage() {
                   Follow aktivitas kami
                 </p>
                 <Link
-                  href="https://instagram.com/himasi_unas"
+                  href="https://www.instagram.com/himasi.unas1949/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
@@ -596,36 +596,6 @@ export default function HubungiKamiPage() {
 
           {/* Additional Contact Info - Centered */}
           <div className="mt-12 text-center">
-            <p className="text-white/60 mb-4">
-              Atau hubungi kami langsung melalui:
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href="https://wa.me/6281234567890"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
-              >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                WhatsApp
-              </Link>
-              <Link
-                href="mailto:himasi@unas.ac.id"
-                className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Email
-              </Link>
-              <Link
-                href="https://instagram.com/himasi_unas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
-              >
-                <Instagram className="w-4 h-4 mr-2" />
-                Instagram
-              </Link>
-            </div>
           </div>
         </div>
       </section>
