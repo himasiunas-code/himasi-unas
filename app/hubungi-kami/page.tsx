@@ -2,37 +2,51 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Mail, MapPin, MessageCircle, Instagram, Users, Send, User, AtSign, Hash, FileText } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Instagram,
+  Users,
+  Send,
+  User,
+  AtSign,
+  Hash,
+  FileText,
+} from "lucide-react";
 import Banner from "@/public/image/Hubungi/Banners.png";
 
 export default function HubungiKamiPage() {
   const [formData, setFormData] = useState({
-    namaLengkap: '',
-    email: '',
-    nomorTelepon: '',
-    subjek: '',
-    isiPesan: ''
+    namaLengkap: "",
+    email: "",
+    nomorTelepon: "",
+    subjek: "",
+    isiPesan: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -40,19 +54,19 @@ export default function HubungiKamiPage() {
       if (response.ok) {
         setIsSuccess(true);
         setFormData({
-          namaLengkap: '',
-          email: '',
-          nomorTelepon: '',
-          subjek: '',
-          isiPesan: ''
+          namaLengkap: "",
+          email: "",
+          nomorTelepon: "",
+          subjek: "",
+          isiPesan: "",
         });
         setTimeout(() => setIsSuccess(false), 5000);
       } else {
-        throw new Error('Gagal mengirim pesan');
+        throw new Error("Gagal mengirim pesan");
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.');
+      console.error("Error:", error);
+      alert("Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.");
     } finally {
       setIsLoading(false);
     }
@@ -77,11 +91,12 @@ export default function HubungiKamiPage() {
                 Hubungi Kami
               </h1>
               <p className="text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-8 drop-shadow-md leading-relaxed">
-                Jangan ragu untuk menghubungi HIMASI UNAS. Kami siap membantu dan mendengar dari Anda!
+                Jangan ragu untuk menghubungi HIMASI UNAS. Kami siap membantu
+                dan mendengar dari Anda!
               </p>
             </div>
           </div>
-          
+
           {/* Bottom Gradient Transition */}
           <div className="absolute bottom-0 left-0 right-0 h-16 bg-[linear-gradient(to_bottom,transparent_20%,#FFE8DB_70%)]"></div>
         </div>
@@ -109,11 +124,17 @@ export default function HubungiKamiPage() {
                     <MessageCircle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="ml-2 sm:ml-4">
-                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-green-700 transition-colors duration-300">WhatsApp</h3>
-                    <span className="text-sm sm:text-sm text-green-600 font-medium">Leysa</span>
+                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-green-700 transition-colors duration-300">
+                      WhatsApp
+                    </h3>
+                    <span className="text-sm sm:text-sm text-green-600 font-medium">
+                      Leysa
+                    </span>
                   </div>
                 </div>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Chat dengan bersangkutan</p>
+                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+                  Chat dengan bersangkutan
+                </p>
                 <Link
                   href="https://wa.me/6281234567890"
                   target="_blank"
@@ -134,11 +155,17 @@ export default function HubungiKamiPage() {
                     <MessageCircle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="ml-2 sm:ml-4">
-                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-emerald-700 transition-colors duration-300">WhatsApp</h3>
-                    <span className="text-sm sm:text-sm text-emerald-600 font-medium">Evan</span>
+                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-emerald-700 transition-colors duration-300">
+                      WhatsApp
+                    </h3>
+                    <span className="text-sm sm:text-sm text-emerald-600 font-medium">
+                      Evan
+                    </span>
                   </div>
                 </div>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Chat dengan bersangkutan</p>
+                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+                  Chat dengan bersangkutan
+                </p>
                 <Link
                   href="https://wa.me/6281987654321"
                   target="_blank"
@@ -159,11 +186,17 @@ export default function HubungiKamiPage() {
                     <Mail className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="ml-2 sm:ml-4">
-                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">Email</h3>
-                    <span className="text-sm sm:text-sm text-blue-600 font-medium">Resmi</span>
+                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
+                      Email
+                    </h3>
+                    <span className="text-sm sm:text-sm text-blue-600 font-medium">
+                      Resmi
+                    </span>
                   </div>
                 </div>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Kirim pesan formal</p>
+                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+                  Kirim pesan formal
+                </p>
                 <Link
                   href="mailto:himasi@unas.ac.id"
                   className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
@@ -182,11 +215,17 @@ export default function HubungiKamiPage() {
                     <Instagram className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="ml-2 sm:ml-4">
-                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-pink-700 transition-colors duration-300">Instagram</h3>
-                    <span className="text-sm sm:text-sm text-pink-600 font-medium">Sosmed</span>
+                    <h3 className="text-xs sm:text-xl font-bold text-gray-800 group-hover:text-pink-700 transition-colors duration-300">
+                      Instagram
+                    </h3>
+                    <span className="text-sm sm:text-sm text-pink-600 font-medium">
+                      Sosmed
+                    </span>
                   </div>
                 </div>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Follow aktivitas kami</p>
+                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+                  Follow aktivitas kami
+                </p>
                 <Link
                   href="https://instagram.com/himasi_unas"
                   target="_blank"
@@ -202,11 +241,11 @@ export default function HubungiKamiPage() {
       </section>
 
       {/* Location */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FFE8DB] via-[#F5D5CC] to-[#E8C4B8] relative">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FFE8DB] via-[#F5D5CC] to-[#E8C4B8] relative overflow-hidden">
         {/* Background decorative elements */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-[#4B061A]/5 to-[#732E39]/10 rounded-full -translate-x-36 -translate-y-36"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-[#994555]/5 to-[#E4C6BE]/10 rounded-full translate-x-48 translate-y-48"></div>
-        
+        <div className="absolute top-0 left-0 w-32 h-32 md:w-72 md:h-72 bg-gradient-to-br from-[#4B061A]/5 to-[#732E39]/10 rounded-full -translate-x-16 -translate-y-16 md:-translate-x-36 md:-translate-y-36"></div>
+        <div className="absolute bottom-0 right-0 w-32 h-32 md:w-72 md:h-72 bg-gradient-to-br from-[#4B061A]/5 to-[#732E39]/10 rounded-full translate-x-16 translate-y-16 md:translate-x-36 md:translate-y-36"></div>
+
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#4B061A] to-[#732E39] rounded-2xl mb-6 shadow-xl">
@@ -216,7 +255,8 @@ export default function HubungiKamiPage() {
               Lokasi Kami
             </h2>
             <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
-              Temukan kami di kampus Universitas Nasional dan bergabunglah dalam kegiatan HIMASI
+              Temukan kami di kampus Universitas Nasional dan bergabunglah dalam
+              kegiatan HIMASI
             </p>
           </div>
 
@@ -225,7 +265,7 @@ export default function HubungiKamiPage() {
             <div className="group bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 border border-white/50 hover:border-[#4B061A]/20 relative overflow-hidden">
               {/* Card decoration */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#4B061A]/10 to-[#732E39]/20 rounded-full -mr-16 -mt-16"></div>
-              
+
               <div className="relative z-10">
                 <div className="flex items-start space-x-6 mb-6">
                   <div className="p-4 bg-gradient-to-br from-[#4B061A] to-[#732E39] rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 flex-shrink-0">
@@ -248,7 +288,9 @@ export default function HubungiKamiPage() {
                   </div>
                   <div className="flex items-center text-gray-700">
                     <div className="w-2 h-2 bg-[#4B061A] rounded-full mr-3"></div>
-                    <span className="font-medium">Fakultas Teknologi Komunikasi dan Informatika</span>
+                    <span className="font-medium">
+                      Fakultas Teknologi Komunikasi dan Informatika
+                    </span>
                   </div>
                   <div className="flex items-center text-gray-700">
                     <div className="w-2 h-2 bg-[#4B061A] rounded-full mr-3"></div>
@@ -290,7 +332,9 @@ export default function HubungiKamiPage() {
                   <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
                     <Users className="w-6 h-6 text-white" />
                   </div>
-                  <h4 className="text-xl font-bold text-[#4B061A] ml-4">Jam Operasional</h4>
+                  <h4 className="text-xl font-bold text-[#4B061A] ml-4">
+                    Jam Operasional
+                  </h4>
                 </div>
                 <div className="space-y-2 text-gray-700">
                   <div className="flex justify-between">
@@ -314,7 +358,9 @@ export default function HubungiKamiPage() {
                   <div className="p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg">
                     <MessageCircle className="w-6 h-6 text-white" />
                   </div>
-                  <h4 className="text-xl font-bold text-[#4B061A] ml-4">Info Cepat</h4>
+                  <h4 className="text-xl font-bold text-[#4B061A] ml-4">
+                    Info Cepat
+                  </h4>
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center text-gray-700">
@@ -339,9 +385,9 @@ export default function HubungiKamiPage() {
       {/* Contact Form Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#4B061A] via-[#732E39] to-[#994555] relative overflow-hidden">
         {/* Background decorative elements */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-white/5 to-white/10 rounded-full -translate-x-48 -translate-y-48"></div>
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-gradient-to-tl from-white/5 to-white/10 rounded-full translate-x-36 translate-y-36"></div>
-        
+        <div className="absolute top-0 left-0 w-48 h-48 md:w-96 md:h-96 bg-gradient-to-br from-white/5 to-white/10 rounded-full -translate-x-24 -translate-y-24 md:-translate-x-48 md:-translate-y-48"></div>
+        <div className="absolute bottom-0 right-0 w-36 h-36 md:w-72 md:h-72 bg-gradient-to-tl from-white/5 to-white/10 rounded-full translate-x-18 translate-y-18 md:translate-x-36 md:translate-y-36"></div>
+
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl mb-6 shadow-xl">
@@ -351,7 +397,8 @@ export default function HubungiKamiPage() {
               Kirim Pesan Cepat
             </h2>
             <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto">
-              Punya pertanyaan atau ingin bergabung? Kirim pesan kepada kami dan kami akan merespons sesegera mungkin
+              Punya pertanyaan atau ingin bergabung? Kirim pesan kepada kami dan
+              kami akan merespons sesegera mungkin
             </p>
           </div>
 
@@ -360,11 +407,23 @@ export default function HubungiKamiPage() {
             <div className="mb-8 p-4 bg-green-500/20 border border-green-500/30 rounded-2xl backdrop-blur-sm">
               <div className="flex items-center text-green-100">
                 <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </div>
-                <span className="font-medium">Pesan berhasil dikirim! Kami akan segera merespons.</span>
+                <span className="font-medium">
+                  Pesan berhasil dikirim! Kami akan segera merespons.
+                </span>
               </div>
             </div>
           )}
@@ -392,161 +451,180 @@ export default function HubungiKamiPage() {
               {/* Right Side - Contact Form */}
               <div className="space-y-6">
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-white mb-2">Kirimkan Pesan Anda!</h3>
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    Kirimkan Pesan Anda!
+                  </h3>
                   <p className="text-white/80 text-sm">
-                    Hubungi kami untuk informasi lebih lanjut tentang HIMASI UNAS
+                    Hubungi kami untuk informasi lebih lanjut tentang HIMASI
+                    UNAS
                   </p>
                 </div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Nama Lengkap */}
-                <div className="space-y-2">
-                  <label htmlFor="namaLengkap" className="flex items-center text-white font-medium">
-                    <User className="w-5 h-5 mr-2" />
-                    Nama Lengkap
-                  </label>
-                  <input
-                    type="text"
-                    id="namaLengkap"
-                    name="namaLengkap"
-                    value={formData.namaLengkap}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
-                    placeholder="Masukkan nama lengkap Anda"
-                  />
-                </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Nama Lengkap */}
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="namaLengkap"
+                        className="flex items-center text-white font-medium"
+                      >
+                        <User className="w-5 h-5 mr-2" />
+                        Nama Lengkap
+                      </label>
+                      <input
+                        type="text"
+                        id="namaLengkap"
+                        name="namaLengkap"
+                        value={formData.namaLengkap}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
+                        placeholder="Masukkan nama lengkap Anda"
+                      />
+                    </div>
 
-                {/* Email */}
-                <div className="space-y-2">
-                  <label htmlFor="email" className="flex items-center text-white font-medium">
-                    <AtSign className="w-5 h-5 mr-2" />
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
-                    placeholder="nama@email.com"
-                  />
-                </div>
-              </div>
+                    {/* Email */}
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="email"
+                        className="flex items-center text-white font-medium"
+                      >
+                        <AtSign className="w-5 h-5 mr-2" />
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
+                        placeholder="nama@email.com"
+                      />
+                    </div>
+                  </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Nomor Telepon */}
-                <div className="space-y-2">
-                  <label htmlFor="nomorTelepon" className="flex items-center text-white font-medium">
-                    <Phone className="w-5 h-5 mr-2" />
-                    Nomor Telepon
-                  </label>
-                  <input
-                    type="tel"
-                    id="nomorTelepon"
-                    name="nomorTelepon"
-                    value={formData.nomorTelepon}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
-                    placeholder="08xxxxxxxxxx"
-                  />
-                </div>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Nomor Telepon */}
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="nomorTelepon"
+                        className="flex items-center text-white font-medium"
+                      >
+                        <Phone className="w-5 h-5 mr-2" />
+                        Nomor Telepon
+                      </label>
+                      <input
+                        type="tel"
+                        id="nomorTelepon"
+                        name="nomorTelepon"
+                        value={formData.nomorTelepon}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
+                        placeholder="08xxxxxxxxxx"
+                      />
+                    </div>
 
-                {/* Subjek */}
-                <div className="space-y-2">
-                  <label htmlFor="subjek" className="flex items-center text-white font-medium">
-                    <Hash className="w-5 h-5 mr-2" />
-                    Subjek
-                  </label>
-                  <input
-                    type="text"
-                    id="subjek"
-                    name="subjek"
-                    value={formData.subjek}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
-                    placeholder="Topik pesan Anda"
-                  />
-                </div>
-              </div>
+                    {/* Subjek */}
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="subjek"
+                        className="flex items-center text-white font-medium"
+                      >
+                        <Hash className="w-5 h-5 mr-2" />
+                        Subjek
+                      </label>
+                      <input
+                        type="text"
+                        id="subjek"
+                        name="subjek"
+                        value={formData.subjek}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
+                        placeholder="Topik pesan Anda"
+                      />
+                    </div>
+                  </div>
 
-              {/* Isi Pesan */}
-              <div className="space-y-2">
-                <label htmlFor="isiPesan" className="flex items-center text-white font-medium">
-                  <FileText className="w-5 h-5 mr-2" />
-                  Isi Pesan
-                </label>
-                <textarea
-                  id="isiPesan"
-                  name="isiPesan"
-                  value={formData.isiPesan}
-                  onChange={handleInputChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300 resize-none"
-                  placeholder="Tulis pesan Anda di sini..."
-                />
-              </div>
+                  {/* Isi Pesan */}
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="isiPesan"
+                      className="flex items-center text-white font-medium"
+                    >
+                      <FileText className="w-5 h-5 mr-2" />
+                      Isi Pesan
+                    </label>
+                    <textarea
+                      id="isiPesan"
+                      name="isiPesan"
+                      value={formData.isiPesan}
+                      onChange={handleInputChange}
+                      required
+                      rows={6}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300 resize-none"
+                      placeholder="Tulis pesan Anda di sini..."
+                    />
+                  </div>
 
-              {/* Submit Button */}
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-white/90 text-[#4B061A] font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-[#4B061A]/30 border-t-[#4B061A] rounded-full animate-spin mr-2"></div>
-                      Mengirim Pesan...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Kirim Pesan
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-
+                  {/* Submit Button */}
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-white/90 text-[#4B061A] font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                      {isLoading ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-[#4B061A]/30 border-t-[#4B061A] rounded-full animate-spin mr-2"></div>
+                          Mengirim Pesan...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5 mr-2" />
+                          Kirim Pesan
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
+          </div>
 
-            {/* Additional Contact Info - Centered */}
-            <div className="mt-12 text-center">
-              <p className="text-white/60 mb-4">Atau hubungi kami langsung melalui:</p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link
-                  href="https://wa.me/6281234567890"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  WhatsApp
-                </Link>
-                <Link
-                  href="mailto:himasi@unas.ac.id"
-                  className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
-                >
-                  <Mail className="w-4 h-4 mr-2" />
-                  Email
-                </Link>
-                <Link
-                  href="https://instagram.com/himasi_unas"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
-                >
-                  <Instagram className="w-4 h-4 mr-2" />
-                  Instagram
-                </Link>
+          {/* Additional Contact Info - Centered */}
+          <div className="mt-12 text-center">
+            <p className="text-white/60 mb-4">
+              Atau hubungi kami langsung melalui:
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                href="https://wa.me/6281234567890"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                WhatsApp
+              </Link>
+              <Link
+                href="mailto:himasi@unas.ac.id"
+                className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Email
+              </Link>
+              <Link
+                href="https://instagram.com/himasi_unas"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-300"
+              >
+                <Instagram className="w-4 h-4 mr-2" />
+                Instagram
+              </Link>
             </div>
           </div>
         </div>
