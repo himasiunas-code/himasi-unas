@@ -16,7 +16,7 @@ SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-password
 
 # Contact Email (email tujuan)
-CONTACT_EMAIL=himasi@unas.ac.id
+CONTACT_EMAIL=himasiunas@gmail.com
 ```
 
 ### 2. Setup Gmail (Recommended)
@@ -35,7 +35,7 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=himasi.website@gmail.com
 SMTP_PASS=abcd efgh ijkl mnop
-CONTACT_EMAIL=himasi@unas.ac.id
+CONTACT_EMAIL=himasiunas@gmail.com
 ```
 
 ### 3. Provider Email Lain
