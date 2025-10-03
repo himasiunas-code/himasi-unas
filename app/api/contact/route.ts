@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
           <!-- Header -->
           <div style="background: linear-gradient(135deg, #4B061A 0%, #732E39 100%); padding: 30px; text-align: center;">
             <h1 style="color: #FFE8DB; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 1px;">
-              � Pesan Baru dari Website
+              Pesan Baru dari Website
             </h1>
             <p style="color: rgba(255, 232, 219, 0.8); margin: 10px 0 0 0; font-size: 14px;">
               HIMASI UNAS - Sistem Informasi
@@ -68,58 +68,58 @@ export async function POST(request: NextRequest) {
             <div style="margin-bottom: 25px;">
               
               <!-- Nama -->
-              <div style="background: #f8f9fa; padding: 16px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #4B061A;">
-                <div style="display: flex; align-items: center;">
-                  <span style="font-size: 20px; margin-right: 12px;">👤</span>
-                  <div>
-                    <p style="margin: 0; color: #6c757d; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Nama Lengkap</p>
-                    <p style="margin: 4px 0 0 0; color: #2c3e50; font-size: 16px; font-weight: 600;">${namaLengkap}</p>
+              <div style="background: #f8f9fa; padding: 18px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #4B061A;">
+                <div style="display: flex; align-items: flex-start;">
+                  <span style="font-size: 20px; margin-right: 15px; margin-top: 2px; flex-shrink: 0;">👤</span>
+                  <div style="flex: 1;">
+                    <p style="margin: 0 0 6px 0; color: #6c757d; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Nama Lengkap</p>
+                    <p style="margin: 0; color: #2c3e50; font-size: 16px; font-weight: 600; line-height: 1.3;">${namaLengkap}</p>
                   </div>
                 </div>
               </div>
 
               <!-- Email & Phone Row -->
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                <div style="background: #f8f9fa; padding: 16px; border-radius: 12px; border-left: 4px solid #732E39;">
-                  <div style="display: flex; align-items: center;">
-                    <span style="font-size: 18px; margin-right: 10px;">📧</span>
-                    <div>
-                      <p style="margin: 0; color: #6c757d; font-size: 11px; font-weight: 500; text-transform: uppercase;">Email</p>
-                      <a href="mailto:${email}" style="margin: 2px 0 0 0; color: #4B061A; font-size: 14px; font-weight: 600; text-decoration: none; display: block;">${email}</a>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div style="background: #f8f9fa; padding: 18px; border-radius: 12px; border-left: 4px solid #732E39;">
+                  <div style="display: flex; align-items: flex-start;">
+                    <span style="font-size: 18px; margin-right: 12px; margin-top: 2px; flex-shrink: 0;">📧</span>
+                    <div style="flex: 1; min-width: 0;">
+                      <p style="margin: 0 0 6px 0; color: #6c757d; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Email</p>
+                      <a href="mailto:${email}" style="margin: 0; color: #4B061A; font-size: 13px; font-weight: 600; text-decoration: none; display: block; word-break: break-all; line-height: 1.3;">${email}</a>
                     </div>
                   </div>
                 </div>
                 
-                <div style="background: #f8f9fa; padding: 16px; border-radius: 12px; border-left: 4px solid #994555;">
-                  <div style="display: flex; align-items: center;">
-                    <span style="font-size: 18px; margin-right: 10px;">📱</span>
-                    <div>
-                      <p style="margin: 0; color: #6c757d; font-size: 11px; font-weight: 500; text-transform: uppercase;">Telepon</p>
-                      <a href="https://wa.me/${nomorTelepon.replace(/\D/g, '')}" style="margin: 2px 0 0 0; color: #4B061A; font-size: 14px; font-weight: 600; text-decoration: none; display: block;">${nomorTelepon}</a>
+                <div style="background: #f8f9fa; padding: 18px; border-radius: 12px; border-left: 4px solid #994555;">
+                  <div style="display: flex; align-items: flex-start;">
+                    <span style="font-size: 18px; margin-right: 12px; margin-top: 2px; flex-shrink: 0;">📱</span>
+                    <div style="flex: 1; min-width: 0;">
+                      <p style="margin: 0 0 6px 0; color: #6c757d; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Telepon</p>
+                      <a href="https://wa.me/${nomorTelepon.replace(/\D/g, '')}" style="margin: 0; color: #4B061A; font-size: 13px; font-weight: 600; text-decoration: none; display: block; line-height: 1.3;">${nomorTelepon}</a>
                     </div>
                   </div>
                 </div>
               </div>
 
               <!-- Subjek -->
-              <div style="background: #f8f9fa; padding: 16px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #FFE8DB;">
-                <div style="display: flex; align-items: center;">
-                  <span style="font-size: 20px; margin-right: 12px;">📝</span>
+              <div style="background: #f8f9fa; padding: 18px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #FFE8DB;">
+                <div style="display: flex; align-items: flex-start;">
+                  <span style="font-size: 20px; margin-right: 15px; margin-top: 2px; flex-shrink: 0;">📝</span>
                   <div style="flex: 1;">
-                    <p style="margin: 0; color: #6c757d; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Subjek Pesan</p>
-                    <p style="margin: 4px 0 0 0; color: #2c3e50; font-size: 16px; font-weight: 600; line-height: 1.4;">${subjek}</p>
+                    <p style="margin: 0 0 8px 0; color: #6c757d; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Subjek Pesan</p>
+                    <p style="margin: 0; color: #2c3e50; font-size: 16px; font-weight: 600; line-height: 1.4;">${subjek}</p>
                   </div>
                 </div>
               </div>
 
               <!-- Pesan -->
-              <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; border-left: 4px solid #4B061A;">
+              <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 0; border-left: 4px solid #4B061A;">
                 <div style="display: flex; align-items: flex-start;">
-                  <span style="font-size: 20px; margin-right: 12px; margin-top: 2px;">💬</span>
+                  <span style="font-size: 20px; margin-right: 15px; margin-top: 2px; flex-shrink: 0;">💬</span>
                   <div style="flex: 1;">
-                    <p style="margin: 0 0 10px 0; color: #6c757d; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Isi Pesan</p>
-                    <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e9ecef;">
-                      <p style="margin: 0; color: #2c3e50; font-size: 15px; line-height: 1.6;">
+                    <p style="margin: 0 0 12px 0; color: #6c757d; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Isi Pesan</p>
+                    <div style="background: white; padding: 18px; border-radius: 8px; border: 1px solid #e9ecef; margin-top: 4px;">
+                      <p style="margin: 0; color: #2c3e50; font-size: 15px; line-height: 1.7; word-wrap: break-word;">
                         ${isiPesan.replace(/\n/g, '<br>')}
                       </p>
                     </div>
@@ -129,13 +129,13 @@ export async function POST(request: NextRequest) {
             </div>
 
             <!-- Action Buttons -->
-            <div style="text-align: center; margin-top: 30px; padding-top: 25px; border-top: 1px solid #e9ecef;">
-              <p style="margin: 0 0 20px 0; color: #6c757d; font-size: 14px;">Silakan balas pesan ini:</p>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <a href="mailto:${email}" style="background: #4B061A; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; display: block; text-align: center;">
+            <div style="text-align: center; margin-top: 35px; padding-top: 30px; border-top: 2px solid #f1f3f4;">
+              <p style="margin: 0 0 20px 0; color: #6c757d; font-size: 14px; font-weight: 500;">Silakan balas pesan ini:</p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 400px; margin: 0 auto;">
+                <a href="mailto:${email}" style="background: #4B061A; color: white; text-decoration: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; display: block; text-align: center; transition: background-color 0.2s;">
                   📧 Balas Email
                 </a>
-                <a href="https://wa.me/${nomorTelepon.replace(/\D/g, '')}" style="background: #25D366; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; display: block; text-align: center;">
+                <a href="https://wa.me/${nomorTelepon.replace(/\D/g, '')}" style="background: #25D366; color: white; text-decoration: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; display: block; text-align: center; transition: background-color 0.2s;">
                   💬 WhatsApp
                 </a>
               </div>
@@ -143,10 +143,10 @@ export async function POST(request: NextRequest) {
           </div>
 
           <!-- Footer -->
-          <div style="background: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #e9ecef;">
-            <h4 style="margin: 0 0 8px 0; color: #4B061A; font-size: 16px; font-weight: 600;">HIMASI UNAS</h4>
-            <p style="margin: 0 0 12px 0; color: #6c757d; font-size: 13px;">Himpunan Mahasiswa Sistem Informasi<br>Universitas Nasional Jakarta</p>
-            <p style="margin: 0; color: #adb5bd; font-size: 11px;">
+          <div style="background: #f8f9fa; padding: 25px; text-align: center; border-top: 2px solid #e9ecef; margin-top: 0;">
+            <h4 style="margin: 0 0 10px 0; color: #4B061A; font-size: 18px; font-weight: 600; letter-spacing: 0.5px;">HIMASI UNAS</h4>
+            <p style="margin: 0 0 15px 0; color: #6c757d; font-size: 14px; line-height: 1.5;">Himpunan Mahasiswa Sistem Informasi<br>Universitas Nasional Jakarta</p>
+            <p style="margin: 0; color: #adb5bd; font-size: 12px; line-height: 1.4;">
               Dikirim otomatis pada ${new Date().toLocaleDateString('id-ID', { 
                 weekday: 'long', 
                 year: 'numeric', 
