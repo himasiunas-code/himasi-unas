@@ -15,7 +15,7 @@ import {
   Hash,
   FileText,
 } from "lucide-react";
-import Banner from "@/public/image/Hubungi/Banners.png";
+import Banner from "@/public/image/Hubungi/BannerV1.png";
 
 export default function HubungiKamiPage() {
   const [formData, setFormData] = useState({
