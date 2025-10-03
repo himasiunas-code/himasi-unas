@@ -316,7 +316,7 @@ export async function POST(request: NextRequest) {
             <!-- Quick Contact -->
             <div style="text-align: center; padding: 25px 0; border-top: 1px solid #f1f3f4;">
               <h4 style="color: #56ab2f; margin: 0 0 20px 0; font-size: 16px; font-weight: 600; letter-spacing: 0.5px;">Need Quick Response?</h4>
-              <a href="https://wa.me/6281234567890" style="display: inline-block; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white; text-decoration: none; padding: 16px 32px; border-radius: 12px; font-weight: 600; font-size: 14px; box-shadow: 0 8px 25px rgba(37,211,102,0.2); transition: all 0.3s ease; letter-spacing: 0.3px;">
+              <a href="https://wa.me/qr/4AZXPQ4P7H4CG1" style="display: inline-block; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white; text-decoration: none; padding: 16px 32px; border-radius: 12px; font-weight: 600; font-size: 14px; box-shadow: 0 8px 25px rgba(37,211,102,0.2); transition: all 0.3s ease; letter-spacing: 0.3px;">
                 Contact via WhatsApp
               </a>
             </div>
