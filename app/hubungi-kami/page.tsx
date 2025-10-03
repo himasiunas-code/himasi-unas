@@ -522,7 +522,7 @@ export default function HubungiKamiPage() {
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
-                        placeholder="08xxxxxxxxxx"
+                        placeholder="628xxxxxxxxx"
                       />
                     </div>
 
