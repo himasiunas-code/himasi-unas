@@ -13,8 +13,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Debug: Log environment variables (tanpa password)
+    console.log('Environment check:', {
+      SMTP_HOST: process.env.SMTP_HOST,
+      SMTP_PORT: process.env.SMTP_PORT,
+      SMTP_USER: process.env.SMTP_USER,
+      CONTACT_EMAIL: process.env.CONTACT_EMAIL,
+      hasPassword: !!process.env.SMTP_PASS
+    });
+
     // Konfigurasi transporter email
-    // Anda perlu mengganti dengan konfigurasi email server Anda
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: Number(process.env.SMTP_PORT) || 587,
@@ -24,6 +32,11 @@ export async function POST(request: NextRequest) {
         pass: process.env.SMTP_PASS, // Password atau App Password
       },
     });
+
+    // Test koneksi SMTP
+    console.log('Testing SMTP connection...');
+    await transporter.verify();
+    console.log('SMTP connection successful');
 
     // Template email
     const htmlTemplate = `
@@ -100,7 +113,9 @@ export async function POST(request: NextRequest) {
     };
 
     // Kirim email
+    console.log('Sending email...');
     await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
 
     // Optional: Kirim email konfirmasi ke pengirim
     const confirmationTemplate = `
@@ -148,7 +163,9 @@ export async function POST(request: NextRequest) {
       html: confirmationTemplate,
     };
 
+    console.log('Sending confirmation email...');
     await transporter.sendMail(confirmationOptions);
+    console.log('Confirmation email sent successfully');
 
     return NextResponse.json(
       { message: 'Pesan berhasil dikirim' },
@@ -157,8 +174,21 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error sending email:', error);
+    
+    // Log detailed error untuk debugging di Vercel
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
+    }
+    
     return NextResponse.json(
-      { error: 'Gagal mengirim pesan' },
+      { 
+        error: 'Gagal mengirim pesan',
+        details: process.env.NODE_ENV === 'development' ? (error as Error)?.message : undefined
+      },
       { status: 500 }
     );
   }
