@@ -178,20 +178,19 @@ export default function Pendaftaran() {
           <>
             {/* Dynamic Title */}
             <div className="md:mb-2">
-              <h1 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#4B061A] mb-3">
+              <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-[#4B061A] mb-1 md:mb-3">
                 {activity.title}
               </h1>
-              <div className="w-24 md:w-32 h-1 bg-[#4B061A] mx-auto rounded-full"></div>
             </div>
 
-            {/* Banner Image */}
-            <div className="mb-12">
-              <div className="relative w-full h-48 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-4xl">
+            {/* Banner Image - 16:9 Aspect Ratio */}
+            <div className="mb-1">
+              <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-4xl">
                 <Image
                   src={activity.image || "/image/Home/Banner 1.png"}
                   alt={`Banner ${activity.title}`}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 80vw"
                 />
               </div>
@@ -211,8 +210,8 @@ export default function Pendaftaran() {
 
         {/* Countdown Timer & Registration Info */}
         {activity && (
-          <div className="mb-8">
-            <h3 className="text-2xl md:text-3xl font-bold text-[#4B061A] mb-6">
+          <div className="mb-1 md:mb-8">
+            <h3 className="text-lg md:text-3xl font-bold text-[#4B061A] mb-6">
               {status === "waiting" &&
                 (timeLeft.days > 0 ||
                 timeLeft.hours > 0 ||
@@ -235,16 +234,16 @@ export default function Pendaftaran() {
 
             {/* Registration Stats */}
             <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 mb-6 border border-white/30 shadow-lg max-w-md mx-auto">
-              <div className="text-lg font-semibold text-[#4B061A] mb-2">
+              <div className="text-base md:text-lg font-bold text-[#4B061A] mb-2">
                 Slot Tersedia
               </div>
-              <div className="text-2xl font-bold text-[#732E39]">
+              <div className="text-lg md:text-2xl font-bold text-[#732E39]">
                 {activity._count.registrations} / {activity.maxParticipants}{" "}
-                terdaftar
+                Terdaftar
               </div>
               <div className="w-full bg-white/30 rounded-full h-2 mt-2">
                 <div
-                  className="bg-[#4B061A] h-2 rounded-full transition-all duration-300"
+                  className="bg-[#4B061A] h-1 md:h-2 rounded-full transition-all duration-300"
                   style={{
                     width: `${Math.min(
                       (activity._count.registrations /
@@ -262,7 +261,7 @@ export default function Pendaftaran() {
                 timeLeft.hours > 0 ||
                 timeLeft.minutes > 0 ||
                 timeLeft.seconds > 0) && (
-                <div className="flex justify-center gap-4 md:gap-8 mb-8">
+                <div className="flex justify-center gap-4 md:gap-8 mb-4 md:mb-8">
                   {[
                     { label: "Hari", value: timeLeft.days },
                     { label: "Jam", value: timeLeft.hours },
@@ -273,7 +272,7 @@ export default function Pendaftaran() {
                       key={index}
                       className="bg-white/20 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/30 shadow-lg"
                     >
-                      <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#4B061A] mb-2">
+                      <div className="text-xl md:text-3xl lg:text-5xl font-bold text-[#4B061A] mb-2">
                         {String(item.value).padStart(2, "0")}
                       </div>
                       <div className="text-sm md:text-base font-semibold text-[#732E39]">
@@ -290,7 +289,7 @@ export default function Pendaftaran() {
         {activity && (
           <div>
             {status === "waiting" && (
-              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-8 py-4 rounded-xl font-bold text-lg md:text-xl cursor-not-allowed">
+              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed">
                 <UserLock className="w-5 h-5 md:w-6 md:h-6" />
                 Belum Dibuka
               </div>
@@ -300,7 +299,7 @@ export default function Pendaftaran() {
               activity._count.registrations < activity.maxParticipants && (
                 <Link
                   href="/pendaftaran"
-                  className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-8 py-4 rounded-xl font-bold text-lg md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
                 >
                   <UserRoundPlus className="w-5 h-5 md:w-6 md:h-6" />
                   Daftar Sekarang
@@ -309,21 +308,21 @@ export default function Pendaftaran() {
 
             {status === "open" &&
               activity._count.registrations >= activity.maxParticipants && (
-                <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-8 py-4 rounded-xl font-bold text-lg md:text-xl cursor-not-allowed">
+                <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed">
                   <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
                   Slot Penuh
                 </div>
               )}
 
             {status === "closed" && (
-              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-8 py-4 rounded-xl font-bold text-lg md:text-xl cursor-not-allowed">
+              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed">
                 <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
                 Pendaftaran Ditutup
               </div>
             )}
 
             {status === "waiting" && (
-              <p className="mt-4 text-sm md:text-base text-white font-medium">
+              <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
                 {timeLeft.days > 0 ||
                 timeLeft.hours > 0 ||
                 timeLeft.minutes > 0 ||
@@ -335,21 +334,21 @@ export default function Pendaftaran() {
 
             {status === "open" &&
               activity._count.registrations < activity.maxParticipants && (
-                <p className="mt-4 text-sm md:text-base text-white font-medium">
+                <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
                   Jangan sampai terlewat! Daftar sebelum waktu dan slot habis.
                 </p>
               )}
 
             {status === "open" &&
               activity._count.registrations >= activity.maxParticipants && (
-                <p className="mt-4 text-sm md:text-base text-white font-medium">
+                <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
                   Maaf, slot pendaftaran sudah penuh. Nantikan kegiatan
                   berikutnya!
                 </p>
               )}
 
             {status === "closed" && (
-              <p className="mt-4 text-sm md:text-base text-white font-medium">
+              <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
                 {new Date().getTime() > new Date(activity.startDate).getTime()
                   ? "Kegiatan telah selesai dilaksanakan. Nantikan kegiatan berikutnya!"
                   : new Date().getTime() >
