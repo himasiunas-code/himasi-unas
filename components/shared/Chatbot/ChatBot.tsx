@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ChatMessage from './ChatMessage';
 
 type Message = { 
@@ -14,100 +14,84 @@ type Message = {
 const ChatBot = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const chatWindowRef = useRef<HTMLDivElement>(null);
 
-    const handleSend = async () => {
-        if (!input.trim()) return;
+    // Auto-scroll ke pesan terbaru
+    useEffect(() => {
+        if (chatWindowRef.current) {
+            setTimeout(() => {
+                if (chatWindowRef.current) {
+                    chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+                }
+            }, 100);
+        }
+    }, [messages]);
+
+
+
+    const handleSend = useCallback(async () => {
+        if (!input.trim() || isLoading) return;
 
         const userMessage = { sender: 'user' as const, content: input.trim() };
         setMessages((prev) => [...prev, userMessage]);
+        
+        const currentInput = input.trim();
         setInput('');
+        setIsLoading(true);
 
         // Add loading message
         const loadingMessage = { sender: 'bot' as const, content: '🤔 Sedang berpikir...' };
         setMessages((prev) => [...prev, loadingMessage]);
 
         try {
-            // Use smart chatbot endpoint for learning capabilities
-            const apiUrl = '/chatbot-smart.php';  
-            
-            const response = await fetch(apiUrl, {
+            // Use new TypeScript chatbot API endpoint
+            const response = await fetch('/api/chatbot', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: userMessage.content }),
+                body: JSON.stringify({ question: currentInput }),
             });
 
             if (!response.ok) {
-                console.error('API Error:', response.status, response.statusText);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Smart Bot Response:', data);
             
             // Remove loading message and add actual response
             setMessages((prev) => {
                 const messagesWithoutLoading = prev.slice(0, -1);
                 const botMessage = { 
                     sender: 'bot' as const, 
-                    content: data.answer || data.response || 'Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.',
-                    confidence: data.confidence,
-                    suggestions: data.suggestions
+                    content: data.success ? data.data.answer : (data.error || 'Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.'),
+                    confidence: 'medium',
+                    suggestions: []
                 };
                 return [...messagesWithoutLoading, botMessage];
             });
 
-            // Add suggestions if confidence is low
-            if (data.confidence === 'low' && data.suggestions && data.suggestions.length > 0) {
-                setTimeout(() => {
-                    setMessages((prev) => [
-                        ...prev,
-                        { 
-                            sender: 'bot' as const, 
-                            content: '💡 Mungkin Anda ingin bertanya tentang:\n' + 
-                                    data.suggestions.map((s: string) => `• ${s}`).join('\n'),
-                            type: 'suggestions'
-                        }
-                    ]);
-                }, 1000);
-            }
-
         } catch (error) {
-            console.error('Error sending message:', error);
-            
             // Remove loading message and show error
             setMessages((prev) => {
                 const messagesWithoutLoading = prev.slice(0, -1);
                 const errorMessage = { 
                     sender: 'bot' as const, 
-                    content: '❌ Maaf, chatbot sedang tidak tersedia. Silakan coba lagi atau hubungi admin.' 
+                    content: '❌ Maaf, chatbot sedang tidak tersedia. Silakan coba lagi atau hubungi admin.'
                 };
                 return [...messagesWithoutLoading, errorMessage];
             });
+        } finally {
+            setIsLoading(false);
         }
-    };
+    }, [input, isLoading]);
 
-    const handleFeedback = async (messageIndex: number, isHelpful: boolean) => {
+    const handleFeedback = useCallback(async (messageIndex: number, isHelpful: boolean) => {
         try {
-            const originalMessage = messages[messageIndex - 1]?.content;
-            const botResponse = messages[messageIndex]?.content;
-            
-            await fetch('/chatbot-smart.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    type: 'feedback',
-                    messageIndex,
-                    isHelpful,
-                    originalMessage,
-                    botResponse
-                }),
-            });
-
-            console.log('Feedback sent successfully');
+            // For now, just show confirmation message
+            // In the future, this could be connected to a feedback API
+            console.log('Feedback received:', { messageIndex, isHelpful });
             
             // Show confirmation message
             setMessages((prev) => [
@@ -121,11 +105,11 @@ const ChatBot = () => {
         } catch (error) {
             console.error('Error sending feedback:', error);
         }
-    };
+    }, []);
 
     return (
         <div className="chatbot">
-            <div className="chat-window">
+            <div className="chat-window" ref={chatWindowRef}>
                 {messages.length === 0 && (
                     <div className="welcome-message">
                         <div className="welcome-icon">🤖</div>
@@ -145,7 +129,7 @@ const ChatBot = () => {
                     </div>
                 )}
                 {messages.map((msg, index) => (
-                    <div key={index}>
+                    <div key={`${msg.sender}-${index}`}>
                         <ChatMessage sender={msg.sender} message={msg.content} />
                         {msg.sender === 'bot' && msg.confidence === 'low' && !msg.type && (
                             <div className="feedback-buttons">
@@ -165,20 +149,27 @@ const ChatBot = () => {
                         )}
                     </div>
                 ))}
+                
+
             </div>
             <div className="chat-input-container">
                 <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                    onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSend()}
                     placeholder="Type your message..."
                     className="chat-input"
+                    disabled={isLoading}
                 />
-                <button onClick={handleSend} className="send-button" disabled={!input.trim()}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
-                    </svg>
+                <button onClick={handleSend} className="send-button" disabled={!input.trim() || isLoading}>
+                    {isLoading ? (
+                        <div className="loading-spinner"></div>
+                    ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
+                        </svg>
+                    )}
                 </button>
             </div>
 
@@ -278,6 +269,13 @@ const ChatBot = () => {
                     border-color: #4B061A;
                     box-shadow: 0 0 0 2px rgba(148, 0, 2, 0.2);
                     color: #4B061A;
+                    outline: none;
+                }
+
+                .chat-input:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    background: #f5f5f5;
                 }
 
                 .send-button {
@@ -363,6 +361,20 @@ const ChatBot = () => {
                 .feedback-btn.not-helpful:hover {
                     background: #dc2626;
                     color: white;
+                }
+
+                /* Loading spinner */
+                .loading-spinner {
+                    width: 16px;
+                    height: 16px;
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    border-top-color: white;
+                    animation: spin 1s ease-in-out infinite;
+                }
+
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
                 }
             `}</style>
         </div>
