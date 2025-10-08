@@ -5,6 +5,90 @@ interface ChatMessageProps {
   message: string;
 }
 
+// Function to format message with better display
+const formatMessage = (text: string): React.ReactElement => {
+  // Split by line breaks to handle paragraphs
+  const paragraphs = text.split('\n\n');
+  
+  return (
+    <>
+      {paragraphs.map((paragraph, pIndex) => {
+        const lines = paragraph.split('\n');
+        
+        return (
+          <div key={pIndex} className="message-paragraph">
+            {lines.map((line, lIndex) => {
+              // Handle bullet points
+              if (line.trim().startsWith('•') || line.trim().match(/^[\*\-]\s/)) {
+                return (
+                  <div key={lIndex} className="bullet-point">
+                    <span className="bullet">•</span>
+                    <span>{formatInlineText(line.replace(/^[\*\-\•]\s*/, ''))}</span>
+                  </div>
+                );
+              }
+              
+              // Handle numbered lists
+              if (line.trim().match(/^\d+\.\s/)) {
+                const match = line.match(/^(\d+)\.\s(.*)$/);
+                if (match) {
+                  return (
+                    <div key={lIndex} className="numbered-point">
+                      <span className="number">{match[1]}.</span>
+                      <span>{formatInlineText(match[2])}</span>
+                    </div>
+                  );
+                }
+              }
+              
+              // Handle regular lines
+              if (line.trim()) {
+                return (
+                  <div key={lIndex} className="text-line">
+                    {formatInlineText(line)}
+                  </div>
+                );
+              }
+              
+              return null;
+            })}
+          </div>
+        );
+      })}
+    </>
+  );
+};
+
+// Function to handle inline formatting (bold, italic, etc.)
+const formatInlineText = (text: string): React.ReactElement => {
+  // Handle bold text **text**
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={index}>{part.slice(2, -2)}</strong>;
+        }
+        
+        // Handle italic text *text* (but not if it's part of **)
+        const italicParts = part.split(/(\*[^*]+\*)/g);
+        return (
+          <React.Fragment key={index}>
+            {italicParts.map((italicPart, italicIndex) => {
+              if (italicPart.startsWith('*') && italicPart.endsWith('*') && 
+                  !italicPart.startsWith('**') && !italicPart.endsWith('**')) {
+                return <em key={italicIndex}>{italicPart.slice(1, -1)}</em>;
+              }
+              return italicPart;
+            })}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
+
 const ChatMessage: React.FC<ChatMessageProps> = ({ sender, message }) => {
   return (
     <div className={`chat-message ${sender}`}>
@@ -21,7 +105,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ sender, message }) => {
           )}
         </div>
         <div className="message-bubble">
-          <span className="message-text">{message}</span>
+          <div className="message-text">
+            {formatMessage(message)}
+          </div>
         </div>
       </div>
 
@@ -104,6 +190,73 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ sender, message }) => {
           font-size: 14px;
           line-height: 1.4;
           word-wrap: break-word;
+        }
+
+        /* Message formatting styles */
+        .message-paragraph {
+          margin-bottom: 8px;
+        }
+
+        .message-paragraph:last-child {
+          margin-bottom: 0;
+        }
+
+        .text-line {
+          margin-bottom: 4px;
+        }
+
+        .text-line:last-child {
+          margin-bottom: 0;
+        }
+
+        .bullet-point {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 4px;
+          padding-left: 4px;
+        }
+
+        .bullet-point .bullet {
+          color: #940002;
+          font-weight: bold;
+          margin-right: 8px;
+          flex-shrink: 0;
+          line-height: 1.4;
+        }
+
+        .numbered-point {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 4px;
+          padding-left: 4px;
+        }
+
+        .numbered-point .number {
+          color: #940002;
+          font-weight: bold;
+          margin-right: 8px;
+          flex-shrink: 0;
+          line-height: 1.4;
+        }
+
+        /* Text formatting */
+        .message-text strong {
+          font-weight: 600;
+          color: #940002;
+        }
+
+        .bot .message-text strong {
+          color: #4B061A;
+        }
+
+        .user .message-text strong {
+          color: #FFE8DB;
+          font-weight: 700;
+        }
+
+        .message-text em {
+          font-style: italic;
+          opacity: 0.9;
         }
 
         /* Speech bubble triangles */
