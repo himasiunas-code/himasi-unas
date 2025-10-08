@@ -22,16 +22,19 @@ interface ConversationContext {
 
 type AIProvider = 'openai' | 'gemini' | 'faq';
 
-interface AIProviderConfig {
-  provider: AIProvider;
-  openai?: OpenAI;
-  gemini?: any;
+interface GoogleGenerativeModel {
+  generateContent: (prompt: string) => Promise<{
+    response: {
+      text: () => string;
+    };
+  }>;
+  model?: string;
 }
 
 class HimasiAIBot {
   private faqs: FAQ[] = [];
   private openai: OpenAI | null = null;
-  private gemini: any = null;
+  private gemini: GoogleGenerativeModel | null = null;
   private himasiContext: string = '';
   private aiProvider: AIProvider = 'faq';
 
@@ -146,7 +149,7 @@ Remember: You're representing HIMASI UNAS brand as a friendly, tech-savvy, and s
     console.log(`🤖 Initializing AI with provider preference: ${preferredProvider}`);
 
     // Try to initialize providers based on available API keys
-    let providersInitialized = [];
+    const providersInitialized: string[] = [];
 
     // Initialize Google Gemini
     const geminiApiKey = process.env.GOOGLE_AI_API_KEY;
@@ -372,7 +375,7 @@ Remember: You're representing HIMASI UNAS brand as a friendly, tech-savvy, and s
   }
 
   // Google Gemini Response
-  private async getGeminiResponse(question: string, conversationHistory?: ConversationContext): Promise<string> {
+  private async getGeminiResponse(question: string, _conversationHistory?: ConversationContext): Promise<string> {
     if (!this.gemini) {
       throw new Error('Google Gemini belum siap. Silakan coba lagi nanti. 😊');
     }
@@ -413,21 +416,22 @@ Please respond in Indonesian with proper formatting and structure:`;
         console.warn('⚠️ Gemini response too short or empty');
         throw new Error('Empty response from Gemini');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error & { status?: number; message?: string; code?: string; name?: string; stack?: string };
       console.error('❌ Gemini Error Details:', {
-        name: error?.name,
-        message: error?.message,
-        status: error?.status,
-        code: error?.code,
-        stack: error?.stack?.substring(0, 500),
+        name: err.name,
+        message: err.message,
+        status: err.status,
+        code: err.code,
+        stack: err.stack?.substring(0, 500),
         error: error
       });
       
       // Check for specific Gemini errors
-      if (error?.message?.includes('API_KEY_INVALID')) {
+      if (err.message?.includes('API_KEY_INVALID')) {
         console.error('🔑 Invalid Gemini API Key');
         throw new Error('Gemini API Key tidak valid. Periksa konfigurasi GOOGLE_AI_API_KEY.');
-      } else if (error?.message?.includes('QUOTA_EXCEEDED')) {
+      } else if (err.message?.includes('QUOTA_EXCEEDED')) {
         console.error('🚫 Gemini quota exceeded');
         throw new Error('Quota Gemini terlampaui. Coba lagi nanti.');
       }
@@ -473,12 +477,13 @@ Please respond in Indonesian with proper formatting and structure:`;
         console.warn('⚠️ OpenAI response too short or empty');
         return 'Maaf, saya tidak bisa memberikan jawaban yang tepat untuk pertanyaan ini. Bisa coba tanya dengan cara yang berbeda? Atau hubungi langsung HIMASI UNAS ya! 😊';
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error & { status?: number; message?: string; code?: string; type?: string };
       console.error('❌ OpenAI Error Details:', {
-        message: error?.message,
-        status: error?.status,
-        type: error?.type,
-        code: error?.code,
+        message: err.message,
+        status: err.status,
+        type: err.type,
+        code: err.code,
         error: error
       });
       
@@ -486,15 +491,15 @@ Please respond in Indonesian with proper formatting and structure:`;
       const chatbotMode = process.env.CHATBOT_MODE || 'hybrid';
       
       // Check for specific error types
-      if (error?.status === 401) {
+      if (err.status === 401) {
         console.error('🔑 Invalid API Key - Please check OPENAI_API_KEY');
         if (chatbotMode === 'hybrid') throw error;
         return 'API Key tidak valid. Silakan periksa konfigurasi OpenAI API key. 🔑';
-      } else if (error?.status === 429) {
+      } else if (err.status === 429) {
         console.error('🚫 Rate limit exceeded or quota exceeded');
         if (chatbotMode === 'hybrid') throw error;
         return 'Quota OpenAI terlampaui. Silakan coba lagi nanti atau periksa billing account OpenAI. 💳';
-      } else if (error?.status === 500) {
+      } else if (err.status === 500) {
         console.error('🔧 OpenAI server error');
         if (chatbotMode === 'hybrid') throw error;
         return 'Server OpenAI sedang bermasalah. Silakan coba beberapa saat lagi. 🔧';
@@ -631,7 +636,7 @@ Please respond in Indonesian with proper formatting and structure:`;
         // Hybrid mode: Try AI first, fallback to FAQ
         try {
           return await this.getAIResponse(question, conversationHistory);
-        } catch (error) {
+        } catch {
           console.log('🔄 AI failed, falling back to FAQ system');
           return this.getFAQResponse(question);
         }
