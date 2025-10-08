@@ -72,7 +72,7 @@ const ChatBot = () => {
                 return [...messagesWithoutLoading, botMessage];
             });
 
-        } catch (error) {
+        } catch {
             // Remove loading message and show error
             setMessages((prev) => {
                 const messagesWithoutLoading = prev.slice(0, -1);
