@@ -116,7 +116,7 @@ export default function HubungiKamiPage() {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {/* WhatsApp 1 */}
-            <div className="group bg-[#FFE8DB] rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-green-100 hover:border-green-200 relative overflow-hidden">
+            <div className="group bg-gradient-to-br from-white via-white to-emerald-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-green-100 hover:border-green-200 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-green-500/10 to-green-600/20 rounded-full -mr-10 -mt-10"></div>
               <div className="relative z-10">
                 <div className="flex items-center mb-3 sm:mb-4">
@@ -298,17 +298,21 @@ export default function HubungiKamiPage() {
                   </div>
                   <div className="flex items-center text-gray-700">
                     <div className="w-2 h-2 bg-[#4B061A] rounded-full mr-3"></div>
-                    <span>Jl. Sawo Manila, Pejaten, Ps. Minggu</span>
+                    <span>Jl. Sawo Manila No.61, RT.14/RW.7</span>
                   </div>
                   <div className="flex items-center text-gray-700">
                     <div className="w-2 h-2 bg-[#4B061A] rounded-full mr-3"></div>
-                    <span>Jakarta Selatan 12520</span>
+                    <span>Pejaten Bar., Ps. Minggu, Kota Jakarta Selatan</span>
+                  </div>
+                  <div className="flex items-center text-gray-700">
+                    <div className="w-2 h-2 bg-[#4B061A] rounded-full mr-3"></div>
+                    <span>Daerah Khusus Ibukota Jakarta 12520</span>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href="https://goo.gl/maps/your-location"
+                    href="https://www.google.com/maps/place/Universitas+Nasional/@-6.2804075,106.8359362,17z/data=!4m15!1m8!3m7!1s0x2e69f21500ac062f:0xd8ee8cebb3cad135!2sJl.+Sawo+Manila+No.61,+RT.9%2FRW.10,+Pejaten+Timur,+Jakarta+Selatan,+DKI+Jakarta,+Daerah+Khusus+Ibukota+Jakarta+12520!3b1!8m2!3d-6.2804075!4d106.8385111!16s%2Fg%2F11vspcmnbw!3m5!1s0x2e69f211176e9827:0xb4bc144c3140a2d9!8m2!3d-6.2807919!4d106.8394182!16s%2Fm%2F0hzqph9?entry=ttu&g_ep=EgoyMDI1MTAwNi4wIKXMDSoASAFQAw%3D%3D"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#4B061A] to-[#732E39] hover:from-[#732E39] hover:to-[#994555] text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
@@ -436,7 +440,7 @@ export default function HubungiKamiPage() {
                 {/* Embedded Google Map */}
                 <div className="relative w-full h-full hidden lg:block rounded-2xl overflow-hidden shadow-xl">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.4658945815835!2d106.84493!3d-6.2392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f38b32e4b785%3A0x6c02fdaf8caa1fc8!2sUniversitas%20Nasional!5e0!3m2!1sen!2sid!4v1696320000000!5m2!1sen!2sid"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.7048089553543!2d106.83593617496636!3d-6.280407562874747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f211176e9827%3A0xb4bc144c3140a2d9!2sUniversitas%20Nasional!5e0!3m2!1sen!2sid!4v1728466800000!5m2!1sen!2sid"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
