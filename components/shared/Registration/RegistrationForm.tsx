@@ -715,30 +715,29 @@ export default function RegistrationForm() {
 
         {/* Informasi Biaya - Tampil di Step 1 */}
         {currentStep === 1 && (
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-6 mb-8 text-white shadow-lg">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
-                  <CreditCard className="w-6 h-6 text-white" />
+          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4 sm:p-6 mb-8 text-white shadow-lg">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center w-full sm:w-auto">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                  <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <div>
-                  <p className="text-sm opacity-90 mb-1">Biaya Pendaftaran</p>
-                  <p className="text-3xl font-bold">Rp 30.000</p>
+                <div className="flex-1">
+                  <p className="text-xs sm:text-sm opacity-90 mb-1">Biaya Pendaftaran</p>
+                  <p className="text-2xl sm:text-3xl font-bold">Rp 30.000</p>
                 </div>
               </div>
-              <div className="text-right hidden sm:block">
-                <p className="text-sm opacity-90">Pembayaran di Sesi 2</p>
-                <p className="text-xs opacity-75">BCA Transfer atau DANA</p>
+              <div className="text-left sm:text-right w-full sm:w-auto">
+                <p className="text-xs sm:text-sm opacity-90">Pembayaran di Sesi 2</p>
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm opacity-90">
-              <div className="flex items-center mr-6">
-                <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
-                Transfer Bank BCA
+            <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 text-xs sm:text-sm opacity-90">
+              <div className="flex items-center sm:mr-6">
+                <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
+                <span>Transfer Bank BCA</span>
               </div>
               <div className="flex items-center">
-                <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
-                DANA e-Wallet
+                <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
+                <span>DANA e-Wallet</span>
               </div>
             </div>
           </div>
@@ -769,7 +768,7 @@ export default function RegistrationForm() {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm"
-                  placeholder="contoh@student.unas.ac.id"
+                  placeholder="contoh@gmail.com"
                 />
                 {errors.email && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.email}</p>}
               </div>
@@ -843,23 +842,35 @@ export default function RegistrationForm() {
                   <Calendar className="w-4 h-4 inline mr-2 text-[#4B061A]" />
                   Tahun Angkatan <span className="text-red-500">*</span>
                 </label>
-                <select
-                  id="yearClass"
-                  name="yearClass"
-                  value={formData.yearClass}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm"
-                >
-                  <option value="" className="text-gray-500">Pilih Tahun Angkatan</option>
-                  {Array.from({ length: new Date().getFullYear() - 2022 + 1 }, (_, i) => {
-                    const year = new Date().getFullYear() - i
-                    return year >= 2022 ? (
-                      <option key={year} value={year.toString()} className="text-gray-800">
-                        {year}
-                      </option>
-                    ) : null
-                  }).filter(Boolean)}
-                </select>
+                <div className="relative">
+                  <select
+                    id="yearClass"
+                    name="yearClass"
+                    value={formData.yearClass}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm appearance-none cursor-pointer"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                      backgroundPosition: 'right 12px center',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: '16px'
+                    }}
+                  >
+                    <option value="" className="text-gray-500 bg-gray-50">Pilih Tahun Angkatan</option>
+                    {Array.from({ length: new Date().getFullYear() - 2022 + 1 }, (_, i) => {
+                      const year = new Date().getFullYear() - i
+                      return year >= 2022 ? (
+                        <option key={year} value={year.toString()} className="text-gray-800 bg-white py-2">
+                          {year}
+                        </option>
+                      ) : null
+                    }).filter(Boolean)}
+                  </select>
+                  {/* Custom dropdown arrow overlay */}
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <Calendar className="w-5 h-5 text-gray-400" />
+                  </div>
+                </div>
                 {errors.yearClass && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.yearClass}</p>}
               </div>
 
@@ -1199,7 +1210,14 @@ export default function RegistrationForm() {
               </h3>
               <p className="text-gray-600 text-sm">
                 {currentStep === 1 
-                  ? 'Data pribadi dan akademik akan langsung tersimpan di database dan slot kegiatan akan bertambah.'
+                  ? (
+                    <>
+                      Data pribadi dan akademik akan langsung tersimpan di database dan{' '}
+                      <span className="font-bold">
+                        slot kegiatan akan bertambah.
+                      </span>
+                    </>
+                  )
                   : 'Pastikan informasi Instagram dan tambahan sudah benar sebelum menyelesaikan pendaftaran.'
                 }
               </p>
@@ -1208,29 +1226,35 @@ export default function RegistrationForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-[#5B0720] hover:to-[#9B2C4B] hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+              className="w-full bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-4 sm:px-8 py-4 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:from-[#5B0720] hover:to-[#9B2C4B] hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
             >
               {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
-                  {currentStep === 1 ? 'Menyimpan Data Sesi 1...' : 'Menyelesaikan Pendaftaran...'}
+                <span className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent sm:mr-3"></div>
+                  <span className="text-center leading-tight">
+                    {currentStep === 1 ? 'Menyimpan Data Sesi 1...' : 'Menyelesaikan Pendaftaran...'}
+                  </span>
                 </span>
               ) : (
-                <span className="flex items-center justify-center">
-                  <Upload className="w-5 h-5 mr-2" />
-                  {currentStep === 1 ? 'Simpan & Lanjut ke Sesi 2' : 'Selesaikan Pendaftaran'}
+                <span className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0">
+                  <Upload className="w-6 h-6 sm:w-5 sm:h-5 sm:mr-2" />
+                  <span className="text-center leading-tight">
+                    {currentStep === 1 ? 'Simpan & Lanjut ke Sesi 2' : 'Selesaikan Pendaftaran'}
+                  </span>
                 </span>
               )}
             </button>
             
-            <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-              <p className="text-gray-700 text-sm leading-relaxed">
-                <span className="flex items-center justify-center mb-2 text-blue-700">
-                  <AlertCircle className="w-4 h-4 mr-2" />
-                  Syarat dan Ketentuan
+            <div className="mt-6 p-3 sm:p-4 bg-blue-50 rounded-xl border border-blue-200">
+              <p className="text-gray-700 text-xs sm:text-sm leading-relaxed">
+                <span className="flex flex-col sm:flex-row items-center justify-center mb-3 sm:mb-2 text-blue-700 gap-1 sm:gap-0">
+                  <AlertCircle className="w-4 h-4 sm:mr-2" />
+                  <span className="font-semibold">Syarat dan Ketentuan</span>
                 </span>
-                Dengan mengirim form ini, Anda setuju dengan syarat dan ketentuan yang berlaku. 
-                Data yang Anda berikan akan digunakan untuk keperluan pendaftaran kegiatan HIMASI.
+                <span className="block text-justify sm:text-center" style={{ textAlignLast: 'center' }}>
+                  Dengan mengirim form ini, Anda setuju dengan syarat dan ketentuan yang berlaku. 
+                  Data yang Anda berikan akan digunakan untuk keperluan pendaftaran kegiatan HIMASI.
+                </span>
               </p>
             </div>
           </div>
