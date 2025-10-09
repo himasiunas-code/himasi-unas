@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       email,
       fullName,
       phone,
+      npm,
       yearClass,
       faculty,
       major,
@@ -29,12 +30,24 @@ export async function POST(request: NextRequest) {
     console.log('🔍 Validating required fields...')
     
     // Validasi required fields
-    if (!email || !fullName || !phone || !yearClass) {
-      console.log('❌ Missing required fields:', { email: !!email, fullName: !!fullName, phone: !!phone, yearClass: !!yearClass })
+    if (!email || !fullName || !phone || !npm || !yearClass) {
+      console.log('❌ Missing required fields:', { email: !!email, fullName: !!fullName, phone: !!phone, npm: !!npm, yearClass: !!yearClass })
       return NextResponse.json(
         {
           success: false,
-          message: 'Email, nama lengkap, nomor HP, dan tahun angkatan wajib diisi'
+          message: 'Email, nama lengkap, nomor HP, NPM, dan tahun angkatan wajib diisi'
+        },
+        { status: 400 }
+      )
+    }
+
+    // Validasi format NPM (harus 12 digit)
+    if (npm && !/^\d{12}$/.test(npm.trim())) {
+      console.log('❌ Invalid NPM format:', npm)
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'NPM harus terdiri dari 12 digit angka'
         },
         { status: 400 }
       )
@@ -212,6 +225,7 @@ export async function POST(request: NextRequest) {
         email,
         fullName,
         phone,
+        npm,
         yearClass,
         faculty,
         major,
@@ -297,7 +311,9 @@ export async function GET(request: NextRequest) {
       include: {
         activity: {
           select: {
+            id: true,
             title: true,
+            slug: true,
             startDate: true
           }
         }
