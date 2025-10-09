@@ -14,7 +14,7 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 1",
     subtitle: "Seminar Teknologi Informasi & Workshop Programming",
     date: "01-01-2025",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque volutpat facilisis sem vel semper. Ut congue ante quis quam vestibulum, ac scelerisque elit semper. Nulla nec ex eget ante bibendum lobortis.",
+    description: "Loremuah ipsum dolor sit amet, consectetur adipiscing elit. Quisque volutpat facilisis sem vel semper. Ut congue ante quis quam vestibulum, ac scelerisque elit semper. Nulla nec ex eget ante bibendum lobortis.",
     image: "/image/Home/Banner 1.png",
     buttonText: "Baca"
   },
