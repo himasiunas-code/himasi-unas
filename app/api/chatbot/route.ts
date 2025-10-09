@@ -367,7 +367,7 @@ Remember: You're representing HIMASI UNAS brand as a friendly, tech-savvy, and s
 
     switch (this.aiProvider) {
       case 'gemini':
-        return await this.getGeminiResponse(question, conversationHistory);
+        return await this.getGeminiResponse(question);
       case 'openai':
         return await this.getOpenAIResponse(question, conversationHistory);
       default:
@@ -376,7 +376,7 @@ Remember: You're representing HIMASI UNAS brand as a friendly, tech-savvy, and s
   }
 
   // Google Gemini Response
-  private async getGeminiResponse(question: string, _conversationHistory?: ConversationContext): Promise<string> {
+  private async getGeminiResponse(question: string): Promise<string> {
     if (!this.gemini) {
       throw new Error('Google Gemini belum siap. Silakan coba lagi nanti. 😊');
     }
