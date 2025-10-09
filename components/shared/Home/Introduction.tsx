@@ -59,8 +59,8 @@ export default function Introduction() {
       </div>
 
       <div className="w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-7xl flex justify-center mx-auto px-4 pb-8 relative">
-        <div className="absolute -bottom-15 left-20 w-15 h-15 lg:w-32 lg:h-32 bg-[#FFE8DB] opacity-80 rounded-full blur-3xl animate-float-random-2 hidden md:block"></div>
-        <div className="absolute -bottom-15 right-20 w-15 h-15 lg:w-32 lg:h-32 bg-[#FFE8DB] opacity-80 rounded-full blur-3xl animate-float-random-3 hidden md:block"></div>
+        <div className="absolute -bottom-1 left-20 w-15 h-15 lg:w-32 lg:h-32 bg-[#FFE8DB] opacity-80 rounded-full blur-3xl animate-float-random-2 hidden md:block"></div>
+        <div className="absolute -bottom-1 right-20 w-15 h-15 lg:w-32 lg:h-32 bg-[#FFE8DB] opacity-80 rounded-full blur-3xl animate-float-random-3 hidden md:block"></div>
 
         <div className="flex flex-wrap justify-center gap-6 relative z-10">
           {divisions.map((division) => (
