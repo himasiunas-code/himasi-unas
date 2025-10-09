@@ -2,18 +2,20 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import { Upload, User, Mail, Phone, Calendar, Building, FileImage, Instagram, MessageSquare, AlertCircle, CheckCircle, X } from 'lucide-react'
+import { Upload, User, Mail, Phone, Calendar, Building, FileImage, Instagram, MessageSquare, AlertCircle, CheckCircle, X, CreditCard, Smartphone } from 'lucide-react'
 
 interface FormData {
   email: string
   fullName: string
   phone: string
+  npm: string
   yearClass: string
   faculty: string
   major: string
   instagramHandle: string
   motivation: string
   specialRequest: string
+  paymentMethod: string
 }
 
 interface FormErrors {
@@ -38,29 +40,67 @@ interface ActivityStatus {
 }
 
 export default function RegistrationForm() {
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1)
+  const [registrationId, setRegistrationId] = useState<string | null>(null)
+  const [step1Completed, setStep1Completed] = useState(false)
+  
   const [formData, setFormData] = useState<FormData>({
     email: '',
     fullName: '',
     phone: '',
+    npm: '',
     yearClass: '',
     faculty: '',
     major: '',
     instagramHandle: '',
     motivation: '',
-    specialRequest: ''
+    specialRequest: '',
+    paymentMethod: ''
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
   const [instagramProof, setInstagramProof] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string>('')
+  const [paymentProof, setPaymentProof] = useState<File | null>(null)
+  const [paymentPreviewUrl, setPaymentPreviewUrl] = useState<string>('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [submitMessage, setSubmitMessage] = useState('')
+  
+  // Pop-up notification states
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupType, setPopupType] = useState<'success' | 'error'>('success')
+  const [popupTitle, setPopupTitle] = useState('')
+  const [popupMessage, setPopupMessage] = useState('')
   const [activityStatus, setActivityStatus] = useState<ActivityStatus | null>(null)
+  const [registrationStatus, setRegistrationStatus] = useState<'loading' | 'open' | 'not-started' | 'closed' | 'full' | 'no-activity'>('loading')
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  })
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const paymentFileInputRef = useRef<HTMLInputElement>(null)
 
-  // Check activity status for debugging
+  // Show pop-up notification
+  const showNotification = (type: 'success' | 'error', title: string, message: string) => {
+    setPopupType(type)
+    setPopupTitle(title)
+    setPopupMessage(message)
+    setShowPopup(true)
+    
+    // Auto-hide after 5 seconds for success, 7 seconds for error
+    setTimeout(() => {
+      setShowPopup(false)
+    }, type === 'success' ? 5000 : 7000)
+  }
+
+  // Close pop-up notification
+  const closeNotification = () => {
+    setShowPopup(false)
+  }
+
+  // Check activity status and determine registration availability
   useEffect(() => {
     const checkActivityStatus = async () => {
       try {
@@ -69,14 +109,83 @@ export default function RegistrationForm() {
         if (result.success && result.data) {
           setActivityStatus(result.data)
           console.log('🔍 Activity Status Check:', result.data.registrationStatus)
+          
+          // Determine registration status
+          const activity = result.data
+          const now = new Date()
+          
+          // Check if activity has started (event date passed)
+          const eventStartTime = new Date(activity.startDate).getTime()
+          if (now.getTime() > eventStartTime) {
+            setRegistrationStatus('closed')
+            return
+          }
+          
+          // Check if registration is full
+          if (activity.maxParticipants && activity.currentParticipants >= activity.maxParticipants) {
+            setRegistrationStatus('full')
+            return
+          }
+          
+          // Check auto-open time and deadline
+          const isAutoOpenTime = activity.registrationStartDate ? now >= new Date(activity.registrationStartDate) : true
+          const isWithinDeadline = activity.registrationDeadline ? now <= new Date(activity.registrationDeadline) : true
+          
+          // Registration is open if manually opened OR auto-open time has arrived (and within deadline)
+          const isRegistrationOpen = activity.registrationOpen || (isAutoOpenTime && isWithinDeadline)
+          
+          if (!isRegistrationOpen) {
+            if (!isAutoOpenTime) {
+              setRegistrationStatus('not-started')
+            } else {
+              setRegistrationStatus('closed')
+            }
+          } else {
+            setRegistrationStatus('open')
+          }
+        } else {
+          setRegistrationStatus('no-activity')
         }
       } catch (error) {
         console.error('Failed to check activity status:', error)
+        setRegistrationStatus('no-activity')
       }
     }
     
     checkActivityStatus()
+    
+    // Check every 30 seconds for status updates
+    const interval = setInterval(checkActivityStatus, 30000)
+    return () => clearInterval(interval)
   }, [])
+
+  // Calculate countdown timer for registration start
+  useEffect(() => {
+    if (registrationStatus !== 'not-started' || !activityStatus?.registrationStartDate) return
+
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime()
+      const openTime = new Date(activityStatus.registrationStartDate!).getTime()
+      const difference = openTime - now
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+        setTimeLeft({ days, hours, minutes, seconds })
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+        // Recheck status when countdown reaches zero
+        window.location.reload()
+      }
+    }
+
+    calculateTimeLeft()
+    const timer = setInterval(calculateTimeLeft, 1000)
+    return () => clearInterval(timer)
+  }, [registrationStatus, activityStatus])
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -133,11 +242,56 @@ export default function RegistrationForm() {
     }
   }
 
-  // Validate form
-  const validateForm = (): boolean => {
+  // Handle payment file upload
+  const handlePaymentFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+    if (!allowedTypes.includes(file.type)) {
+      setErrors(prev => ({ ...prev, paymentProof: 'File harus berformat JPG, JPEG, PNG, atau WEBP' }))
+      return
+    }
+
+    // Validate file size (max 500KB)
+    const maxSize = 500 * 1024 // 500KB
+    if (file.size > maxSize) {
+      setErrors(prev => ({ ...prev, paymentProof: 'Ukuran file maksimal 500KB. Kompres gambar terlebih dahulu.' }))
+      return
+    }
+
+    // Clear any previous errors
+    setErrors(prev => ({ ...prev, paymentProof: '' }))
+    
+    // Set file state
+    setPaymentProof(file)
+
+    // Create preview
+    const reader = new FileReader()
+    reader.onload = () => {
+      setPaymentPreviewUrl(reader.result as string)
+    }
+    reader.onerror = () => {
+      setErrors(prev => ({ ...prev, paymentProof: 'Gagal membaca file. Silakan coba file lain.' }))
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // Remove payment file
+  const removePaymentFile = () => {
+    setPaymentProof(null)
+    setPaymentPreviewUrl('')
+    if (paymentFileInputRef.current) {
+      paymentFileInputRef.current.value = ''
+    }
+  }
+
+  // Validate Step 1 (Data Pribadi + Akademik)
+  const validateStep1 = (): boolean => {
     const newErrors: FormErrors = {}
 
-    // Required fields
+    // Required fields untuk Step 1
     if (!formData.email.trim()) newErrors.email = 'Email wajib diisi'
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Format email tidak valid'
     
@@ -145,196 +299,458 @@ export default function RegistrationForm() {
     if (!formData.phone.trim()) newErrors.phone = 'Nomor HP wajib diisi'
     else if (!/^[\d\-\+\(\)\s]+$/.test(formData.phone)) newErrors.phone = 'Format nomor HP tidak valid'
     
+    if (!formData.npm.trim()) newErrors.npm = 'NPM wajib diisi'
+    else if (!/^\d{12}$/.test(formData.npm.trim())) newErrors.npm = 'NPM harus terdiri dari 12 digit angka'
+
     if (!formData.yearClass.trim()) newErrors.yearClass = 'Tahun angkatan wajib dipilih'
     if (!formData.faculty.trim()) newErrors.faculty = 'Fakultas wajib diisi'
     if (!formData.major.trim()) newErrors.major = 'Jurusan wajib diisi'
-    if (!formData.instagramHandle.trim()) newErrors.instagramHandle = 'Username Instagram wajib diisi'
     
-    // Temporarily make instagram proof optional for testing
-    // if (!instagramProof) newErrors.instagramProof = 'Screenshot bukti follow Instagram wajib diupload'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  // Validate Step 2 (Instagram + Info Tambahan + Pembayaran)
+  const validateStep2 = (): boolean => {
+    const newErrors: FormErrors = {}
+
+    // Payment method wajib dipilih
+    if (!formData.paymentMethod.trim()) newErrors.paymentMethod = 'Metode pembayaran wajib dipilih'
+    
+    // Payment proof wajib diupload
+    if (!paymentProof) newErrors.paymentProof = 'Bukti pembayaran wajib diupload'
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Handle Step 1 submission
+  const handleStep1Submit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!validateForm()) {
+    if (!validateStep1()) {
       return
     }
 
     setIsSubmitting(true)
-    setSubmitStatus('idle')
 
     try {
-      // Prepare registration data (tidak perlu activityId karena hanya 1 kegiatan)
-      // Process image for serverless environment
-      let instagramProofUrl = null
-      if (instagramProof) {
-        try {
-          const uploadFormData = new FormData()
-          uploadFormData.append('file', instagramProof)
-          uploadFormData.append('type', 'instagram-proof')
-
-          console.log('🔄 Uploading file:', instagramProof.name, 'Size:', instagramProof.size)
-
-          const uploadResponse = await fetch('/api/upload', {
-            method: 'POST',
-            body: uploadFormData
-          })
-
-          const uploadResult = await uploadResponse.json()
-          console.log('📤 Upload response:', uploadResult)
-          
-          if (!uploadResponse.ok || !uploadResult.success) {
-            console.warn('⚠️ Upload failed, continuing without image:', uploadResult.message)
-            // Continue without image for now
-            instagramProofUrl = null
-          } else {
-            instagramProofUrl = uploadResult.data?.url || uploadResult.url
-            console.log('✅ File processed successfully:', instagramProofUrl ? 'Data URL generated' : 'No URL')
-          }
-          
-        } catch (uploadError) {
-          console.error('❌ Upload error, continuing without image:', uploadError)
-          // Continue without image instead of failing
-          instagramProofUrl = null
-        }
-      }
-
-      const registrationData = {
+      const step1Data = {
         email: formData.email,
         fullName: formData.fullName,
         phone: formData.phone,
+        npm: formData.npm,
         yearClass: formData.yearClass,
         faculty: formData.faculty,
-        major: formData.major,
-        instagramHandle: formData.instagramHandle,
-        motivation: formData.motivation || null,
-        specialRequest: formData.specialRequest || null,
-        instagramProof: instagramProofUrl
+        major: formData.major
       }
 
-      console.log('🚀 Submitting registration data:', {
-        ...registrationData,
-        instagramProof: instagramProofUrl ? `Data URL (${instagramProofUrl.length} chars)` : null
+      console.log('🚀 Submitting step 1 data:', step1Data)
+
+      const response = await fetch('/api/registrations/step1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(step1Data)
       })
 
-      // Submit to API
-      let response
-      try {
-        response = await fetch('/api/registrations', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(registrationData)
-        })
-      } catch (networkError) {
-        console.error('❌ Network error:', networkError)
-        throw new Error('Tidak dapat terhubung ke server. Periksa koneksi internet Anda.')
-      }
-
-      console.log('📡 Registration response status:', response.status, response.statusText)
-
-      let result
-      try {
-        result = await response.json()
-        console.log('📦 Registration result:', result)
-      } catch (parseError) {
-        console.error('❌ Failed to parse response:', parseError)
-        throw new Error('Server mengembalikan respons yang tidak valid. Silakan coba lagi.')
-      }
+      const result = await response.json()
+      console.log('📦 Step 1 result:', result)
 
       if (!response.ok || !result.success) {
-        console.error('❌ Registration failed:', result)
-        const errorMsg = result.message || `Server error: ${response.status} ${response.statusText}`
-        throw new Error(errorMsg)
+        throw new Error(result.message || 'Gagal menyimpan data sesi 1')
       }
       
-      setSubmitStatus('success')
-      setSubmitMessage(`Pendaftaran berhasil! Data Anda telah tersimpan di database. Terima kasih sudah mendaftar.`)
+      // Simpan registration ID untuk step 2
+      setRegistrationId(result.data.registrationId)
+      setStep1Completed(true)
       
-      // Reset form
-      setFormData({
-        email: '',
-        fullName: '',
-        phone: '',
-        yearClass: '',
-        faculty: '',
-        major: '',
-        instagramHandle: '',
-        motivation: '',
-        specialRequest: ''
-      })
-      setInstagramProof(null)
-      setPreviewUrl('')
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''
-      }
-
+      // Show success pop-up
+      showNotification('success', '🎉 Sesi 1 Berhasil!', result.message)
+      
+      // Pindah ke step 2 setelah 3 detik
+      setTimeout(() => {
+        setCurrentStep(2)
+      }, 3000)
+      
     } catch (error) {
-      console.error('Error submitting registration:', error)
-      setSubmitStatus('error')
+      console.error('Error submitting step 1:', error)
       
-      // Show specific error message from API if available
-      if (error instanceof Error) {
-        // More user-friendly error messages
-        let userMessage = error.message
-        if (error.message.includes('Failed to process file') || error.message.includes('Upload failed')) {
-          userMessage = 'Gagal memproses gambar. Pastikan file berformat JPG/PNG dan berukuran kurang dari 5MB.'
-        } else if (error.message.includes('already registered')) {
-          userMessage = 'Email Anda sudah terdaftar untuk kegiatan ini.'
-        } else if (error.message.includes('Registration is closed')) {
-          userMessage = 'Pendaftaran untuk kegiatan ini sudah ditutup.'
-        } else if (error.message.includes('deadline has passed')) {
-          userMessage = 'Batas waktu pendaftaran sudah berakhir.'
-        } else if (error.message.includes('Activity is full')) {
-          userMessage = 'Kegiatan ini sudah penuh. Maksimal peserta sudah tercapai.'
-        }
-        setSubmitMessage(userMessage)
-      } else {
-        setSubmitMessage('Terjadi kesalahan saat mengirim pendaftaran. Silakan coba lagi.')
-      }
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat menyimpan data sesi 1'
+      showNotification('error', '❌ Gagal Menyimpan Sesi 1', errorMessage)
     } finally {
       setIsSubmitting(false)
     }
   }
 
+  // Handle Step 2 submission
+  const handleStep2Submit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!validateStep2()) {
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      // Process Instagram proof - convert to base64 data URL
+      let instagramProofUrl = null
+      if (instagramProof) {
+        try {
+          console.log('🔄 Converting Instagram file to base64:', instagramProof.name, 'Size:', instagramProof.size)
+          
+          // Convert file to base64 data URL
+          instagramProofUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result as string)
+            reader.onerror = reject
+            reader.readAsDataURL(instagramProof)
+          })
+          
+          console.log('✅ Instagram file converted to base64:', instagramProofUrl ? `Data URL (${instagramProofUrl.length} chars)` : 'No URL')
+          
+        } catch (uploadError) {
+          console.error('❌ Instagram file conversion error:', uploadError)
+          instagramProofUrl = null
+        }
+      }
+
+      // Process payment proof - convert to base64 data URL
+      let paymentProofUrl = null
+      if (paymentProof) {
+        try {
+          console.log('🔄 Converting Payment file to base64:', paymentProof.name, 'Size:', paymentProof.size)
+          
+          // Convert file to base64 data URL
+          paymentProofUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result as string)
+            reader.onerror = reject
+            reader.readAsDataURL(paymentProof)
+          })
+          
+          console.log('✅ Payment file converted to base64:', paymentProofUrl ? `Data URL (${paymentProofUrl.length} chars)` : 'No URL')
+          
+        } catch (uploadError) {
+          console.error('❌ Payment file conversion error:', uploadError)
+          paymentProofUrl = null
+        }
+      }
+
+      const step2Data = {
+        registrationId,
+        instagramHandle: formData.instagramHandle,
+        instagramProof: instagramProofUrl,
+        motivation: formData.motivation || null,
+        specialRequest: formData.specialRequest || null,
+        paymentMethod: formData.paymentMethod,
+        paymentProof: paymentProofUrl
+      }
+
+      console.log('🚀 Submitting step 2 data:', {
+        ...step2Data,
+        instagramProof: instagramProofUrl ? `Data URL (${instagramProofUrl.length} chars)` : null,
+        paymentProof: paymentProofUrl ? `Data URL (${paymentProofUrl.length} chars)` : null
+      })
+
+      const response = await fetch('/api/registrations/step2', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(step2Data)
+      })
+
+      const result = await response.json()
+      console.log('📦 Step 2 result:', result)
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Gagal menyelesaikan pendaftaran')
+      }
+      
+      // Show success pop-up
+      showNotification('success', '🎉 Pendaftaran Selesai!', result.message)
+      
+      // Reset form setelah berhasil
+      setTimeout(() => {
+        setFormData({
+          email: '',
+          fullName: '',
+          phone: '',
+          npm: '',
+          yearClass: '',
+          faculty: '',
+          major: '',
+          instagramHandle: '',
+          motivation: '',
+          specialRequest: '',
+          paymentMethod: ''
+        })
+        setInstagramProof(null)
+        setPreviewUrl('')
+        setPaymentProof(null)
+        setPaymentPreviewUrl('')
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
+        if (paymentFileInputRef.current) {
+          paymentFileInputRef.current.value = ''
+        }
+        setCurrentStep(1)
+        setRegistrationId(null)
+        setStep1Completed(false)
+      }, 6000)
+      
+    } catch (error) {
+      console.error('Error submitting step 2:', error)
+      
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat menyelesaikan pendaftaran'
+      showNotification('error', '❌ Gagal Menyelesaikan Pendaftaran', errorMessage)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  // Handle form submission (router)
+  const handleSubmit = async (e: React.FormEvent) => {
+    if (currentStep === 1) {
+      await handleStep1Submit(e)
+    } else {
+      await handleStep2Submit(e)
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Status Message */}
-      {submitStatus !== 'idle' && (
-        <div className={`mb-6 p-4 rounded-2xl flex items-center gap-3 shadow-lg ${
-          submitStatus === 'success' 
-            ? 'bg-green-50 border-2 border-green-200 text-green-800' 
-            : 'bg-red-50 border-2 border-red-200 text-red-800'
-        }`}>
-          {submitStatus === 'success' ? (
-            <CheckCircle className="w-5 h-5" />
-          ) : (
-            <AlertCircle className="w-5 h-5" />
-          )}
-          <span className="font-medium">{submitMessage}</span>
+      {/* Registration Status Guard */}
+      {registrationStatus === 'loading' ? (
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl">
+          <div className="relative mb-6">
+            <div className="w-16 h-16 border-4 border-gray-200 border-t-[#4B061A] rounded-full animate-spin"></div>
+          </div>
+          <h2 className="text-xl font-bold text-gray-800 mb-2">Memeriksa Status Pendaftaran</h2>
+          <p className="text-gray-600">Mohon tunggu sebentar...</p>
         </div>
-      )}
+      ) : registrationStatus === 'no-activity' ? (
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
+            <AlertCircle className="w-8 h-8 text-gray-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Tidak Ada Kegiatan Aktif</h2>
+          <p className="text-gray-600 mb-6">Saat ini belum ada kegiatan yang tersedia untuk pendaftaran.</p>
+          <button
+            onClick={() => window.location.href = '/kegiatan'}
+            className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
+          >
+            Kembali ke Halaman Kegiatan
+          </button>
+        </div>
+      ) : registrationStatus === 'not-started' ? (
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4">
+            <User className="w-8 h-8 text-yellow-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Pendaftaran Belum Dibuka</h2>
+          <p className="text-gray-600 mb-6">
+            Pendaftaran untuk <strong>{activityStatus?.title}</strong> akan dibuka pada:<br/>
+            <span className="text-[#4B061A] font-semibold">
+              {activityStatus?.registrationStartDate 
+                ? new Date(activityStatus.registrationStartDate).toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })
+                : 'Segera'
+              }
+            </span>
+          </p>
+          
+          {/* Countdown Timer */}
+          {(timeLeft.days > 0 || timeLeft.hours > 0 || timeLeft.minutes > 0 || timeLeft.seconds > 0) && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Pendaftaran Dibuka Dalam:</h3>
+              <div className="flex justify-center gap-4">
+                {[
+                  { label: 'Hari', value: timeLeft.days },
+                  { label: 'Jam', value: timeLeft.hours },
+                  { label: 'Menit', value: timeLeft.minutes },
+                  { label: 'Detik', value: timeLeft.seconds },
+                ].map((item, index) => (
+                  <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-200 shadow-lg">
+                    <div className="text-2xl font-bold text-[#4B061A] mb-1">
+                      {String(item.value).padStart(2, '0')}
+                    </div>
+                    <div className="text-sm font-medium text-gray-600">
+                      {item.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-      <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 md:p-10 border border-gray-200 shadow-2xl">
+          <div className="space-y-3">
+            <button
+              onClick={() => window.location.href = '/kegiatan'}
+              className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg mr-3"
+            >
+              Kembali ke Halaman Kegiatan
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-gray-500 text-white px-6 py-3 rounded-xl hover:bg-gray-600 transition-all duration-300 font-medium shadow-lg"
+            >
+              Refresh Status
+            </button>
+          </div>
+        </div>
+      ) : registrationStatus === 'closed' ? (
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+            <X className="w-8 h-8 text-red-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Pendaftaran Ditutup</h2>
+          <p className="text-gray-600 mb-6">
+            Maaf, pendaftaran untuk <strong>{activityStatus?.title}</strong> sudah ditutup.
+            {activityStatus?.registrationDeadline && (
+              <>
+                <br/>Batas waktu pendaftaran: {new Date(activityStatus.registrationDeadline).toLocaleDateString('id-ID', {
+                  weekday: 'long',
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </>
+            )}
+          </p>
+          <button
+            onClick={() => window.location.href = '/kegiatan'}
+            className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
+          >
+            Lihat Kegiatan Lainnya
+          </button>
+        </div>
+      ) : registrationStatus === 'full' ? (
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
+            <User className="w-8 h-8 text-orange-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Kuota Penuh</h2>
+          <p className="text-gray-600 mb-6">
+            Maaf, pendaftaran untuk <strong>{activityStatus?.title}</strong> sudah penuh.<br/>
+            Kuota: {activityStatus?.currentParticipants}/{activityStatus?.maxParticipants} peserta
+          </p>
+          <button
+            onClick={() => window.location.href = '/kegiatan'}
+            className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
+          >
+            Lihat Kegiatan Lainnya
+          </button>
+        </div>
+      ) : (
+        <>
+          <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 md:p-10 border border-gray-200 shadow-2xl">
+        {/* Progress Indicator */}
+        <div className="mb-8">
+          <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center w-full max-w-md">
+              {/* Step 1 */}
+              <div className="flex items-center">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-300 ${
+                  currentStep >= 1 
+                    ? 'bg-[#4B061A] text-white shadow-lg' 
+                    : 'bg-gray-200 text-gray-500'
+                }`}>
+                  {step1Completed ? <CheckCircle className="w-5 h-5" /> : '1'}
+                </div>
+                <div className="ml-3 text-sm font-medium text-gray-700 hidden sm:block">
+                  Data Pribadi
+                </div>
+              </div>
+              
+              {/* Connector */}
+              <div className={`flex-1 h-1 mx-4 rounded transition-all duration-300 ${
+                currentStep > 1 ? 'bg-[#4B061A]' : 'bg-gray-200'
+              }`}></div>
+              
+              {/* Step 2 */}
+              <div className="flex items-center">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-300 ${
+                  currentStep >= 2 
+                    ? 'bg-[#4B061A] text-white shadow-lg' 
+                    : 'bg-gray-200 text-gray-500'
+                }`}>
+                  2
+                </div>
+                <div className="ml-3 text-sm font-medium text-gray-700 hidden sm:block">
+                  Informasi Tambahan
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Form Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] rounded-full mb-4 shadow-lg">
             <User className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Informasi Pendaftar</h2>
-          <p className="text-gray-600">Lengkapi data diri Anda dengan benar</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            {currentStep === 1 ? 'Sesi 1: Data Pribadi & Akademik' : 'Sesi 2: Informasi Tambahan'}
+          </h2>
+          <p className="text-gray-600">
+            {currentStep === 1 
+              ? 'Lengkapi data pribadi dan akademik Anda. Data akan langsung tersimpan setelah sesi ini.' 
+              : 'Lengkapi informasi Instagram dan tambahan untuk menyelesaikan pendaftaran.'
+            }
+          </p>
         </div>
+
+        {/* Informasi Biaya - Tampil di Step 1 */}
+        {currentStep === 1 && (
+          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-6 mb-8 text-white shadow-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
+                  <CreditCard className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm opacity-90 mb-1">Biaya Pendaftaran</p>
+                  <p className="text-3xl font-bold">Rp 30.000</p>
+                </div>
+              </div>
+              <div className="text-right hidden sm:block">
+                <p className="text-sm opacity-90">Pembayaran di Sesi 2</p>
+                <p className="text-xs opacity-75">BCA Transfer atau DANA</p>
+              </div>
+            </div>
+            <div className="mt-4 flex items-center text-sm opacity-90">
+              <div className="flex items-center mr-6">
+                <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
+                Transfer Bank BCA
+              </div>
+              <div className="flex items-center">
+                <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
+                DANA e-Wallet
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-8">
           
-          {/* Section 1: Data Pribadi */}
-          <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
+          {/* Step 1: Data Pribadi + Akademik */}
+          {currentStep === 1 && (
+            <>
+              {/* Section 1: Data Pribadi */}
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <User className="w-5 h-5 mr-2 text-[#4B061A]" />
               Data Pribadi
@@ -403,6 +819,24 @@ export default function RegistrationForm() {
               Data Akademik
             </h3>
             <div className="grid gap-6">
+              {/* NPM */}
+              <div className="group">
+                <label htmlFor="npm" className="block text-sm font-medium text-gray-700 mb-3">
+                  <User className="w-4 h-4 inline mr-2 text-[#4B061A]" />
+                  Nomor Pokok Mahasiswa (NPM) <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="npm"
+                  name="npm"
+                  value={formData.npm}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm"
+                  placeholder="202241000123"
+                />
+                {errors.npm && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.npm}</p>}
+              </div>
+
               {/* Tahun Angkatan */}
               <div className="group">
                 <label htmlFor="yearClass" className="block text-sm font-medium text-gray-700 mb-3">
@@ -417,14 +851,14 @@ export default function RegistrationForm() {
                   className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm"
                 >
                   <option value="" className="text-gray-500">Pilih Tahun Angkatan</option>
-                  {Array.from({ length: 10 }, (_, i) => {
+                  {Array.from({ length: new Date().getFullYear() - 2022 + 1 }, (_, i) => {
                     const year = new Date().getFullYear() - i
-                    return (
+                    return year >= 2022 ? (
                       <option key={year} value={year.toString()} className="text-gray-800">
                         {year}
                       </option>
-                    )
-                  })}
+                    ) : null
+                  }).filter(Boolean)}
                 </select>
                 {errors.yearClass && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.yearClass}</p>}
               </div>
@@ -467,9 +901,14 @@ export default function RegistrationForm() {
               </div>
             </div>
           </div>
+          </>
+          )}
 
-          {/* Section 3: Instagram & Bukti Follow */}
-          <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
+          {/* Step 2: Instagram & Info Tambahan */}
+          {currentStep === 2 && (
+            <>
+              {/* Section 3: Instagram & Bukti Follow */}
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <Instagram className="w-5 h-5 mr-2 text-[#4B061A]" />
               Instagram & Bukti Follow
@@ -556,7 +995,155 @@ export default function RegistrationForm() {
             </div>
           </div>
 
-          {/* Section 4: Informasi Tambahan */}
+          {/* Section 4: Pembayaran */}
+          <div className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 border border-purple-200 shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <CreditCard className="w-5 h-5 mr-2 text-purple-600" />
+              Pembayaran
+            </h3>
+            
+            <div className="space-y-6">
+              {/* Metode Pembayaran */}
+              <div className="group">
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Pilih Metode Pembayaran <span className="text-red-500">*</span>
+                </label>
+                <div className="space-y-3">
+                  {/* BCA Transfer */}
+                  <div className="border border-gray-300 rounded-xl p-4 hover:border-purple-400 transition-colors">
+                    <label className="flex items-start cursor-pointer">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="bca"
+                        checked={formData.paymentMethod === "bca"}
+                        onChange={handleInputChange}
+                        className="mt-1 text-purple-600 focus:ring-purple-500"
+                      />
+                      <div className="ml-3 flex-1">
+                        <div className="flex items-center mb-2">
+                          <CreditCard className="w-6 h-6 mr-3 text-blue-600" />
+                          <span className="font-medium text-gray-800">Transfer Bank BCA</span>
+                        </div>
+                        {formData.paymentMethod === "bca" && (
+                          <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                            <div className="flex items-center justify-between mb-3">
+                              <p className="text-sm text-gray-600">Nominal:</p>
+                              <p className="font-bold text-blue-800 text-xl">Rp 30.000</p>
+                            </div>
+                            <div className="border-t border-blue-200 pt-3">
+                              <p className="text-sm text-gray-600 mb-1">Transfer ke rekening:</p>
+                              <p className="font-mono font-bold text-blue-800 text-lg">1234567890</p>
+                              <p className="text-sm text-gray-600">a.n. HIMASI UNAS</p>
+                              <p className="text-xs text-blue-600 mt-2">💡 Transfer tepat sesuai nominal agar mudah dikonfirmasi</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* DANA E-wallet */}
+                  <div className="border border-gray-300 rounded-xl p-4 hover:border-purple-400 transition-colors">
+                    <label className="flex items-start cursor-pointer">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="dana"
+                        checked={formData.paymentMethod === "dana"}
+                        onChange={handleInputChange}
+                        className="mt-1 text-purple-600 focus:ring-purple-500"
+                      />
+                      <div className="ml-3 flex-1">
+                        <div className="flex items-center mb-2">
+                          <Smartphone className="w-6 h-6 mr-3 text-green-600" />
+                          <span className="font-medium text-gray-800">DANA E-wallet</span>
+                        </div>
+                        {formData.paymentMethod === "dana" && (
+                          <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+                            <div className="flex items-center justify-between mb-3">
+                              <p className="text-sm text-gray-600">Nominal:</p>
+                              <p className="font-bold text-green-800 text-xl">Rp 30.000</p>
+                            </div>
+                            <div className="border-t border-green-200 pt-3">
+                              <p className="text-sm text-gray-600 mb-1">Transfer ke DANA:</p>
+                              <p className="font-mono font-bold text-green-800 text-lg">081234567890</p>
+                              <p className="text-sm text-gray-600">a.n. HIMASI UNAS</p>
+                              <p className="text-xs text-green-600 mt-2">💡 Transfer tepat sesuai nominal agar mudah dikonfirmasi</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                {errors.paymentMethod && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.paymentMethod}</p>}
+              </div>
+
+              {/* Upload Bukti Pembayaran */}
+              <div className="group">
+                <label htmlFor="paymentProof" className="block text-sm font-medium text-gray-700 mb-3">
+                  <Upload className="w-4 h-4 inline mr-2 text-purple-600" />
+                  Upload Bukti Pembayaran <span className="text-red-500">*</span>
+                  <span className="text-gray-500 text-xs ml-2">(Max 500KB, format: JPG, PNG)</span>
+                </label>
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-purple-400 transition-colors bg-gray-50">
+                  {!paymentPreviewUrl ? (
+                    <div>
+                      <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <input
+                        type="file"
+                        id="paymentProof"
+                        name="paymentProof"
+                        accept="image/*"
+                        onChange={handlePaymentFileChange}
+                        className="hidden"
+                      />
+                      <label 
+                        htmlFor="paymentProof" 
+                        className="cursor-pointer inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Pilih Bukti Pembayaran
+                      </label>
+                      <p className="text-gray-500 text-sm mt-2">
+                        Upload screenshot atau foto bukti transfer/pembayaran
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <Image 
+                        src={paymentPreviewUrl} 
+                        alt="Preview bukti pembayaran" 
+                        width={300}
+                        height={192}
+                        className="max-h-48 mx-auto rounded-lg shadow-md object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={removePaymentFile}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                      <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <p className="text-green-800 text-sm font-medium flex items-center">
+                          <CheckCircle className="w-4 h-4 mr-2" />
+                          Bukti pembayaran berhasil diupload
+                        </p>
+                        <p className="text-green-600 text-xs mt-1">
+                          Ukuran: {paymentProof ? (paymentProof.size / 1024).toFixed(1) : 0} KB
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {errors.paymentProof && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.paymentProof}</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 5: Informasi Tambahan */}
           <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <MessageSquare className="w-5 h-5 mr-2 text-[#4B061A]" />
@@ -598,6 +1185,8 @@ export default function RegistrationForm() {
               </div>
             </div>
           </div>
+          </>
+          )}
 
           {/* Submit Section */}
           <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg text-center">
@@ -605,9 +1194,14 @@ export default function RegistrationForm() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] rounded-full mb-4 shadow-lg">
                 <CheckCircle className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Siap untuk Submit?</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                {currentStep === 1 ? 'Siap untuk Lanjut?' : 'Siap untuk Selesaikan?'}
+              </h3>
               <p className="text-gray-600 text-sm">
-                Pastikan semua data sudah benar sebelum mengirim pendaftaran.
+                {currentStep === 1 
+                  ? 'Data pribadi dan akademik akan langsung tersimpan di database dan slot kegiatan akan bertambah.'
+                  : 'Pastikan informasi Instagram dan tambahan sudah benar sebelum menyelesaikan pendaftaran.'
+                }
               </p>
             </div>
             
@@ -619,12 +1213,12 @@ export default function RegistrationForm() {
               {isSubmitting ? (
                 <span className="flex items-center justify-center">
                   <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
-                  Mengirim Pendaftaran...
+                  {currentStep === 1 ? 'Menyimpan Data Sesi 1...' : 'Menyelesaikan Pendaftaran...'}
                 </span>
               ) : (
                 <span className="flex items-center justify-center">
                   <Upload className="w-5 h-5 mr-2" />
-                  Kirim Pendaftaran
+                  {currentStep === 1 ? 'Simpan & Lanjut ke Sesi 2' : 'Selesaikan Pendaftaran'}
                 </span>
               )}
             </button>
@@ -677,8 +1271,78 @@ export default function RegistrationForm() {
               </p>
             </div>
           )}
-          <div className="mt-3 p-2 bg-gray-100 rounded text-xs text-gray-600">
-            <p><strong>Waktu Sekarang:</strong> {new Date().toLocaleString('id-ID')}</p>
+            <div className="mt-3 p-2 bg-gray-100 rounded text-xs text-gray-600">
+              <p><strong>Waktu Sekarang:</strong> {new Date().toLocaleString('id-ID')}</p>
+            </div>
+          </div>
+        )}
+      </>
+      )}
+
+      {/* Pop-up Notification */}
+      {showPopup && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+          onClick={closeNotification}
+        >
+          <div 
+            className={`relative max-w-md w-full mx-4 p-6 rounded-3xl shadow-2xl transform transition-all duration-300 scale-100 ${
+              popupType === 'success' 
+                ? 'bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200' 
+                : 'bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200'
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeNotification}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Icon */}
+            <div className="flex items-center justify-center mb-4">
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg ${
+                popupType === 'success' 
+                  ? 'bg-green-500 text-white' 
+                  : 'bg-red-500 text-white'
+              }`}>
+                {popupType === 'success' ? (
+                  <CheckCircle className="w-8 h-8" />
+                ) : (
+                  <AlertCircle className="w-8 h-8" />
+                )}
+              </div>
+            </div>
+
+            {/* Title */}
+            <h3 className={`text-xl font-bold text-center mb-3 ${
+              popupType === 'success' ? 'text-green-800' : 'text-red-800'
+            }`}>
+              {popupTitle}
+            </h3>
+
+            {/* Message */}
+            <p className={`text-center text-sm leading-relaxed mb-6 ${
+              popupType === 'success' ? 'text-green-700' : 'text-red-700'
+            }`}>
+              {popupMessage}
+            </p>
+
+            {/* Action Button */}
+            <div className="flex justify-center">
+              <button
+                onClick={closeNotification}
+                className={`px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                  popupType === 'success' 
+                    ? 'bg-green-600 hover:bg-green-700' 
+                    : 'bg-red-600 hover:bg-red-700'
+                }`}
+              >
+                {popupType === 'success' ? 'Lanjutkan' : 'Tutup'}
+              </button>
+            </div>
           </div>
         </div>
       )}
