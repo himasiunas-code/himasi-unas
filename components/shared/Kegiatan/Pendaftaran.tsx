@@ -168,11 +168,22 @@ export default function Pendaftaran() {
     <main className="bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)] pt-10 sm:pt-12 md:pt-16">
       <div className="max-w-6xl mx-auto px-6 text-center">
         {loading ? (
-          <div className="text-center">
-            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#4B061A] mb-3">
-              Memuat...
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            {/* Spinner Animation */}
+            <div className="relative mb-6">
+              <div className="w-16 h-16 md:w-20 md:h-20 border-4 border-[#FFE8DB] border-t-[#4B061A] rounded-full animate-spin"></div>
+              <div className="absolute inset-0 w-16 h-16 md:w-20 md:h-20 border-4 border-transparent border-r-[#732E39] rounded-full animate-spin animation-delay-150"></div>
+            </div>
+            
+            {/* Loading Text with Animation */}
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#4B061A] mb-2">
+              Memuat Kegiatan
             </h1>
-            <div className="w-24 md:w-32 h-1 bg-[#4B061A] mx-auto rounded-full"></div>
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-[#4B061A] rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-[#732E39] rounded-full animate-bounce animation-delay-100"></div>
+              <div className="w-2 h-2 bg-[#994555] rounded-full animate-bounce animation-delay-200"></div>
+            </div>
           </div>
         ) : activity ? (
           <>
@@ -184,7 +195,7 @@ export default function Pendaftaran() {
             </div>
 
             {/* Banner Image - 16:9 Aspect Ratio */}
-            <div className="mb-1">
+            <div className="mb-5">
               <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-4xl">
                 <Image
                   src={activity.image || "/image/Home/Banner 1.png"}
@@ -211,13 +222,13 @@ export default function Pendaftaran() {
         {/* Countdown Timer & Registration Info */}
         {activity && (
           <div className="mb-1 md:mb-8">
-            <h3 className="text-lg md:text-3xl font-bold text-[#4B061A] mb-6">
+            <h3 className="text-lg md:text-3xl font-bold text-[#4B061A]">
               {status === "waiting" &&
                 (timeLeft.days > 0 ||
                 timeLeft.hours > 0 ||
                 timeLeft.minutes > 0 ||
                 timeLeft.seconds > 0
-                  ? "Pendaftaran Otomatis Dibuka Dalam:"
+                  ? "Pendaftaran Dibuka Dalam:"
                   : "Pendaftaran Segera Dibuka")}
               {status === "open" &&
                 (timeLeft.days > 0 ||
@@ -360,6 +371,19 @@ export default function Pendaftaran() {
           </div>
         )}
       </div>
+      
+      {/* Custom CSS for animation delays */}
+      <style jsx>{`
+        .animation-delay-100 {
+          animation-delay: 0.1s;
+        }
+        .animation-delay-150 {
+          animation-delay: 0.15s;
+        }
+        .animation-delay-200 {
+          animation-delay: 0.2s;
+        }
+      `}</style>
     </main>
   );
 }
