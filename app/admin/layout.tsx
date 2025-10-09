@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#4B061A] mx-auto mb-4"></div>
-          <p className="text-gray-600">Memuat...</p>
+          <p className="text-gray-600">Tunggu Sebentar Yaa</p>
         </div>
       </div>
     )
@@ -130,9 +130,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     },
     {
       name: 'Statistik',
-      href: '/admin/stats',
+      href: '/admin/statistics',
       icon: BarChart3,
-      current: pathname === '/admin/stats'
+      current: pathname === '/admin/statistics'
     }
   ]
 
