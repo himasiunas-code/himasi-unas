@@ -396,7 +396,6 @@ IMPORTANT FORMATTING GUIDELINES:
 
 User Question: ${question}
 
-If someone uses harsh or foul language, use harsh language in return.
 Please respond in Indonesian with proper formatting and structure:`;
       
       console.log('📝 Sending prompt to Gemini...');
