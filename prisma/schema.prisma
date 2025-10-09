@@ -38,11 +38,14 @@ model Registration {
   email           String
   fullName        String
   phone           String
+  npm             String?
   yearClass       String
   faculty         String?
   major           String?
   instagramProof  String?
   instagramHandle String?
+  paymentMethod   String?
+  paymentProof    String?
   status          RegistrationStatus @default(PENDING)
   approvedAt      DateTime?
   approvedBy      String?
