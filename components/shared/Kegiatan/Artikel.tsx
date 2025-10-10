@@ -77,7 +77,7 @@ export default function Artikel() {
 
             {selectedKegiatan && (
                 <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-26 ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}>
-                    <div className={`bg-[#4B061A] rounded-2xl max-w-4xl w-full max-h-[85vh] relative custom-scrollbar ${isClosing ? 'animate-slideOut' : 'animate-slideIn'}`}>
+                    <div className={`bg-[#4B061A] rounded-2xl max-w-4xl w-full max-h-[75vh] relative custom-scrollbar ${isClosing ? 'animate-slideOut' : 'animate-slideIn'}`}>
                         {/* Close Button */}
                         <button
                             onClick={handleCloseModal}
@@ -86,7 +86,7 @@ export default function Artikel() {
                             <X className="w-6 h-6 text-white" />
                         </button>
 
-                        <div className="p-6 md:p-8 overflow-y-auto max-h-[85vh] custom-scrollbar">
+                        <div className="p-6 md:p-8 overflow-y-auto max-h-[75vh] custom-scrollbar">
                             <h1 className="text-3xl md:text-4xl font-bold text-[#FFFFFF] mb-4 pr-16">
                                 {selectedKegiatan.title}
                             </h1>
