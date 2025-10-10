@@ -104,7 +104,7 @@ const FloatingChatWidget = () => {
                                 </svg>
                             </div>
                             <div className="header-text">
-                                <h3>SIBot | Assistant</h3>
+                                <h3>SIBot | Asisten</h3>
                                 <p>Siap membantu Anda Selalu</p>
                             </div>
                         </div>
@@ -301,7 +301,7 @@ const FloatingChatWidget = () => {
 
                     .floating-chat-window {
                         width: calc(100vw - 40px);
-                        height: calc(100vh - 140px);
+                        height: calc(90vh - 140px);
                         bottom: 90px;
                         right: 20px;
                         left: 20px;
