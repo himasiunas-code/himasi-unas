@@ -112,9 +112,9 @@ const ChatBot = () => {
             <div className="chat-window" ref={chatWindowRef}>
                 {messages.length === 0 && (
                     <div className="welcome-message">
-                        <div className="welcome-icon">🤖</div>
+                        <div className="welcome-icon"></div>
                         <h4>Halo! Saya Asisten HIMASI UNAS</h4>
-                        <p>Tanya saya tentang HIMASI UNAS, kegiatan organisasi, atau hal-hal seputar Sistem Informasi. Saya siap membantu!</p>
+                        <p>Tanya saya tentang HIMASI UNAS, kegiatan himpunan, atau hal-hal seputar Sistem Informasi. Saya siap membantu!</p>
                         <div className="suggested-questions">
                             <button onClick={() => setInput("Apa itu HIMASI UNAS?")}>
                                 Apa itu HIMASI UNAS?
@@ -123,7 +123,7 @@ const ChatBot = () => {
                                 Cara bergabung HIMASI?
                             </button>
                             <button onClick={() => setInput("Apa saja kegiatan HIMASI?")}>
-                                Kegiatan apa saja yang ada?
+                                Apa saja kegiatan HIMASI?
                             </button>
                         </div>
                     </div>
