@@ -17,9 +17,9 @@ export default function Hero() {
             priority
           />
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-[#4B061A]/60 flex justify-center p-2 sm:p-4">
+          <div className="absolute inset-0 bg-[#4B061A]/60 flex items-center justify-center p-2 sm:p-4">
             <div className="text-center text-white w-full max-w-6xl px-2">
-              <h1 className="text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-bold mb-3 pt-5 pb-15 sm:mb-4 drop-shadow-lg leading-tight">
+              <h1 className="text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 drop-shadow-lg leading-tight">
                 Himpunan Mahasiswa Sistem Informasi <br /> Universitas Nasional
               </h1>
               
