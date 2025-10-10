@@ -54,7 +54,7 @@ export default function Introduction() {
 
       <div className="flex justify-center items-center pb-6">
         <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white font-bold whitespace-pre">
-          34 Anggota ━━━ 5 Divisi
+          26 Anggota ━━━ 5 Divisi
         </p>
       </div>
 
