@@ -170,8 +170,8 @@ export async function PUT(request: NextRequest) {
     })
 
     // Validasi bahwa registration dalam status yang benar untuk step 2
-    const step1Completed = (existingRegistration as any).step1Completed
-    const step2Completed = (existingRegistration as any).step2Completed
+    const step1Completed = existingRegistration.step1Completed
+    const step2Completed = existingRegistration.step2Completed
     
     if (!step1Completed || step2Completed) {
       console.log('❌ Invalid registration step status for step 2:', {
@@ -263,8 +263,8 @@ export async function PUT(request: NextRequest) {
         }
       })
 
-      const finalStep1Completed = (finalRegistrationCheck as any)?.step1Completed
-      const finalStep2Completed = (finalRegistrationCheck as any)?.step2Completed
+      const finalStep1Completed = finalRegistrationCheck?.step1Completed
+      const finalStep2Completed = finalRegistrationCheck?.step2Completed
 
       if (!finalRegistrationCheck || !finalStep1Completed || finalStep2Completed) {
         console.log('❌ Registration status changed during step 2:', {
@@ -301,7 +301,7 @@ export async function PUT(request: NextRequest) {
           // Status PENDING menandakan pendaftaran lengkap dan menunggu approval
           status: 'PENDING',
           updatedAt: new Date()
-        } as any,
+        },
         include: {
           activity: {
             select: {
