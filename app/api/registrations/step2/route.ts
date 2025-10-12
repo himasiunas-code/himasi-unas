@@ -135,9 +135,17 @@ export async function PUT(request: NextRequest) {
       include: {
         activity: {
           select: {
+            id: true,
             title: true,
             startDate: true,
-            location: true
+            location: true,
+            maxParticipants: true,
+            registrationOpen: true,
+            registrationStartDate: true,
+            registrationDeadline: true,
+            _count: {
+              select: { registrations: true }
+            }
           }
         }
       }
@@ -161,32 +169,152 @@ export async function PUT(request: NextRequest) {
       currentStatus: existingRegistration.status
     })
 
-    console.log('✅ Updating registration with step 2 data...')
+    // Validasi bahwa registration dalam status yang benar untuk step 2
+    const step1Completed = (existingRegistration as any).step1Completed
+    const step2Completed = (existingRegistration as any).step2Completed
     
-    // Update registrasi dengan data sesi 2
-    const updatedRegistration = await prisma.registration.update({
-      where: {
-        id: registrationId
-      },
-      data: {
-        instagramHandle,
-        instagramProof,
-        motivation: motivation || null,
-        specialRequest: specialRequest || null,
-        paymentMethod,
-        paymentProof,
-        // Status tetap PENDING tapi sekarang lengkap
-        status: 'PENDING'
-      },
-      include: {
-        activity: {
-          select: {
-            title: true,
-            startDate: true,
-            location: true
+    if (!step1Completed || step2Completed) {
+      console.log('❌ Invalid registration step status for step 2:', {
+        step1Completed,
+        step2Completed
+      })
+      return NextResponse.json(
+        {
+          success: false,
+          message: step2Completed 
+            ? 'Pendaftaran Anda sudah selesai sebelumnya.' 
+            : 'Step 1 belum diselesaikan. Silakan mulai ulang dari sesi 1.'
+        },
+        { status: 400 }
+      )
+    }
+
+    const activity = existingRegistration.activity
+    if (!activity) {
+      console.log('❌ Activity not found for registration:', registrationId)
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Kegiatan tidak ditemukan'
+        },
+        { status: 404 }
+      )
+    }
+
+    console.log('🔍 Double-checking activity and slot availability for step 2...')
+    
+    // Double-check apakah kegiatan masih terbuka dan ada slot
+    const now = new Date()
+    const isAutoOpenTime = activity.registrationStartDate ? now >= new Date(activity.registrationStartDate) : true
+    const isWithinDeadline = activity.registrationDeadline ? now <= new Date(activity.registrationDeadline) : true
+    const isRegistrationOpen = activity.registrationOpen || (isAutoOpenTime && isWithinDeadline)
+    
+    console.log('📅 Step 2 time check:', {
+      now: now.toISOString(),
+      registrationStartDate: activity.registrationStartDate,
+      registrationDeadline: activity.registrationDeadline,
+      isAutoOpenTime,
+      isWithinDeadline,
+      manuallyOpen: activity.registrationOpen,
+      finalStatus: isRegistrationOpen
+    })
+    
+    if (!isRegistrationOpen) {
+      console.log('❌ Registration is closed during step 2')
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Pendaftaran untuk kegiatan ini sudah ditutup. Tidak dapat menyelesaikan pendaftaran.'
+        },
+        { status: 400 }
+      )
+    }
+
+    // Additional deadline check
+    if (activity.registrationDeadline && now > new Date(activity.registrationDeadline)) {
+      console.log('❌ Registration deadline passed during step 2:', activity.registrationDeadline)
+      const deadlineDate = new Date(activity.registrationDeadline).toLocaleDateString('id-ID')
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Batas waktu pendaftaran sudah berakhir pada ${deadlineDate}. Tidak dapat menyelesaikan pendaftaran.`
+        },
+        { status: 400 }
+      )
+    }
+
+    console.log('✅ Activity still open, updating registration with step 2 data using transaction...')
+    
+    // Update registrasi dengan data sesi 2 menggunakan transaction untuk final validation
+    const updatedRegistration = await prisma.$transaction(async (tx) => {
+      console.log('🔒 Starting step 2 transaction...')
+      
+      // Final recheck untuk memastikan registration masih valid
+      const finalRegistrationCheck = await tx.registration.findUnique({
+        where: { id: registrationId },
+        include: {
+          activity: {
+            select: {
+              id: true,
+              startDate: true,
+              _count: { select: { registrations: true } }
+            }
           }
         }
+      })
+
+      const finalStep1Completed = (finalRegistrationCheck as any)?.step1Completed
+      const finalStep2Completed = (finalRegistrationCheck as any)?.step2Completed
+
+      if (!finalRegistrationCheck || !finalStep1Completed || finalStep2Completed) {
+        console.log('❌ Registration status changed during step 2:', {
+          found: !!finalRegistrationCheck,
+          step1Completed: finalStep1Completed,
+          step2Completed: finalStep2Completed
+        })
+        throw new Error('INVALID_STATUS')
       }
+
+      // Final check untuk event yang sudah dimulai
+      const eventStartTime = new Date(finalRegistrationCheck.activity.startDate).getTime()
+      if (now.getTime() > eventStartTime) {
+        console.log('❌ Event already started during step 2')
+        throw new Error('EVENT_STARTED')
+      }
+
+      console.log('✅ Final validations passed, updating registration...')
+      
+      // Update dengan data step 2
+      const updated = await tx.registration.update({
+        where: {
+          id: registrationId
+        },
+        data: {
+          instagramHandle,
+          instagramProof,
+          motivation: motivation || null,
+          specialRequest: specialRequest || null,
+          paymentMethod,
+          paymentProof,
+          // Step 2 sudah selesai
+          step2Completed: true,
+          // Status PENDING menandakan pendaftaran lengkap dan menunggu approval
+          status: 'PENDING',
+          updatedAt: new Date()
+        } as any,
+        include: {
+          activity: {
+            select: {
+              title: true,
+              startDate: true,
+              location: true
+            }
+          }
+        }
+      })
+
+      console.log('✅ Registration updated successfully in step 2 transaction:', updated.id)
+      return updated
     })
 
     console.log('✅ Step 2 Registration completed successfully:', updatedRegistration.id)
@@ -217,7 +345,14 @@ export async function PUT(request: NextRequest) {
         stack: error.stack
       })
       
-      if (error.message.includes('Record to update not found')) {
+      // Handle transaction-specific errors
+      if (error.message === 'INVALID_STATUS') {
+        errorMessage = 'Status pendaftaran tidak valid. Mungkin Step 1 belum diselesaikan atau Step 2 sudah pernah diselesaikan.'
+        statusCode = 400
+      } else if (error.message === 'EVENT_STARTED') {
+        errorMessage = 'Kegiatan sudah dimulai. Tidak dapat menyelesaikan pendaftaran.'
+        statusCode = 400
+      } else if (error.message.includes('Record to update not found')) {
         errorMessage = 'Data pendaftaran tidak ditemukan'
         statusCode = 404
       } else if (error.message.includes('Foreign key constraint')) {
