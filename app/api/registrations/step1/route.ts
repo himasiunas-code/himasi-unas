@@ -146,18 +146,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Cek maksimal peserta
-    if (activity.maxParticipants && activity._count.registrations >= activity.maxParticipants) {
-      console.log('❌ Activity is full:', activity._count.registrations, '>=', activity.maxParticipants)
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Kegiatan sudah penuh. Maksimal peserta sudah tercapai.'
-        },
-        { status: 400 }
-      )
-    }
-
     console.log('🔍 Checking for existing registration...')
     
     // Cek apakah email sudah terdaftar untuk kegiatan ini  
@@ -181,36 +169,95 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('✅ All checks passed, creating step 1 registration...')
+    console.log('✅ All checks passed, creating step 1 registration using atomic transaction...')
     
-    // Buat pendaftaran sesi 1 (status PENDING tapi hanya data pribadi + akademik)
-    const registration = await prisma.registration.create({
-      data: {
-        activityId: activity.id,
-        email,
-        fullName,
-        phone,
-        npm,
-        yearClass,
-        faculty,
-        major,
-        // Instagram dan info tambahan null dulu, akan diisi di step 2
-        instagramProof: null,
-        instagramHandle: null,
-        motivation: null,
-        specialRequest: null,
-        status: 'PENDING' // Status pending sampai step 2 selesai
-      },
-      include: {
-        activity: {
-          select: {
-            title: true,
-            startDate: true,
-            location: true
+    // Gunakan database transaction untuk memastikan slot check dan registration creation atomik
+    const registration = await prisma.$transaction(async (tx) => {
+      console.log('🔒 Starting atomic transaction for slot reservation...')
+      
+      // Re-check slot availability dalam transaksi untuk mencegah race condition
+      const currentActivity = await tx.activity.findUnique({
+        where: { id: activity.id },
+        include: {
+          _count: {
+            select: { registrations: true }
           }
         }
+      })
+
+      if (!currentActivity) {
+        throw new Error('Activity not found during transaction')
       }
+
+      console.log('🔍 Final slot check:', {
+        currentParticipants: currentActivity._count.registrations,
+        maxParticipants: currentActivity.maxParticipants,
+        availableSlots: currentActivity.maxParticipants ? currentActivity.maxParticipants - currentActivity._count.registrations : 'unlimited'
+      })
+
+      // Final check untuk maksimal peserta dalam transaksi
+      if (currentActivity.maxParticipants && currentActivity._count.registrations >= currentActivity.maxParticipants) {
+        console.log('❌ Activity is full during transaction:', currentActivity._count.registrations, '>=', currentActivity.maxParticipants)
+        throw new Error('SLOT_FULL')
+      }
+
+      // Double-check untuk email yang sudah terdaftar dalam transaksi
+      const duplicateCheck = await tx.registration.findUnique({
+        where: {
+          activityId_email: {
+            activityId: activity.id,
+            email
+          }
+        }
+      })
+
+      if (duplicateCheck) {
+        console.log('❌ Duplicate email found during transaction:', email)
+        throw new Error('EMAIL_DUPLICATE')
+      }
+
+      console.log('✅ Slot available, creating registration...')
+      
+      // Buat pendaftaran sesi 1 dengan step1Completed = true untuk menandai slot sudah di-reserve
+      const newRegistration = await tx.registration.create({
+        data: {
+          activityId: activity.id,
+          email,
+          fullName,
+          phone,
+          npm,
+          yearClass,
+          faculty,
+          major,
+          // Instagram dan info tambahan null dulu, akan diisi di step 2
+          instagramProof: null,
+          instagramHandle: null,
+          motivation: null,
+          specialRequest: null,
+          paymentMethod: null,
+          paymentProof: null,
+          status: 'PENDING',
+          step1Completed: true,  // Menandai step 1 sudah selesai dan slot reserved
+          step2Completed: false, // Step 2 belum selesai
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        include: {
+          activity: {
+            select: {
+              title: true,
+              startDate: true,
+              location: true
+            }
+          }
+        }
+      })
+
+      console.log('✅ Registration created successfully in transaction:', newRegistration.id)
+      return newRegistration
     })
+
+    console.log('✅ Transaction completed successfully for registration:', registration.id)
 
     console.log('✅ Step 1 Registration created successfully:', registration.id)
 
@@ -239,7 +286,14 @@ export async function POST(request: NextRequest) {
         stack: error.stack
       })
       
-      if (error.message.includes('Unique constraint')) {
+      // Handle transaction-specific errors
+      if (error.message === 'SLOT_FULL') {
+        errorMessage = 'Maaf, slot kegiatan sudah penuh. Kuota habis saat Anda sedang mendaftar.'
+        statusCode = 400
+      } else if (error.message === 'EMAIL_DUPLICATE') {
+        errorMessage = 'Email Anda sudah terdaftar untuk kegiatan ini'
+        statusCode = 400
+      } else if (error.message.includes('Unique constraint')) {
         errorMessage = 'Email Anda sudah terdaftar untuk kegiatan ini'
         statusCode = 400
       } else if (error.message.includes('Foreign key constraint')) {
