@@ -122,9 +122,14 @@ export default function RegistrationForm() {
           }
           
           // Check if registration is full
+          // EXCEPTION: Jika user sudah di Step 2 (punya registrationId dan step1Completed), 
+          // mereka boleh menyelesaikan pendaftaran meskipun slot penuh
           if (activity.maxParticipants && activity.currentParticipants >= activity.maxParticipants) {
-            setRegistrationStatus('full')
-            return
+            // Jika user sudah berhasil Step 1, biarkan mereka menyelesaikan Step 2
+            if (!(registrationId && step1Completed)) {
+              setRegistrationStatus('full')
+              return
+            }
           }
           
           // Check auto-open time and deadline
@@ -687,7 +692,7 @@ export default function RegistrationForm() {
             Lihat Kegiatan Lainnya
           </button>
         </div>
-      ) : registrationStatus === 'full' ? (
+      ) : registrationStatus === 'full' && !(registrationId && step1Completed) ? (
         <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
             <User className="w-8 h-8 text-orange-600" />
@@ -795,28 +800,36 @@ export default function RegistrationForm() {
 
             {/* Informasi Slot & Sistem Reservasi */}
             {activityStatus && (
-              <div className="hidden bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-8 shadow-lg">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-8 shadow-lg">
                 <div className="flex items-start">
                   <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
                     <User className="w-5 h-5 text-blue-600" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-blue-800 mb-2">Sistem Slot Reservasi</h3>
+                    <h3 className="text-lg font-semibold text-blue-800 mb-2">
+                      {registrationId && step1Completed ? 'Slot Anda Sudah Tereservasi' : 'Sistem Slot Reservasi'}
+                    </h3>
                     <div className="space-y-2 text-sm text-blue-700">
                       <div className="flex items-center justify-between">
-                        <span>Sisa Slot:</span>
+                        <span>{registrationId && step1Completed ? 'Status Slot:' : 'Sisa Slot:'}</span>
                         <span className="font-bold">
-                          {activityStatus.maxParticipants 
-                            ? `${activityStatus.maxParticipants - activityStatus.currentParticipants}/${activityStatus.maxParticipants}`
-                            : 'Unlimited'
-                          }
+                          {registrationId && step1Completed ? (
+                            <span className="text-green-700">✅ Reserved untuk Anda</span>
+                          ) : (
+                            activityStatus.maxParticipants 
+                              ? `${Math.max(0, activityStatus.maxParticipants - activityStatus.currentParticipants)}/${activityStatus.maxParticipants}`
+                              : 'Unlimited'
+                          )}
                         </span>
                       </div>
                       <div className="pt-2 border-t border-blue-200">
                         <p className="text-xs leading-relaxed">
-                          <span className="font-semibold">💡 Info:</span> Setelah Anda menyelesaikan Sesi 1, 
-                          slot akan otomatis di-reserve untuk Anda selama 30 menit untuk menyelesaikan Sesi 2. 
-                          Jika tidak selesai dalam 30 menit, slot akan dikembalikan ke sistem.
+                          <span className="font-semibold">💡 Info:</span> 
+                          {registrationId && step1Completed ? (
+                            ' Slot Anda sudah tereservasi. Selesaikan pendaftaran dalam 30 menit sejak Sesi 1 untuk memastikan slot tidak dikembalikan ke sistem.'
+                          ) : (
+                            ' Setelah Anda menyelesaikan Sesi 1, slot akan otomatis di-reserve untuk Anda selama 30 menit untuk menyelesaikan Sesi 2.'
+                          )}
                         </p>
                       </div>
                     </div>
