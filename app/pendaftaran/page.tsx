@@ -11,7 +11,7 @@ export default function PendaftaranPage() {
     <div className="min-h-screen bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)]">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mt-20 mb-8">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#4B061A] mb-4">
             Pendaftaran Kegiatan HIMASI
           </h1>
