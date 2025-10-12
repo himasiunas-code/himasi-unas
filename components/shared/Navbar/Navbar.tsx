@@ -111,22 +111,23 @@ export default function Navbar() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -32, scale: 0.98 }}
           transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-          className="lg:hidden bg-[rgba(107,20,48,0.95)] px-4 pb-6 flex justify-center absolute left-0 right-0 top-[calc(6px+80px)]"
+          className="lg:hidden bg-[rgba(107,20,48,0.85)] border border-[rgba(255,255,255,0.06)] backdrop-blur-sm px-4 py-6 rounded-2xl mx-4 mt-2 shadow-xl absolute left-0 right-0 top-[calc(6px+80px)]"
         >
           <div className="max-w-md w-full mx-auto flex flex-col items-center">
           <NavigationMenu>
-            <NavigationMenuList className="flex flex-col gap-4 items-center w-full">
+            <NavigationMenuList className="flex flex-col gap-6 items-center w-full">
             {navMenu.map(({ title, path }) => (
               <NavigationMenuItem
               key={title}
               className="w-full flex flex-col items-center"
               >
               <button
-                className={`text-white px-2 py-1 font-semibold transition-all duration-150 w-full text-center ${
-                pathname === path
-                  ? "border-b-2 border-white"
-                  : "opacity-80 hover:opacity-100"
-                }`}
+                className={`
+                relative text-white px-4 py-3 font-semibold text-lg w-full text-center transition-colors duration-150
+                after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
+                hover:after:w-full
+                ${pathname === path ? "after:w-full after:bg-white after:h-0.5" : ""}
+                `}
                 onClick={() => {
                 setMenuOpen(false);
                 setTimeout(() => router.push(path), 300);
