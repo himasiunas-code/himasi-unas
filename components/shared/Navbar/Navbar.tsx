@@ -21,9 +21,10 @@ export default function Navbar() {
   const router = useRouter();
 
   return (
-    <header className="sticky z-[99] top-0 w-full bg-[#6B1430]">
-      <div className="h-[80px] w-full border-b-2 border-[rgba(0,0,0,0.07)]">
-      <div className="container mx-auto flex h-full items-center justify-between px-4">
+    // Fixed overlay header that visually "floats" centered with rounded-full container
+    <header className="fixed z-[60] inset-x-0 top-6 pointer-events-none">
+      <div className="mx-auto max-w-[1440px] w-full px-4 pointer-events-auto">
+        <div className="h-[80px] w-full rounded-full bg-[rgba(107,20,48,0.85)] border border-[rgba(255,255,255,0.06)] backdrop-blur-sm shadow-xl flex items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex flex-row items-center space-x-2 md:space-x-0">
         <Image
@@ -34,7 +35,7 @@ export default function Navbar() {
           className="h-[50px] w-[50px] object-contain md:h-[60px] md:w-[100px]"
         />
         <div 
-          className="text-white font-bold text-2xl tracking-wider"
+          className="text-white font-bold text-lg md:text-2xl tracking-wider"
           style={{
           transform: 'skewX(10deg)',
           textShadow: '4px 4px 8px rgba(0,0,0,0.3)'
@@ -110,9 +111,9 @@ export default function Navbar() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -32, scale: 0.98 }}
           transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-          className="lg:hidden bg-[#6B1430] px-4 pb-4 flex justify-center absolute left-0 right-0 top-20"
+          className="lg:hidden bg-[rgba(107,20,48,0.95)] px-4 pb-6 flex justify-center absolute left-0 right-0 top-[calc(6px+80px)]"
         >
-          <div className="max-w-xs w-full mx-auto flex flex-col items-center">
+          <div className="max-w-md w-full mx-auto flex flex-col items-center">
           <NavigationMenu>
             <NavigationMenuList className="flex flex-col gap-4 items-center w-full">
             {navMenu.map(({ title, path }) => (
