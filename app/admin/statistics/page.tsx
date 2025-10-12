@@ -85,23 +85,6 @@ export default function StatisticsPage() {
     }).format(amount)
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return 'text-green-600 bg-green-100'
-      case 'pending':
-        return 'text-yellow-600 bg-yellow-100'
-      case 'rejected':
-        return 'text-red-600 bg-red-100'
-      case 'attended':
-        return 'text-blue-600 bg-blue-100'
-      case 'absent':
-        return 'text-gray-600 bg-gray-100'
-      default:
-        return 'text-gray-600 bg-gray-100'
-    }
-  }
-
   const exportStatistics = () => {
     if (!stats) return
 
@@ -390,7 +373,7 @@ export default function StatisticsPage() {
               Distribusi Fakultas
             </h3>
             <div className="space-y-3">
-              {stats.facultyStats.map((faculty, index) => (
+              {stats.facultyStats.map((faculty) => (
                 <div key={faculty.faculty} className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700">{faculty.faculty}</span>
                   <div className="flex items-center space-x-3">
@@ -416,7 +399,7 @@ export default function StatisticsPage() {
               Distribusi Angkatan
             </h3>
             <div className="space-y-3">
-              {stats.yearClassStats.map((yearClass, index) => (
+              {stats.yearClassStats.map((yearClass) => (
                 <div key={yearClass.yearClass} className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700">Angkatan {yearClass.yearClass}</span>
                   <div className="flex items-center space-x-3">
