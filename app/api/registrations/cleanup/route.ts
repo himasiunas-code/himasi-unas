@@ -28,12 +28,12 @@ export async function POST(request: NextRequest) {
     // dan sudah dibuat lebih dari timeout
     const incompleteRegistrations = await prisma.registration.findMany({
       where: {
-        ...(true as any && { step1Completed: true }),
-        ...(false as any && { step2Completed: false }),
+        step1Completed: true,
+        step2Completed: false,
         createdAt: {
           lt: timeoutDate
         }
-      } as any,
+      },
       include: {
         activity: {
           select: {
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET /api/registrations/cleanup - Check incomplete registrations (for monitoring)
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     console.log('👀 Registration cleanup check API called')
     
@@ -119,12 +119,12 @@ export async function GET(request: NextRequest) {
     // Cari registrasi yang tidak selesai
     const incompleteRegistrations = await prisma.registration.findMany({
       where: {
-        ...(true as any && { step1Completed: true }),
-        ...(false as any && { step2Completed: false }),
+        step1Completed: true,
+        step2Completed: false,
         createdAt: {
           lt: timeoutDate
         }
-      } as any,
+      },
       include: {
         activity: {
           select: {
@@ -140,12 +140,12 @@ export async function GET(request: NextRequest) {
     // Hitung juga yang masih dalam grace period
     const recentIncompleteRegistrations = await prisma.registration.findMany({
       where: {
-        ...(true as any && { step1Completed: true }),
-        ...(false as any && { step2Completed: false }),
+        step1Completed: true,
+        step2Completed: false,
         createdAt: {
           gte: timeoutDate
         }
-      } as any,
+      },
       include: {
         activity: {
           select: {
