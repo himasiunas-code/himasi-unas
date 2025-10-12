@@ -71,8 +71,8 @@ const initialFormData: ActivityFormData = {
   registrationDeadline: '',
   registrationStartDate: '',
   requiresApproval: false,
-  isPublished: false,
-  registrationOpen: false
+  isPublished: true,  // Default: Published
+  registrationOpen: true  // Default: Registration Open
 }
 
 export default function AdminActivitiesPage() {
@@ -464,12 +464,31 @@ export default function AdminActivitiesPage() {
               </div>
 
               {/* Settings */}
-              <div className="space-y-4 border-t pt-4 hidden">
-                <h3 className="font-semibold">Pengaturan</h3>
+              <div className="space-y-4 border-t pt-4">
+                <h3 className="font-semibold text-gray-900">Pengaturan Kegiatan</h3>
                 
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                  <p className="text-sm text-yellow-800">
+                    <strong>💡 Penting:</strong> Kegiatan harus di-<strong>publikasikan</strong> agar muncul di halaman kegiatan website.
+                  </p>
+                </div>
+
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label>Pendaftaran Dibuka</Label>
+                    <Label className="text-base font-medium">Publikasikan Kegiatan</Label>
+                    <p className="text-sm text-gray-600">Tampilkan kegiatan ini di halaman publik</p>
+                  </div>
+                  <Switch
+                    checked={formData.isPublished}
+                    onCheckedChange={(checked) => 
+                      setFormData(prev => ({ ...prev, isPublished: checked }))
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label className="text-base font-medium">Buka Pendaftaran</Label>
                     <p className="text-sm text-gray-600">Peserta bisa mendaftar kegiatan ini</p>
                   </div>
                   <Switch
@@ -482,26 +501,13 @@ export default function AdminActivitiesPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label>Perlu Approval</Label>
+                    <Label className="text-base font-medium">Perlu Approval</Label>
                     <p className="text-sm text-gray-600">Registrasi perlu disetujui admin</p>
                   </div>
                   <Switch
                     checked={formData.requiresApproval}
                     onCheckedChange={(checked) => 
                       setFormData(prev => ({ ...prev, requiresApproval: checked }))
-                    }
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Publikasikan</Label>
-                    <p className="text-sm text-gray-600">Tampilkan di halaman publik</p>
-                  </div>
-                  <Switch
-                    checked={formData.isPublished}
-                    onCheckedChange={(checked) => 
-                      setFormData(prev => ({ ...prev, isPublished: checked }))
                     }
                   />
                 </div>
