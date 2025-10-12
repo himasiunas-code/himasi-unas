@@ -40,7 +40,7 @@ interface Registration {
     title: string
     slug: string
   }
-  reason?: string
+  rejectedReason?: string
 }
 
 const statusOptions = [
@@ -59,16 +59,30 @@ export default function RegistrationsPage() {
   const [statusFilter, setStatusFilter] = useState('')
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [rejectionModal, setRejectionModal] = useState<{
+    isOpen: boolean;
+    registrationId: string;
+    fullName: string;
+  }>({
+    isOpen: false,
+    registrationId: '',
+    fullName: ''
+  })
+  const [rejectionReason, setRejectionReason] = useState('')
 
-  // Handle ESC key to close modal
+  // Handle ESC key to close modals
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && selectedImage) {
-        setSelectedImage(null)
+      if (event.key === 'Escape') {
+        if (rejectionModal.isOpen) {
+          closeRejectionModal()
+        } else if (selectedImage) {
+          setSelectedImage(null)
+        }
       }
     }
 
-    if (selectedImage) {
+    if (selectedImage || rejectionModal.isOpen) {
       document.addEventListener('keydown', handleEscKey)
       document.body.style.overflow = 'hidden' // Prevent background scrolling
     }
@@ -77,7 +91,7 @@ export default function RegistrationsPage() {
       document.removeEventListener('keydown', handleEscKey)
       document.body.style.overflow = 'unset'
     }
-  }, [selectedImage])
+  }, [selectedImage, rejectionModal.isOpen])
 
   useEffect(() => {
     fetchRegistrations()
@@ -110,6 +124,12 @@ export default function RegistrationsPage() {
 
       if (response.ok) {
         await fetchRegistrations()
+        // Show success message
+        if (status === 'APPROVED') {
+          alert('Pendaftaran disetujui dan email persetujuan telah dikirim!')
+        } else if (status === 'REJECTED') {
+          alert('Pendaftaran ditolak dan email pemberitahuan telah dikirim!')
+        }
       } else {
         alert('Gagal mengupdate status')
       }
@@ -119,6 +139,34 @@ export default function RegistrationsPage() {
     } finally {
       setActionLoading(null)
     }
+  }
+
+  const openRejectionModal = (id: string, fullName: string) => {
+    setRejectionModal({
+      isOpen: true,
+      registrationId: id,
+      fullName
+    })
+    setRejectionReason('')
+  }
+
+  const closeRejectionModal = () => {
+    setRejectionModal({
+      isOpen: false,
+      registrationId: '',
+      fullName: ''
+    })
+    setRejectionReason('')
+  }
+
+  const handleRejectWithReason = async () => {
+    if (!rejectionReason.trim()) {
+      alert('Silakan masukkan alasan penolakan')
+      return
+    }
+
+    await updateRegistrationStatus(rejectionModal.registrationId, 'REJECTED', rejectionReason.trim())
+    closeRejectionModal()
   }
 
   const deleteRegistration = async (id: string) => {
@@ -522,11 +570,11 @@ export default function RegistrationsPage() {
                     )}
 
                     {/* Rejection Reason */}
-                    {registration.reason && (
+                    {registration.rejectedReason && (
                       <div className="pt-4 border-t border-gray-200">
                         <h4 className="text-sm font-medium text-red-700 mb-2">Alasan Penolakan</h4>
                         <p className="text-sm text-red-900 bg-red-50 p-3 rounded-md border border-red-200">
-                          {registration.reason}
+                          {registration.rejectedReason}
                         </p>
                       </div>
                     )}
@@ -546,10 +594,7 @@ export default function RegistrationsPage() {
                           Setujui
                         </button>
                         <button
-                          onClick={() => {
-                            const reason = prompt('Alasan penolakan (opsional):')
-                            updateRegistrationStatus(registration.id, 'REJECTED', reason || undefined)
-                          }}
+                          onClick={() => openRejectionModal(registration.id, registration.fullName)}
                           disabled={actionLoading === registration.id}
                           className="inline-flex items-center px-3 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           title="Reject"
@@ -648,6 +693,96 @@ export default function RegistrationsPage() {
               style={{ width: 'auto', height: 'auto' }}
               onClick={(e) => e.stopPropagation()}
             />
+          </div>
+        </div>,
+        document.body
+      ) : null}
+
+      {/* Rejection Modal */}
+      {rejectionModal.isOpen && typeof document !== 'undefined' ? createPortal(
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center p-4"
+          style={{ zIndex: 999998 }}
+          onClick={closeRejectionModal}
+        >
+          <div 
+            className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Tolak Pendaftaran</h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  {rejectionModal.fullName}
+                </p>
+              </div>
+              <button
+                onClick={closeRejectionModal}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Alasan Penolakan <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={rejectionReason}
+                  onChange={(e) => setRejectionReason(e.target.value)}
+                  placeholder="Jelaskan alasan mengapa pendaftaran ini ditolak..."
+                  className="w-full text-black px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors resize-none"
+                  rows={4}
+                  maxLength={500}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {rejectionReason.length}/500 karakter
+                </p>
+              </div>
+
+              <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <svg className="w-5 h-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="ml-2">
+                    <p className="text-sm text-yellow-800">
+                      Alasan penolakan akan dikirim ke email pendaftar. Pastikan alasan yang diberikan jelas dan konstruktif.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={closeRejectionModal}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors font-medium"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleRejectWithReason}
+                disabled={!rejectionReason.trim() || actionLoading === rejectionModal.registrationId}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+              >
+                {actionLoading === rejectionModal.registrationId ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Menolak...
+                  </div>
+                ) : (
+                  'Tolak Pendaftaran'
+                )}
+              </button>
+            </div>
           </div>
         </div>,
         document.body
