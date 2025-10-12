@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { RegistrationStatus, Prisma } from '@prisma/client'
+import { EmailService } from '@/lib/email-service'
 
 // PATCH /api/admin/registrations/[id] - Update status pendaftaran
 export async function PATCH(
@@ -10,7 +11,7 @@ export async function PATCH(
   try {
     const { id } = await params
     const body = await request.json()
-    const { status, rejectedReason, approvedBy } = body
+    const { status, reason, approvedBy } = body
 
     // Validasi status
     if (!Object.values(RegistrationStatus).includes(status)) {
@@ -34,8 +35,8 @@ export async function PATCH(
       updateData.approvedBy = approvedBy || 'Admin'
     }
 
-    if (status === RegistrationStatus.REJECTED && rejectedReason) {
-      updateData.rejectedReason = rejectedReason
+    if (status === RegistrationStatus.REJECTED && reason) {
+      updateData.rejectedReason = reason
     }
 
     const registration = await prisma.registration.update({
@@ -45,11 +46,46 @@ export async function PATCH(
         activity: {
           select: {
             title: true,
-            slug: true
+            slug: true,
+            startDate: true,
+            location: true
           }
         }
       }
     })
+
+    // Kirim email setelah update berhasil
+    try {
+      const emailService = new EmailService()
+      
+      const emailData = {
+        fullName: registration.fullName,
+        email: registration.email,
+        activityTitle: registration.activity.title,
+        activitySlug: registration.activity.slug,
+        activityStartDate: new Date(registration.activity.startDate).toLocaleDateString('id-ID', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        activityLocation: registration.activity.location || undefined,
+        reason: registration.rejectedReason || undefined
+      }
+
+      if (status === RegistrationStatus.APPROVED) {
+        await emailService.sendApprovalEmail(emailData)
+        console.log(`Approval email sent to ${registration.email}`)
+      } else if (status === RegistrationStatus.REJECTED) {
+        await emailService.sendRejectionEmail(emailData)
+        console.log(`Rejection email sent to ${registration.email}`)
+      }
+    } catch (emailError) {
+      console.error('Error sending email:', emailError)
+      // Jangan sampai error email menggagalkan update status
+    }
 
     return NextResponse.json({
       success: true,
