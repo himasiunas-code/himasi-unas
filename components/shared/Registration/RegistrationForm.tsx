@@ -377,8 +377,29 @@ export default function RegistrationForm() {
     } catch (error) {
       console.error('Error submitting step 1:', error)
       
-      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat menyimpan data sesi 1'
-      showNotification('error', '❌ Gagal Menyimpan Sesi 1', errorMessage)
+      let errorTitle = '❌ Gagal Menyimpan Sesi 1'
+      let errorMessage = 'Terjadi kesalahan saat menyimpan data sesi 1'
+      
+      if (error instanceof Error) {
+        errorMessage = error.message
+        
+        // Handle specific error cases
+        if (error.message.includes('slot kegiatan sudah penuh') || error.message.includes('kuota habis')) {
+          errorTitle = '😔 Slot Sudah Penuh'
+          errorMessage = 'Maaf, slot kegiatan sudah penuh tepat saat Anda mendaftar. Silakan coba kegiatan lain atau tunggu pengumuman slot tambahan.'
+        } else if (error.message.includes('sudah terdaftar')) {
+          errorTitle = '📧 Email Sudah Terdaftar'
+          errorMessage = 'Email Anda sudah terdaftar untuk kegiatan ini. Silakan gunakan email lain atau lanjutkan ke Step 2 jika belum selesai.'
+        } else if (error.message.includes('belum dibuka') || error.message.includes('ditutup')) {
+          errorTitle = '⏰ Pendaftaran Tidak Tersedia'
+          errorMessage = 'Pendaftaran belum dibuka atau sudah ditutup. Silakan periksa jadwal pendaftaran.'
+        } else if (error.message.includes('deadline')) {
+          errorTitle = '⏰ Batas Waktu Terlewat'
+          errorMessage = 'Batas waktu pendaftaran sudah berakhir.'
+        }
+      }
+      
+      showNotification('error', errorTitle, errorMessage)
     } finally {
       setIsSubmitting(false)
     }
@@ -506,8 +527,37 @@ export default function RegistrationForm() {
     } catch (error) {
       console.error('Error submitting step 2:', error)
       
-      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat menyelesaikan pendaftaran'
-      showNotification('error', '❌ Gagal Menyelesaikan Pendaftaran', errorMessage)
+      let errorTitle = '❌ Gagal Menyelesaikan Pendaftaran'
+      let errorMessage = 'Terjadi kesalahan saat menyelesaikan pendaftaran'
+      
+      if (error instanceof Error) {
+        errorMessage = error.message
+        
+        // Handle specific error cases
+        if (error.message.includes('ditutup') || error.message.includes('deadline')) {
+          errorTitle = '⏰ Pendaftaran Sudah Ditutup'
+          errorMessage = 'Maaf, pendaftaran sudah ditutup saat Anda sedang mengisi data. Silakan coba kegiatan lain.'
+        } else if (error.message.includes('penuh') || error.message.includes('kuota')) {
+          errorTitle = '😔 Slot Sudah Penuh'
+          errorMessage = 'Maaf, slot kegiatan sudah penuh saat Anda menyelesaikan pendaftaran. Silakan coba kegiatan lain atau tunggu pengumuman slot tambahan.'
+        } else if (error.message.includes('status tidak valid') || error.message.includes('Step 1')) {
+          errorTitle = '🔄 Perlu Mulai Ulang'
+          errorMessage = 'Terjadi masalah dengan data pendaftaran. Silakan mulai ulang dari Step 1.'
+          
+          // Reset form to step 1 after a delay
+          setTimeout(() => {
+            setCurrentStep(1)
+            setRegistrationId(null)
+            setStep1Completed(false)
+            showNotification('success', '🔄 Pendaftaran Reset', 'Silakan mulai ulang pendaftaran dari Step 1.')
+          }, 5000)
+        } else if (error.message.includes('sudah dimulai')) {
+          errorTitle = '🚀 Kegiatan Sudah Dimulai'
+          errorMessage = 'Kegiatan sudah dimulai sehingga pendaftaran tidak dapat diselesaikan.'
+        }
+      }
+      
+      showNotification('error', errorTitle, errorMessage)
     } finally {
       setIsSubmitting(false)
     }
@@ -713,34 +763,68 @@ export default function RegistrationForm() {
           </p>
         </div>
 
-        {/* Informasi Biaya - Tampil di Step 1 */}
+        {/* Informasi Biaya & Slot - Tampil di Step 1 */}
         {currentStep === 1 && (
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4 sm:p-6 mb-8 text-white shadow-lg">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center w-full sm:w-auto">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
-                  <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <>
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4 sm:p-6 mb-6 text-white shadow-lg">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center w-full sm:w-auto">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                    <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs sm:text-sm opacity-90 mb-1">Biaya Pendaftaran</p>
+                    <p className="text-2xl sm:text-3xl font-bold">Rp 30.000</p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-xs sm:text-sm opacity-90 mb-1">Biaya Pendaftaran</p>
-                  <p className="text-2xl sm:text-3xl font-bold">Rp 30.000</p>
+                <div className="text-left sm:text-right w-full sm:w-auto">
+                  <p className="text-xs sm:text-sm opacity-90">Pembayaran di Sesi 2</p>
                 </div>
               </div>
-              <div className="text-left sm:text-right w-full sm:w-auto">
-                <p className="text-xs sm:text-sm opacity-90">Pembayaran di Sesi 2</p>
+              <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 text-xs sm:text-sm opacity-90">
+                <div className="flex items-center sm:mr-6">
+                  <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
+                  <span>Transfer Bank BCA</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
+                  <span>DANA e-Wallet</span>
+                </div>
               </div>
             </div>
-            <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 text-xs sm:text-sm opacity-90">
-              <div className="flex items-center sm:mr-6">
-                <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
-                <span>Transfer Bank BCA</span>
+
+            {/* Informasi Slot & Sistem Reservasi */}
+            {activityStatus && (
+              <div className="hidden bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-8 shadow-lg">
+                <div className="flex items-start">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <User className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-blue-800 mb-2">Sistem Slot Reservasi</h3>
+                    <div className="space-y-2 text-sm text-blue-700">
+                      <div className="flex items-center justify-between">
+                        <span>Sisa Slot:</span>
+                        <span className="font-bold">
+                          {activityStatus.maxParticipants 
+                            ? `${activityStatus.maxParticipants - activityStatus.currentParticipants}/${activityStatus.maxParticipants}`
+                            : 'Unlimited'
+                          }
+                        </span>
+                      </div>
+                      <div className="pt-2 border-t border-blue-200">
+                        <p className="text-xs leading-relaxed">
+                          <span className="font-semibold">💡 Info:</span> Setelah Anda menyelesaikan Sesi 1, 
+                          slot akan otomatis di-reserve untuk Anda selama 30 menit untuk menyelesaikan Sesi 2. 
+                          Jika tidak selesai dalam 30 menit, slot akan dikembalikan ke sistem.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center">
-                <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
-                <span>DANA e-Wallet</span>
-              </div>
-            </div>
-          </div>
+            )}
+          </>
         )}
 
         <div className="space-y-8">
