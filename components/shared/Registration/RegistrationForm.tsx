@@ -162,7 +162,7 @@ export default function RegistrationForm() {
     // Check every 30 seconds for status updates
     const interval = setInterval(checkActivityStatus, 30000)
     return () => clearInterval(interval)
-  }, [])
+  }, [registrationId, step1Completed])
 
   // Calculate countdown timer for registration start
   useEffect(() => {
