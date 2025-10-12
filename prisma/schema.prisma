@@ -47,6 +47,8 @@ model Registration {
   paymentMethod   String?
   paymentProof    String?
   status          RegistrationStatus @default(PENDING)
+  step1Completed  Boolean            @default(false)
+  step2Completed  Boolean            @default(false)
   approvedAt      DateTime?
   approvedBy      String?
   rejectedReason  String?
