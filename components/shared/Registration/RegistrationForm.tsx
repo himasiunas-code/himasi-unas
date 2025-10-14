@@ -922,7 +922,7 @@ export default function RegistrationForm() {
             </div>
 
             {/* Informasi Slot & Sistem Reservasi */}
-            {activityStatus && (
+            {/* {activityStatus && (
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-8 shadow-lg">
                 <div className="flex items-start">
                   <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -959,7 +959,7 @@ export default function RegistrationForm() {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </>
         )}
 
