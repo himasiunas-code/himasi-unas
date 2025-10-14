@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Upload, User, Mail, Phone, Calendar, Building, FileImage, Instagram, MessageSquare, AlertCircle, CheckCircle, X, CreditCard, Smartphone } from 'lucide-react'
+import confetti from 'canvas-confetti'
 
 interface FormData {
   email: string
@@ -81,6 +82,113 @@ export default function RegistrationForm() {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const paymentFileInputRef = useRef<HTMLInputElement>(null)
+
+  // Party popper confetti effect
+  const triggerConfetti = () => {
+    if (typeof window === 'undefined') {
+      console.log('Window not available, skipping confetti')
+      return
+    }
+    
+    console.log('Triggering confetti animation...') // Debug log
+    
+    try {
+      // Multiple bursts with different timings for celebration effect
+      const duration = 3000
+      const animationEnd = Date.now() + duration
+      const defaults = { 
+        startVelocity: 30, 
+        spread: 360, 
+        ticks: 60, 
+        zIndex: 9999,
+        disableForReducedMotion: false
+      }
+
+      const randomInRange = (min: number, max: number) => {
+        return Math.random() * (max - min) + min
+      }
+
+      // Simple test burst first
+      console.log('Firing simple confetti burst...')
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1']
+      })
+      console.log('Simple confetti burst fired!')
+      
+      // Additional bursts
+      console.log('Firing center confetti burst...')
+      confetti({
+        ...defaults,
+        particleCount: 100,
+        origin: { x: 0.5, y: 0.5 },
+        colors: ['#4B061A', '#8B1C3B', '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1']
+      })
+      console.log('Center confetti burst fired!')
+
+    // Second burst - left side
+    setTimeout(() => {
+      confetti({
+        ...defaults,
+        particleCount: 50,
+        origin: { x: 0.2, y: 0.6 },
+        colors: ['#4B061A', '#8B1C3B', '#FFD700', '#FF6B6B']
+      })
+    }, 200)
+
+    // Third burst - right side
+    setTimeout(() => {
+      confetti({
+        ...defaults,
+        particleCount: 50,
+        origin: { x: 0.8, y: 0.6 },
+        colors: ['#4B061A', '#8B1C3B', '#FFD700', '#4ECDC4']
+      })
+    }, 400)
+
+    // Continuous small bursts
+    const interval = setInterval(() => {
+      const timeLeft = animationEnd - Date.now()
+
+      if (timeLeft <= 0) {
+        clearInterval(interval)
+        return
+      }
+
+      const particleCount = 20 * (timeLeft / duration)
+      
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { 
+          x: randomInRange(0.1, 0.9), 
+          y: randomInRange(0.2, 0.8) 
+        },
+        colors: ['#4B061A', '#8B1C3B', '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1']
+      })
+    }, 250)
+
+    // Special golden shower effect
+    setTimeout(() => {
+      confetti({
+        particleCount: 200,
+        angle: 90,
+        spread: 45,
+        origin: { x: 0.5, y: 0 },
+        colors: ['#FFD700', '#FFA500', '#FF8C00'],
+        shapes: ['star', 'circle'],
+        scalar: 1.2,
+        drift: 1,
+        gravity: 0.8,
+        ticks: 100
+      })
+    }, 800)
+    } catch (error) {
+      console.error('Error triggering confetti:', error)
+    }
+  }
 
   // Show pop-up notification
   const showNotification = (type: 'success' | 'error', title: string, message: string) => {
@@ -496,8 +604,23 @@ export default function RegistrationForm() {
         throw new Error(result.message || 'Gagal menyelesaikan pendaftaran')
       }
       
-      // Show success pop-up
+      // Show success pop-up with confetti effect
       showNotification('success', '🎉 Pendaftaran Selesai!', result.message)
+      
+      // Trigger party popper confetti effect
+      console.log('About to trigger confetti...') // Debug log
+      
+      // Try immediate confetti first
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      })
+      
+      // Then trigger full animation
+      setTimeout(() => {
+        triggerConfetti()
+      }, 100) // Shorter delay
       
       // Reset form setelah berhasil
       setTimeout(() => {
