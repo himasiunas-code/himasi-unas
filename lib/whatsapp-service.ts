@@ -6,7 +6,7 @@ export interface WhatsAppMessage {
 export interface FontteResponse {
   status: boolean
   message?: string
-  data?: any
+  data?: Record<string, unknown>
 }
 
 export class WhatsAppService {
