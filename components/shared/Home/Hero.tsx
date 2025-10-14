@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Banner from "@/public/image/Home/BannerV1.png";
+import Logo from "@/public/icon/image2.jpg";
 
 export default function Hero() {
   return (
@@ -118,8 +119,8 @@ export default function Hero() {
                 <div className="absolute inset-0 rounded-full border border-white/20 lg:border-2"></div>
                 <div className="absolute inset-0.5 lg:inset-1 rounded-full overflow-hidden border border-white/40 lg:border-2 shadow-lg lg:shadow-xl">
                   <Image
-                    src={Banner}
-                    alt="HIMASI UNAS Activity"
+                    src={Logo}
+                    alt="HIMASI UNAS"
                     fill
                     className="object-cover"
                   />
