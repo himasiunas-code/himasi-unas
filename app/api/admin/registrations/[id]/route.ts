@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { RegistrationStatus, Prisma } from '@prisma/client'
 import { EmailService } from '@/lib/email-service'
+import { whatsappService } from '@/lib/whatsapp-service'
 
 // PATCH /api/admin/registrations/[id] - Update status pendaftaran
 export async function PATCH(
@@ -54,7 +55,7 @@ export async function PATCH(
       }
     })
 
-    // Kirim email setelah update berhasil
+    // Kirim email dan WhatsApp setelah update berhasil
     try {
       const emailService = new EmailService()
       
@@ -75,16 +76,71 @@ export async function PATCH(
         reason: registration.rejectedReason || undefined
       }
 
+      // Parallel execution untuk email dan WhatsApp
+      const notifications = []
+
       if (status === RegistrationStatus.APPROVED) {
-        await emailService.sendApprovalEmail(emailData)
-        console.log(`Approval email sent to ${registration.email}`)
+        // Send email
+        notifications.push(
+          emailService.sendApprovalEmail(emailData)
+            .then(() => console.log(`Approval email sent to ${registration.email}`))
+            .catch(error => console.error('Error sending approval email:', error))
+        )
+        
+        // Send WhatsApp
+        notifications.push(
+          whatsappService.sendApprovalMessage(
+            registration.phone,
+            registration.fullName,
+            registration.activity.title
+          )
+            .then(success => {
+              if (success) {
+                console.log(`Approval WhatsApp sent to ${registration.phone}`)
+              } else {
+                console.error(`Failed to send approval WhatsApp to ${registration.phone}`)
+              }
+            })
+            .catch(error => console.error('Error sending approval WhatsApp:', error))
+        )
       } else if (status === RegistrationStatus.REJECTED) {
-        await emailService.sendRejectionEmail(emailData)
-        console.log(`Rejection email sent to ${registration.email}`)
+        // Send email
+        notifications.push(
+          emailService.sendRejectionEmail(emailData)
+            .then(() => console.log(`Rejection email sent to ${registration.email}`))
+            .catch(error => console.error('Error sending rejection email:', error))
+        )
+        
+        // Send WhatsApp
+        notifications.push(
+          whatsappService.sendRejectionMessage(
+            registration.phone,
+            registration.fullName,
+            registration.activity.title,
+            registration.rejectedReason || 'Tidak memenuhi persyaratan'
+          )
+            .then(success => {
+              if (success) {
+                console.log(`Rejection WhatsApp sent to ${registration.phone}`)
+              } else {
+                console.error(`Failed to send rejection WhatsApp to ${registration.phone}`)
+              }
+            })
+            .catch(error => console.error('Error sending rejection WhatsApp:', error))
+        )
       }
-    } catch (emailError) {
-      console.error('Error sending email:', emailError)
-      // Jangan sampai error email menggagalkan update status
+
+      // Execute all notifications (don't wait for completion)
+      Promise.allSettled(notifications)
+        .then(results => {
+          const failed = results.filter(result => result.status === 'rejected')
+          if (failed.length > 0) {
+            console.error('Some notifications failed:', failed)
+          }
+        })
+    } catch (error) {
+      console.error('Error sending notifications:', error)
+      // Jangan sampai error notification menggagalkan update status
     }
 
     return NextResponse.json({
