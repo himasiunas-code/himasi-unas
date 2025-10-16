@@ -49,7 +49,7 @@ export default function ContactCards() {
                 Chat dengan bersangkutan
               </p>
               <Link
-                href="https://wa.me/qr/4AZXPQ4P7H4CG1"
+                href="https://wa.me/628569874380?text=Halo,%20saya%20ingin%20bertanya%20tentang%20HIMASI%20UNAS"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
@@ -80,7 +80,7 @@ export default function ContactCards() {
                 Chat dengan bersangkutan
               </p>
               <Link
-                href="https://wa.me/qr/4AZXPQ4P7H4CG1"
+                href="https://wa.me/6281333105219?text=Halo,%20saya%20ingin%20bertanya%20tentang%20HIMASI%20UNAS"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
