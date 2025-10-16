@@ -32,7 +32,7 @@ app/admin/
 ├── layout.tsx          # Admin layout dengan sidebar navigation
 ├── page.tsx           # Redirect ke dashboard
 ├── login/
-│   └── page.tsx       # Halaman login admin
+│   └── page.tsx       # Halaman login admin panel
 ├── dashboard/
 │   └── page.tsx       # Dashboard dengan statistik
 └── registrations/
