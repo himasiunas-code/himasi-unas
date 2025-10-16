@@ -141,9 +141,15 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      {/* Copyright */}
-      <div className="mt-8 pt-4 border-t border-[#d4a796] text-center text-xs text-[#4B061A]/70 font-medium">
-        &copy; {new Date().getFullYear()} HIMASI UNAS. All rights reserved.
+      {/* Copyright & Developed by RnD - Responsive */}
+      <div className="mt-8 pt-4 border-t border-[#d4a796] text-center text-xs text-[#4B061A]/70 flex flex-col sm:flex-row items-center justify-center gap-1">
+        <span className="font-semibold">&copy; {new Date().getFullYear()} HIMASI UNAS. All rights reserved</span>
+        <span className="flex items-center gap-1">
+          <span className="hidden sm:inline">|</span>
+          <span className="font-semibold">
+          Developed with ❤️ by Research and Development
+        </span>
+        </span>
       </div>
     </footer>
   );
