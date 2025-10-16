@@ -8,7 +8,7 @@ export default function HeroBanner() {
       <div className="aspect-video w-full overflow-hidden">
         <Image
           src={Banner}
-          alt="Hubungi Kami - HIMASI UNAS"
+          alt="HIMASI UNAS"
           fill
           className="object-cover"
           priority
