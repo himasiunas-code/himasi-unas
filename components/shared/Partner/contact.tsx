@@ -1,30 +1,8 @@
-'use client';
-
 import { Instagram } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Contact() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isZooming, setIsZooming] = useState(false);
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setIsZooming(false);
-
-    const randomDelay = Math.floor(Math.random() * 2000) + 1000;
-
-    setTimeout(() => {
-      setIsZooming(true);
-    }, randomDelay - 500);
-
-    setTimeout(() => {
-      window.open(url, '_blank', 'noopener,noreferrer');
-      setIsLoading(false);
-      setIsZooming(false);
-    }, randomDelay);
-  };
 
   return (
     <main id="contact" className="bg-[#FFE8DB] pb-16 relative">
@@ -46,13 +24,14 @@ export default function Contact() {
             <p className="text-white mb-4 md:mb-6 text-xs md:text-base text-center italic">@himasi.unas1949</p>
           </div>
           
-          <a
+          <Link
             href="https://www.instagram.com/himasi.unas1949"
-            onClick={(e) => handleLinkClick(e, 'https://www.instagram.com/himasi.unas1949')}
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-[#FFE8DB] text-black px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-[#F5D5C8] hover:text-[#4B061A] transition-colors duration-300 shadow-md hover:shadow-lg inline-block text-center w-full max-w-[200px] cursor-pointer"
           >
             Hubungi
-          </a>
+          </Link>
         </div>
 
         <div className="bg-[#4B061A] z-2 rounded-xl shadow-lg p-5 md:p-8 flex flex-col items-center text-center flex-1 max-w-[280px] md:max-w-[320px] h-64 md:h-72 border-2 border-[#4B061A]/10 hover:border-[#4B061A]/30 transition-all duration-300 hover:shadow-xl justify-between overflow-hidden">
@@ -72,13 +51,14 @@ export default function Contact() {
             <p className="text-white mb-4 md:mb-6 text-xs md:text-base text-center">+62 812-3456-7890</p>
           </div>
           
-          <a
-            href="https://wa.me/628569874380"
-            onClick={(e) => handleLinkClick(e, 'https://wa.me/628569874380')}
+          <Link
+            href="https://wa.me/628569874380?text=Halo,%20saya%20ingin%20bertanya%20tentang%20HIMASI%20UNAS"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-[#FFE8DB] text-black px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-[#F5D5C8] hover:text-[#4B061A] transition-colors duration-300 shadow-md hover:shadow-lg inline-block text-center w-full max-w-[200px] cursor-pointer"
           >
             Hubungi
-          </a>
+          </Link>
         </div>
 
         <div className="absolute h-75 w-75 sm:h-100 sm:w-100 md:h-100 md:w-125 xl:h-150 xl:w-175 right-0 top-1/2 transform -translate-y-3/5 z-0">
@@ -91,59 +71,6 @@ export default function Contact() {
         </div>
         </div>
       </div>
-
-      {isLoading && (
-        <div className="fixed inset-0 bg-white/95 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className={`relative w-32 h-32 md:w-40 md:h-40 mx-auto mb-12 ${isZooming ? 'logo-zoom' : ''}`}>
-              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-[#4B061A] rounded-full border-t-transparent animate-spin loading-spinner"></div>
-              
-              <div className="absolute inset-4 flex items-center justify-center bg-white rounded-full shadow-lg">
-                <Image
-                  src="/icon/HIMASI.png"
-                  alt="HIMASI Logo"
-                  fill
-                  className="object-contain p-2"
-                />
-              </div>
-            </div>
-            
-            <h3 className="text-xl md:text-2xl font-bold text-[#4B061A] mb-2">
-              Anda akan segera berpindah
-            </h3>
-          </div>
-        </div>
-      )}
-
-      <style jsx>{`
-        .loading-spinner {
-          animation: spinner 1.5s linear infinite;
-        }
-        
-        @keyframes spinner {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-        
-        .logo-zoom {
-          animation: zoom-effect 0.5s ease-out forwards;
-        }
-        
-        @keyframes zoom-effect {
-          0% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(1.5);
-          }
-        }
-
-      `}</style>
     </main>
   );
 }
