@@ -1,9 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import Icon1 from "@/public/icon/Partner/1.png";
-import Icon2 from "@/public/icon/Partner/2.png";
-import Icon3 from "@/public/icon/Partner/3.png";
-import Icon4 from "@/public/icon/Partner/4.png";
 
 export default function Hero() {
   return (
@@ -11,7 +7,7 @@ export default function Hero() {
       <div className="max-w-[1560px] pt-20 md:pt-15 mx-auto relative">
         <div className="absolute top-4 left-4 md:top-8 md:left-8 z-10">
           <Image
-            src={Icon1}
+            src="/icon/Partner/1.png"
             alt="Partner Icon 1"
             width={60}
             height={60}
@@ -21,7 +17,7 @@ export default function Hero() {
 
         <div className="absolute top-4 right-4 md:top-8 md:right-8 z-10">
           <Image
-            src={Icon2}
+            src="/icon/Partner/2.png"
             alt="Partner Icon 2"
             width={60}
             height={60}
@@ -31,7 +27,7 @@ export default function Hero() {
 
         <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-10">
           <Image
-            src={Icon3}
+            src="/icon/Partner/3.png"
             alt="Partner Icon 3"
             width={60}
             height={60}
@@ -41,7 +37,7 @@ export default function Hero() {
 
         <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-10">
           <Image
-            src={Icon4}
+            src="/icon/Partner/4.png"
             alt="Partner Icon 4"
             width={60}
             height={60}
