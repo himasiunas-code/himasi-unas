@@ -5,7 +5,7 @@ import Banner from "@/public/image/Hubungi/BannerV1.png";
 export default function HeroBanner() {
   return (
     <section className="relative w-full">
-      <div className="aspect-video w-full overflow-hidden">
+      <div className="aspect-square md:aspect-video w-full overflow-hidden">
         <Image
           src={Banner}
           alt="HIMASI UNAS"
