@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { Send, User, AtSign, Phone, Hash, FileText } from "lucide-react";
 
 export default function ContactForm() {
