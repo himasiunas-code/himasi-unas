@@ -1,65 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import LightRays from "@/components/ui/lightRays";
 
 const text = "404".split("");
 
-type Particle = {
-  id: number;
-  char: "4" | "0";
-  top: string;
-  left: string;
-};
-
 export default function NotFound() {
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    let id = 0;
-    const interval = setInterval(() => {
-      const newParticles: Particle[] = Array.from({ length: 2 }, () => ({
-        id: id++,
-        char: Math.random() > 0.5 ? "4" : "0",
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-      }));
-
-      setParticles((prev) => [...prev, ...newParticles]);
-
-      newParticles.forEach((p) => {
-        setTimeout(() => {
-          setParticles((prev) => prev.filter((x) => x.id !== p.id));
-        }, 3000);
-      });
-    }, 500); 
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="hide-navbar-footer relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#4B061A] from-1% to-90% to-[#40061A] px-4 overflow-hidden">
-      
-      <AnimatePresence>
-        {particles.map((p) => (
-          <motion.span
-            key={p.id}
-            className="absolute text-white text-xl font-bold select-none pointer-events-none"
-            style={{ top: p.top, left: p.left }}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: 4.5,
-              ease: "easeInOut",
-            }}
-          >
-            {p.char}
-          </motion.span>
-        ))}
-      </AnimatePresence>
+    <div className="hide-navbar-footer relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#4B061A] from-10% to-90% to-[#0f0520] px-4 overflow-hidden">
+      <div className="absolute inset-0 w-full h-full pointer-events-none">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#fbbf24"
+          raysSpeed={1}
+          lightSpread={2}
+          rayLength={3}
+          followMouse={true}
+          mouseInfluence={0.2}
+          noiseAmount={0.11}
+          distortion={0.02}
+          pulsating={false}
+          fadeDistance={0.7}
+          saturation={3}
+          className="opacity-100"
+        />
+      </div>
 
+      {/* Content Layer */}
       <div className="relative z-10 max-w-md w-full space-y-8 text-center">
         <motion.div
           className="flex justify-center"
@@ -87,30 +55,30 @@ export default function NotFound() {
 
         <div>
           <motion.div
-          className="flex justify-center gap-2"
-          initial="hidden"
-          animate="visible"
-        >
-          {text.map((char, i) => (
-            <motion.span
-              key={i}
-              className="text-9xl font-extrabold text-[#FFFFFF]"
-              animate={{ 
-                y: [0, -20, 0], 
-                opacity: [1, 0.6, 1], 
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                repeatDelay: 1.5,
-                delay: i * 0.3,
-                ease: "easeInOut",
-              }}
-            >
-              {char}
-            </motion.span>
-          ))}
-        </motion.div>
+            className="flex justify-center gap-2"
+            initial="hidden"
+            animate="visible"
+          >
+            {text.map((char, i) => (
+              <motion.span
+                key={i}
+                className="text-9xl font-extrabold text-[#FFFFFF]"
+                animate={{
+                  y: [0, -20, 0],
+                  opacity: [1, 0.6, 1],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  repeatDelay: 1.5,
+                  delay: i * 0.3,
+                  ease: "easeInOut",
+                }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </motion.div>
 
           <motion.p
             className="mt-2 text-2xl font-medium text-white"
@@ -122,7 +90,7 @@ export default function NotFound() {
           </motion.p>
 
           <motion.p
-            className="mt-3 text-lg text-white"
+            className="mt-3 text-lg text-white/90"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.7 }}
@@ -139,9 +107,14 @@ export default function NotFound() {
         >
           <Link href="/">
             <motion.button
-              whileHover={{ scale: 1.1, y: -4 }}
-              whileTap={{ scale: 0.95 }}
-              className="cursor-pointer px-6 py-3 bg-[#FFFFFF] text-black font-medium rounded-md transition transform hover:shadow-lg"
+              whileHover={{
+                opacity: 0.85,
+                y: -4,
+                boxShadow: "0 8px 32px rgba(251,191,36,0.5)",
+              }}
+              whileTap={{ opacity: 0.7, y: 0 }}
+              transition={{ duration: 0.25, ease: "linear" }}
+              className="cursor-pointer px-6 py-3 bg-[#FFFFFF] text-black font-medium rounded-md transition-all duration-200 ease-linear"
             >
               Beranda
             </motion.button>
@@ -149,9 +122,9 @@ export default function NotFound() {
 
           <Link href="https://wa.me/qr/NXZORPQUZXUCL1" target="_blank">
             <motion.button
-              whileHover={{ scale: 1.1, rotate: 1 }}
+              whileHover={{ scale: 1.05, y: -2, boxShadow: "0 0 28px rgba(251,191,36,0.7)" }}
               whileTap={{ scale: 0.95 }}
-              className="cursor-pointer px-6 py-3 border border-[#FFFFFF] text-[#FFFFFF] font-medium rounded-md hover:bg-[#FFFFFF] hover:text-black transition-colors"
+              className="cursor-pointer px-6 py-3 border-2 border-[#FFFFFF] text-[#FFFFFF] font-medium rounded-md hover:bg-[#FFFFFF] hover:text-black transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50"
             >
               Hubungi Dukungan
             </motion.button>
