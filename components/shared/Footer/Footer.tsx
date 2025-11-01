@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import HIMASI from "@/public/icon/HIMASI.png";
+import HIMASI from "@/public/icon/LOGO HIMASI.png";
 import FTKI from "@/public/icon/FTKI.png";
 
 export default function Footer() {
@@ -36,7 +36,7 @@ export default function Footer() {
               alt="Fakultas Teknologi Komunikasi dan Informatika"
               width={100}
               height={100}
-              className="w-24 h-24 md:w-56 md:h-28 object-cover"
+              className="w-24 h-24 md:w-60 md:h-28 object-contain"
             />
           </div>
           <div className="flex flex-row gap-10 md:gap-18 text-center">
