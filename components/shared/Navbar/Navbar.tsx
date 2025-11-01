@@ -12,7 +12,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navMenu";
-import HIMASI from "@/public/icon/HIMASI.png";
+import HIMASI from "@/public/icon/LOGO HIMASI.png";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Navbar() {
