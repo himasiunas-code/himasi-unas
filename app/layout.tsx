@@ -26,8 +26,21 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "HIMASI UNAS",
   description:
-    "Himpunan Mahasiswa Sistem Informasi! Organisasi mahasiswa yang berdedikasi untuk mengembangkan potensi akademik, profesional, dan sosial di bidang Sistem Informasi. Dengan berbagai kegiatan seperti seminar, pelatihan, hingga proyek kolaboratif, kami bertujuan untuk menciptakan lingkungan belajar yang inspiratif sekaligus membangun jejaring yang solid di antara mahasiswa.",
+    "Himpunan Mahasiswa Sistem Informasi Universitas Nasional. Organisasi mahasiswa yang berdedikasi untuk mengembangkan potensi akademik, profesional, dan sosial di bidang Sistem Informasi. Dengan berbagai kegiatan seperti seminar, pelatihan, hingga proyek kolaboratif, kami bertujuan untuk menciptakan lingkungan belajar yang inspiratif sekaligus membangun jejaring yang solid di antara mahasiswa.",
   icons: "./favicon.ico",
+  openGraph: {
+    title: "HIMASI UNAS",
+    description: "Himpunan Mahasiswa Sistem Informasi Universitas Nasional",
+    siteName: "HIMASI UNAS",
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HIMASI UNAS",
+    description: "Himpunan Mahasiswa Sistem Informasi Universitas Nasional",
+  },
+  applicationName: "HIMASI UNAS",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
