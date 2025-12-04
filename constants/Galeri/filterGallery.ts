@@ -7,8 +7,8 @@ export const galleryFilters: GalleryFilter[] = [
   // "Proker 2",
   // "Proker 3",
   // "Proker 4",
+  // "Wawancara",
   "PLBA",
-  "Wawancara",
   "Himpunan",
 ];
 
@@ -34,13 +34,13 @@ export const filterDescriptions: Record<
   //   displayName: "PK 4",
   //   description: "Program Kerja 4",
   // },
+  // Wawancara: {
+  //   displayName: "Wawancara",
+  //   description: "Wawancara Calon Anggota",
+  // },
   "PLBA": {
     displayName: "PLBA",
     description: "Pengenalan Lingkungan dan Budaya Akademik",
-  },
-  Wawancara: {
-    displayName: "Wawancara",
-    description: "Wawancara Calon Anggota",
   },
   Himpunan: {
     displayName: "Himpunan",
@@ -138,184 +138,184 @@ export const filteredGalleryItems: FilteredGalleryItem[] = [
   // },
   
   // Wawancara
-  {
-    id: "w-001",
-    category: "Wawancara",
-    title: "Persiapan Wawancara Calon Anggota",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-1.jpg",
-    alt: "Persiapan Wawancara Calon Anggota",
-  },
-  {
-    id: "w-002",
-    category: "Wawancara",
-    title: "Calon Anggota: Muhammad Ali",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-2.jpg",
-    alt: "Calon Anggota: Muhammad Ali",
-  },
-  {
-    id: "w-003",
-    category: "Wawancara",
-    title: "Calon Anggota: Muhammad Ali",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-3.JPG",
-    alt: "Calon Anggota: Muhammad Ali",
-  },
-  {
-    id: "w-004",
-    category: "Wawancara",
-    title: "Pewawancara Calon Anggota",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-4.jpg",
-    alt: "Pewawancara Calon Anggota",
-  },
-  {
-    id: "w-005",
-    category: "Wawancara",
-    title: "Mengisi Administrasi Calon: Cakrawangsa",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-5.jpg",
-    alt: "Mengisi Administrasi Calon: Cakrawangsa",
-  },
-  {
-    id: "w-006",
-    category: "Wawancara",
-    title: "Calon Anggota: Cakrawangsa",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-6.JPG",
-    alt: "Calon Anggota: Cakrawangsa",
-  },
-  {
-    id: "w-007",
-    category: "Wawancara",
-    title: "Calon Anggota: Arkan",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-7.jpg",
-    alt: "Calon Anggota: Arkan",
-  },
-  {
-    id: "w-008",
-    category: "Wawancara",
-    title: "Suasana Ruangan Wawancara: Galang",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-8.jpg",
-    alt: "Suasana Ruangan Wawancara: Galang",
-  },
-  {
-    id: "w-009",
-    category: "Wawancara",
-    title: "Calon Anggota: Putra",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-9.jpg",
-    alt: "Calon Anggota: Putra",
-  },
-  {
-    id: "w-010",
-    category: "Wawancara",
-    title: "Calon Anggota: Putra",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-10.jpg",
-    alt: "Calon Anggota: Putra",
-  },
-  {
-    id: "w-011",
-    category: "Wawancara",
-    title: "Calon Anggota: Naufal",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-    "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Wawancara/w-11.jpg",
-    alt: "Calon Anggota: Naufal",
-  },
+  // {
+  //   id: "w-001",
+  //   category: "Wawancara",
+  //   title: "Persiapan Wawancara Calon Anggota",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-1.jpg",
+  //   alt: "Persiapan Wawancara Calon Anggota",
+  // },
+  // {
+  //   id: "w-002",
+  //   category: "Wawancara",
+  //   title: "Calon Anggota: Muhammad Ali",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-2.jpg",
+  //   alt: "Calon Anggota: Muhammad Ali",
+  // },
+  // {
+  //   id: "w-003",
+  //   category: "Wawancara",
+  //   title: "Calon Anggota: Muhammad Ali",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-3.JPG",
+  //   alt: "Calon Anggota: Muhammad Ali",
+  // },
+  // {
+  //   id: "w-004",
+  //   category: "Wawancara",
+  //   title: "Pewawancara Calon Anggota",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-4.jpg",
+  //   alt: "Pewawancara Calon Anggota",
+  // },
+  // {
+  //   id: "w-005",
+  //   category: "Wawancara",
+  //   title: "Mengisi Administrasi Calon: Cakrawangsa",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-5.jpg",
+  //   alt: "Mengisi Administrasi Calon: Cakrawangsa",
+  // },
+  // {
+  //   id: "w-006",
+  //   category: "Wawancara",
+  //   title: "Calon Anggota: Cakrawangsa",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-6.JPG",
+  //   alt: "Calon Anggota: Cakrawangsa",
+  // },
+  // {
+  //   id: "w-007",
+  //   category: "Wawancara",
+  //   title: "Calon Anggota: Arkan",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-7.jpg",
+  //   alt: "Calon Anggota: Arkan",
+  // },
+  // {
+  //   id: "w-008",
+  //   category: "Wawancara",
+  //   title: "Suasana Ruangan Wawancara: Galang",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-8.jpg",
+  //   alt: "Suasana Ruangan Wawancara: Galang",
+  // },
+  // {
+  //   id: "w-009",
+  //   category: "Wawancara",
+  //   title: "Calon Anggota: Putra",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-9.jpg",
+  //   alt: "Calon Anggota: Putra",
+  // },
+  // {
+  //   id: "w-010",
+  //   category: "Wawancara",
+  //   title: "Calon Anggota: Putra",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-10.jpg",
+  //   alt: "Calon Anggota: Putra",
+  // },
+  // {
+  //   id: "w-011",
+  //   category: "Wawancara",
+  //   title: "Calon Anggota: Naufal",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //   "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Wawancara/w-11.jpg",
+  //   alt: "Calon Anggota: Naufal",
+  // },
 
   // Himpunan
-  {
-    id: "h-001",
-    category: "Himpunan",
-    title: "Wakahim Malu Malu Difoto: Wawancara Calon Anggota",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-      "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Himpunan/h-1.jpg",
-    alt: "Wakahim Malu Malu Difoto",
-  },
-  {
-    id: "h-002",
-    category: "Himpunan",
-    title: "Foto Bersama: Wawancara Calon Anggota",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-      "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Himpunan/h-2.JPG",
-    alt: "Pelantikan Pengurus Baru",
-  },
-  {
-    id: "h-003",
-    category: "Himpunan",
-    title: "Foto Bersama: Wawancara Calon Anggota",
-    tanggal: "20 September 2025",
-    lokasi: "Blok C Lt. 8",
-    alamatLengkap:
-      "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
-    image: "/image/Galeri/Himpunan/h-3.jpg",
-    alt: "Gathering Mahasiswa SI",
-  },
-  {
-    id: "h-004",
-    category: "Himpunan",
-    title: "Rapat pra-PLBA",
-    tanggal: "25 September 2025",
-    lokasi: "Hangout @Salihara",
-    alamatLengkap:
-      "Jl. Salihara No.38-39, Ps. Minggu, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12520",
-    image: "/image/Galeri/Himpunan/h-4.jpg",
-    alt: "Rapat pra-PLBA",
-  },
-  {
-    id: "h-005",
-    category: "Himpunan",
-    title: "Rapat pra-PLBA",
-   tanggal: "25 September 2025",
-    lokasi: "Hangout @Salihara",
-    alamatLengkap:
-      "Jl. Salihara No.38-39, Ps. Minggu, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12520",
-    image: "/image/Galeri/Himpunan/h-5.jpg",
-    alt: "Rapat pra-PLBA",
-  },
+  // {
+  //   id: "h-001",
+  //   category: "Himpunan",
+  //   title: "Wakahim Malu Malu Difoto: Wawancara Calon Anggota",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //     "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Himpunan/h-1.jpg",
+  //   alt: "Wakahim Malu Malu Difoto",
+  // },
+  // {
+  //   id: "h-002",
+  //   category: "Himpunan",
+  //   title: "Foto Bersama: Wawancara Calon Anggota",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //     "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Himpunan/h-2.JPG",
+  //   alt: "Pelantikan Pengurus Baru",
+  // },
+  // {
+  //   id: "h-003",
+  //   category: "Himpunan",
+  //   title: "Foto Bersama: Wawancara Calon Anggota",
+  //   tanggal: "20 September 2025",
+  //   lokasi: "Blok C Lt. 8",
+  //   alamatLengkap:
+  //     "Blok C Lt. 8, Universitas Nasional, Jl. Sawo Manila No. 61, Pasar Minggu, Jakarta Selatan 12520",
+  //   image: "/image/Galeri/Himpunan/h-3.jpg",
+  //   alt: "Gathering Mahasiswa SI",
+  // },
+  // {
+  //   id: "h-004",
+  //   category: "Himpunan",
+  //   title: "Rapat pra-PLBA",
+  //   tanggal: "25 September 2025",
+  //   lokasi: "Hangout @Salihara",
+  //   alamatLengkap:
+  //     "Jl. Salihara No.38-39, Ps. Minggu, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12520",
+  //   image: "/image/Galeri/Himpunan/h-4.jpg",
+  //   alt: "Rapat pra-PLBA",
+  // },
+  // {
+  //   id: "h-005",
+  //   category: "Himpunan",
+  //   title: "Rapat pra-PLBA",
+  //  tanggal: "25 September 2025",
+  //   lokasi: "Hangout @Salihara",
+  //   alamatLengkap:
+  //     "Jl. Salihara No.38-39, Ps. Minggu, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12520",
+  //   image: "/image/Galeri/Himpunan/h-5.jpg",
+  //   alt: "Rapat pra-PLBA",
+  // },
 ];
 
 // Helper function untuk filter items berdasarkan category
