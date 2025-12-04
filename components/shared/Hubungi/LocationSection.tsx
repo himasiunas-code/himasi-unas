@@ -14,7 +14,7 @@ export default function LocationSection() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#4B061A] to-[#732E39] rounded-2xl mb-6 shadow-xl">
             <MapPin className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#4B061A] mb-4 bg-gradient-to-r from-[#4B061A] to-[#732E39] bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#4B061A] mb-4 bg-gradient-to-r from-[#4B061A] to-[#732E39] bg-clip-text">
             Lokasi Kami
           </h2>
           <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
@@ -132,15 +132,15 @@ export default function LocationSection() {
               <div className="space-y-3">
                 <div className="flex items-center text-gray-700">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                  <span>Konsultasi akademik tersedia</span>
+                  <span>Konsultasi akademik</span>
                 </div>
                 <div className="flex items-center text-gray-700">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                  <span>Ruang meeting dapat dipinjam</span>
+                  <span>Kebutuhan administrasi</span>
                 </div>
                 <div className="flex items-center text-gray-700">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                  <span>Event bulanan setiap Sabtu</span>
+                  <span>Informasi terbaru</span>
                 </div>
               </div>
             </div>
