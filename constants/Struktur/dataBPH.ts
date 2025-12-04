@@ -1,11 +1,14 @@
 import { Leader } from "@/lib/type/Struktur/tDataBPH";
-import DeadpoolImage from "@/public/image/Struktur/Deadpool.png";
+import Omar from "@/public/image/Struktur/BPH/Omar.png";
+import Fahreza from "@/public/image/Struktur/BPH/Fahreza.png";
+import Kyla from "@/public/image/Struktur/BPH/Kyla.png";
+import Linda from "@/public/image/Struktur/BPH/Linda.png";
 
 export const leaders: Leader[] = [
   {
     id: "ketua-1",
     name: "Omar Nur Rahmatsyah",
-    image: DeadpoolImage,
+    image: Omar,
     role: "Ketua Himpunan",
     instagram: "https://instagram.com/",
     description:
@@ -14,7 +17,7 @@ export const leaders: Leader[] = [
   {
     id: "wakil-1",
     name: "Mohammad Fahreza Situmorang",
-    image: DeadpoolImage,
+    image: Fahreza,
     role: "Wakil Himpunan",
     instagram: "https://instagram.com/",
     description:
@@ -23,7 +26,7 @@ export const leaders: Leader[] = [
   {
     id: "bendahara-1",
     name: "Kyla Nazwara Sofyan",
-    image: DeadpoolImage,
+    image: Kyla,
     role: "Bendahara",
     instagram: "https://instagram.com/",
     description:
@@ -32,7 +35,7 @@ export const leaders: Leader[] = [
   {
     id: "sekretaris-1",
     name: "Linda Isnaeni",
-    image: DeadpoolImage,
+    image: Linda,
     role: "Sekretaris",
     instagram: "https://instagram.com/",
     description:
