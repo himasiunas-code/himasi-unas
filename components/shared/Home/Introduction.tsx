@@ -7,7 +7,7 @@ import { divisions } from "@/constants/Home/Division";
 export default function Introduction() {
   return (
     <main className="bg-[#4B061A] relative overflow-hidden">
-      <div className="w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto px-4 flex justify-center items-center relative gap-4 pb-6 hidden">
+      <div className="w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto px-4 justify-center items-center relative gap-4 pb-6 hidden">
         <div>
           <Image src={HIMASI} alt="Logo HIMASI UNAS" width={60} height={60} />
         </div>
@@ -54,7 +54,7 @@ export default function Introduction() {
 
       <div className="flex justify-center items-center pb-6">
         <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white font-bold whitespace-pre">
-          26 Anggota ━━━ 5 Divisi
+          28 Anggota ━━━ 5 Divisi
         </p>
       </div>
 
