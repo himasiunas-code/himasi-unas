@@ -2,27 +2,27 @@ import { GalleryImage, GalleryEvent } from "@/lib/type/Galeri/Galeri";
 
 export const galleryImages: GalleryImage[] = [
   {
-    src: "/image/Galeri/Himpunan/h-2.JPG",
+    src: "/Coming.jpg",
     alt: "HIMASI 1",
   },
   {
-    src: "/image/Galeri/Himpunan/h-2.JPG",
+    src: "/Coming.jpg",
     alt: "HIMASI 2",
   },
   {
-    src: "/image/Galeri/Himpunan/h-2.JPG",
+    src: "/Coming.jpg",
     alt: "HIMASI 3",
   },
   {
-    src: "/image/Galeri/Himpunan/h-2.JPG",
+    src: "/Coming.jpg",
     alt: "HIMASI 4"
   },
   {
-    src: "/image/Galeri/Himpunan/h-2.JPG",
+    src: "/Coming.jpg",
     alt: "HIMASI 5",
   },
   {
-    src: "/image/Galeri/Himpunan/h-2.JPG",
+    src: "/Coming.jpg",
     alt: "HIMASI 6",
   },
 ];
