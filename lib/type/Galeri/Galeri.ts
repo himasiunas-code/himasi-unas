@@ -19,7 +19,7 @@ export interface FilteredGalleryItem {
     // | "Proker 3"
     // | "Proker 4"
     | "PLBA"
-    | "Wawancara"
+    // | "Wawancara"
     | "Himpunan";
   title: string;
   tanggal: string;
@@ -36,5 +36,5 @@ export type GalleryFilter =
   // | "Proker 3"
   // | "Proker 4"
   | "PLBA"
-  | "Wawancara"
+  // | "Wawancara"
   | "Himpunan";
