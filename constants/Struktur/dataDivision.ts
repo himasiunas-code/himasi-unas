@@ -1,5 +1,33 @@
 import { Division } from "@/lib/type/Struktur/tDataDivision";
-import DeadpoolImage from "@/public/image/Struktur/Deadpool.png";
+// Research and Development
+import Whisnu from "@/public/image/Struktur/RND/Whisnu.png";
+import Zidan  from "@/public/image/Struktur/RND/Zidan.png";
+import Fadel from "@/public/image/Struktur/RND/Fadel.png";
+import Putra from "@/public/image/Struktur/RND/Putra.png";
+// Creative Media
+import Dara from "@/public/image/Struktur/CM/Dara.png";
+import Ali from "@/public/image/Struktur/CM/Ali.png";
+import Galang from "@/public/image/Struktur/CM/Galang.png";
+import Gibran from "@/public/image/Struktur/CM/Gibran.png";
+import Shandy from "@/public/image/Struktur/CM/Shandy.png";
+// Public Relation
+import Leysa from "@/public/image/Struktur/PR/Leysa.png";
+import Bea from "@/public/image/Struktur/PR/Bea.png";
+import Dhifa from "@/public/image/Struktur/PR/Dhifa.png";
+import Evan from "@/public/image/Struktur/PR/Evan.png";
+import Arkan from "@/public/image/Struktur/PR/Arkan.png";
+// Human Talent Development
+import Dhika from "@/public/image/Struktur/HTD/Dhika.png";
+import Naufal from "@/public/image/Struktur/HTD/Naufal.png";
+import Yafi from "@/public/image/Struktur/HTD/Yafi.png";
+import Afira from "@/public/image/Struktur/HTD/Afira.png";
+import Adhan from "@/public/image/Struktur/HTD/Adhan.png";
+// Entrepreneurship
+import Laili from "@/public/image/Struktur/ETR/Laili.png";
+import Cakra from "@/public/image/Struktur/ETR/Cakra.png";
+import Fiesda from "@/public/image/Struktur/ETR/Fiesda.png";
+import Jihan from "@/public/image/Struktur/ETR/Jihan.png";
+import Kayla from "@/public/image/Struktur/ETR/Kayla.png";
 
 export const divisions: Division[] = [
   {
@@ -11,28 +39,28 @@ export const divisions: Division[] = [
       {
         id: "rd-1",
         name: "Raden Whisnu Arya Nugraha",
-        image: DeadpoolImage,
+        image: Whisnu,
         role: "Ketua Divisi",
         instagram: "https://instagram.com/",
       },
       {
         id: "rd-2",
         name: "Fadel Muhammad Yusuf",
-        image: DeadpoolImage,
+        image: Fadel,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "rd-3",
         name: "Muhammad Zidan",
-        image: DeadpoolImage,
+        image: Zidan,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "rd-4",
         name: "Aditya Saputra",
-        image: DeadpoolImage,
+        image: Putra,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
@@ -47,35 +75,35 @@ export const divisions: Division[] = [
       {
         id: "cm-1",
         name: "Azzahra Dara Febrianti",
-        image: DeadpoolImage,
+        image: Dara,
         role: "Ketua Divisi",
         instagram: "https://instagram.com/",
       },
       {
         id: "cm-2",
         name: "Gibran Hidayat Tullah",
-        image: DeadpoolImage,
+        image: Gibran,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "cm-3",
         name: "Galang Rispa’i",
-        image: DeadpoolImage,
+        image: Galang,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "cm-4",
         name: "Fadhil Ali",
-        image: DeadpoolImage,
+        image: Ali,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "cm-5",
         name: "Shandy Shyarief Setiawan",
-        image: DeadpoolImage,
+        image: Shandy,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
@@ -90,28 +118,35 @@ export const divisions: Division[] = [
       {
         id: "pr-1",
         name: "Leysa Regita Parhusip",
-        image: DeadpoolImage,
+        image: Leysa,
         role: "Ketua Divisi",
         instagram: "https://instagram.com/",
       },
       {
         id: "pr-2",
         name: "Muhammad Evan Elua",
-        image: DeadpoolImage,
+        image: Evan,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "pr-3",
         name: "Beatriks Maria",
-        image: DeadpoolImage,
+        image: Bea,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "pr-4",
+        name: "Dhifa Arya Pratama",
+        image: Dhifa,
+        role: "Anggota",
+        instagram: "https://instagram.com/",
+      },
+      {
+        id: "pr-5",
         name: "Muhammad Arkan Zahy",
-        image: DeadpoolImage,
+        image: Arkan,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
@@ -126,35 +161,35 @@ export const divisions: Division[] = [
       {
         id: "htd-1",
         name: "Andhika Pratama",
-        image: DeadpoolImage,
+        image: Dhika,
         role: "Ketua Divisi",
         instagram: "https://instagram.com/",
       },
       {
         id: "htd-2",
         name: "Naufal Falah",
-        image: DeadpoolImage,
+        image: Naufal,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "htd-3",
         name: "Muhtadi Yafi Nirwana",
-        image: DeadpoolImage,
+        image: Yafi,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "htd-4",
-        name: "Risyad Syuhada",
-        image: DeadpoolImage,
+        name: "Afira Tria Sahara",
+        image: Afira,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "htd-5",
         name: "Ramadhan Auliansyah",
-        image: DeadpoolImage,
+        image: Adhan,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
@@ -169,35 +204,35 @@ export const divisions: Division[] = [
       {
         id: "ent-1",
         name: "Laili Salsabila",
-        image: DeadpoolImage,
+        image: Laili,
         role: "Ketua Divisi",
         instagram: "https://instagram.com/",
       },
       {
         id: "ent-2",
         name: "Cakrawangsa Ilmi Ciptadi ",
-        image: DeadpoolImage,
+        image: Cakra,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "ent-3",
         name: "Jihan Ainun Zalfa",
-        image: DeadpoolImage,
+        image: Jihan,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "ent-4",
         name: "Kayla Melinda Nggule",
-        image: DeadpoolImage,
+        image: Kayla,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
       {
         id: "ent-5",
         name: "Fiesda Sekar Prastica",
-        image: DeadpoolImage,
+        image: Fiesda,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
