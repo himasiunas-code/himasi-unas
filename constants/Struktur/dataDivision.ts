@@ -21,7 +21,6 @@ import Dhika from "@/public/image/Struktur/HTD/Dhika.png";
 import Naufal from "@/public/image/Struktur/HTD/Naufal.png";
 import Yafi from "@/public/image/Struktur/HTD/Yafi.png";
 import Afira from "@/public/image/Struktur/HTD/Afira.png";
-import Adhan from "@/public/image/Struktur/HTD/Adhan.png";
 // Entrepreneurship
 import Laili from "@/public/image/Struktur/ETR/Laili.png";
 import Cakra from "@/public/image/Struktur/ETR/Cakra.png";
@@ -183,13 +182,6 @@ export const divisions: Division[] = [
         id: "htd-4",
         name: "Afira Tria Sahara",
         image: Afira,
-        role: "Anggota",
-        instagram: "https://instagram.com/",
-      },
-      {
-        id: "htd-5",
-        name: "Ramadhan Auliansyah",
-        image: Adhan,
         role: "Anggota",
         instagram: "https://instagram.com/",
       },
