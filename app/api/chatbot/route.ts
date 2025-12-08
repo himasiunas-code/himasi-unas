@@ -160,9 +160,9 @@ Remember: You're representing HIMASI UNAS brand as a friendly, tech-savvy, and s
       try {
         console.log('🚀 Initializing Google Gemini...');
         const genAI = new GoogleGenerativeAI(geminiApiKey);
-        this.gemini = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        this.gemini = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         providersInitialized.push('gemini');
-        console.log('✅ Google Gemini initialized successfully with model: gemini-2.0-flash');
+        console.log('✅ Google Gemini initialized successfully with model: gemini-2.5-flash');
         
         if (preferredProvider === 'gemini' || preferredProvider === 'auto') {
           this.aiProvider = 'gemini';
