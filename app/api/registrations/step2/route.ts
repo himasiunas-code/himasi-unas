@@ -15,11 +15,11 @@ export async function PUT(request: NextRequest) {
     const {
       registrationId,
       instagramHandle,
-      instagramProof,
-      motivation,
-      specialRequest,
-      paymentMethod,
-      paymentProof
+      instagramProof
+      // motivation,
+      // specialRequest,
+      // paymentMethod,
+      // paymentProof
     } = body
 
     console.log('🔍 Validating step 2 data...')
@@ -36,51 +36,52 @@ export async function PUT(request: NextRequest) {
       )
     }
 
+    // PAYMENT VALIDATION - COMMENTED OUT
     // Validasi payment method
-    if (!paymentMethod) {
-      console.log('❌ Missing payment method')
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Metode pembayaran harus dipilih'
-        },
-        { status: 400 }
-      )
-    }
+    // if (!paymentMethod) {
+    //   console.log('❌ Missing payment method')
+    //   return NextResponse.json(
+    //     {
+    //       success: false,
+    //       message: 'Metode pembayaran harus dipilih'
+    //     },
+    //     { status: 400 }
+    //   )
+    // }
 
-    if (!['bca', 'dana'].includes(paymentMethod)) {
-      console.log('❌ Invalid payment method:', paymentMethod)
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Metode pembayaran tidak valid'
-        },
-        { status: 400 }
-      )
-    }
+    // if (!['bca', 'dana'].includes(paymentMethod)) {
+    //   console.log('❌ Invalid payment method:', paymentMethod)
+    //   return NextResponse.json(
+    //     {
+    //       success: false,
+    //       message: 'Metode pembayaran tidak valid'
+    //     },
+    //     { status: 400 }
+    //   )
+    // }
 
     // Validasi payment proof
-    if (!paymentProof) {
-      console.log('❌ Missing payment proof')
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Bukti pembayaran harus diupload'
-        },
-        { status: 400 }
-      )
-    }
+    // if (!paymentProof) {
+    //   console.log('❌ Missing payment proof')
+    //   return NextResponse.json(
+    //     {
+    //       success: false,
+    //       message: 'Bukti pembayaran harus diupload'
+    //     },
+    //     { status: 400 }
+    //   )
+    // }
 
-    if (typeof paymentProof === 'string' && !paymentProof.startsWith('data:image/')) {
-      console.log('❌ Invalid payment proof format')
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Format bukti pembayaran tidak valid'
-        },
-        { status: 400 }
-      )
-    }
+    // if (typeof paymentProof === 'string' && !paymentProof.startsWith('data:image/')) {
+    //   console.log('❌ Invalid payment proof format')
+    //   return NextResponse.json(
+    //     {
+    //       success: false,
+    //       message: 'Format bukti pembayaran tidak valid'
+    //     },
+    //     { status: 400 }
+    //   )
+    // }
 
     // Validasi instagram proof jika ada
     if (instagramProof && typeof instagramProof === 'string') {
@@ -109,21 +110,22 @@ export async function PUT(request: NextRequest) {
       }
     }
 
+    // PAYMENT PROOF SIZE VALIDATION - COMMENTED OUT
     // Validasi payment proof size (500KB limit)
-    if (paymentProof && typeof paymentProof === 'string') {
-      // Rough calculation: base64 is ~33% larger than original, so 500KB = ~666KB base64
-      const maxBase64Size = 683000; // ~500KB in base64
-      if (paymentProof.length > maxBase64Size) {
-        console.log('❌ Payment proof too large:', paymentProof.length)
-        return NextResponse.json(
-          {
-            success: false,
-            message: 'Bukti pembayaran terlalu besar. Maksimal 500KB.'
-          },
-          { status: 400 }
-        )
-      }
-    }
+    // if (paymentProof && typeof paymentProof === 'string') {
+    //   // Rough calculation: base64 is ~33% larger than original, so 500KB = ~666KB base64
+    //   const maxBase64Size = 683000; // ~500KB in base64
+    //   if (paymentProof.length > maxBase64Size) {
+    //     console.log('❌ Payment proof too large:', paymentProof.length)
+    //     return NextResponse.json(
+    //       {
+    //         success: false,
+    //         message: 'Bukti pembayaran terlalu besar. Maksimal 500KB.'
+    //       },
+    //       { status: 400 }
+    //     )
+    //   }
+    // }
 
     console.log('🔍 Finding existing registration...')
     
@@ -292,10 +294,10 @@ export async function PUT(request: NextRequest) {
         data: {
           instagramHandle,
           instagramProof,
-          motivation: motivation || null,
-          specialRequest: specialRequest || null,
-          paymentMethod,
-          paymentProof,
+          // motivation: motivation || null,
+          // specialRequest: specialRequest || null,
+          // paymentMethod,
+          // paymentProof,
           // Step 2 sudah selesai
           step2Completed: true,
           // Status PENDING menandakan pendaftaran lengkap dan menunggu approval
@@ -358,6 +360,9 @@ export async function PUT(request: NextRequest) {
       } else if (error.message.includes('Foreign key constraint')) {
         errorMessage = 'Referensi kegiatan tidak valid'
         statusCode = 400
+      } else {
+        // In development, show the actual error
+        errorMessage = error.message || 'Gagal menyelesaikan pendaftaran sesi 2'
       }
     }
     
@@ -365,7 +370,8 @@ export async function PUT(request: NextRequest) {
       {
         success: false,
         message: errorMessage,
-        error: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
+        error: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined,
+        details: process.env.NODE_ENV === 'development' ? error : undefined
       },
       { status: statusCode }
     )
