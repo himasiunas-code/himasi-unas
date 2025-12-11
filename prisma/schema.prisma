@@ -39,7 +39,8 @@ model Registration {
   fullName        String
   phone           String
   npm             String?
-  yearClass       String
+  yearClass       String?
+  institution     String?
   faculty         String?
   major           String?
   instagramProof  String?
