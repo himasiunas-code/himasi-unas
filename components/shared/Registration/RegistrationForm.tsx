@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import { Upload, User, Mail, Phone, Calendar, Building, FileImage, Instagram, MessageSquare, AlertCircle, CheckCircle, X, CreditCard, Smartphone } from 'lucide-react'
+import { Upload, User, Mail, Phone, Calendar, Building, FileImage, Instagram, MessageSquare, AlertCircle, CheckCircle, X /*, CreditCard, Smartphone */ } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 interface FormData {
@@ -10,13 +10,12 @@ interface FormData {
   fullName: string
   phone: string
   npm: string
-  yearClass: string
+  // yearClass: string
+  institution: string
   faculty: string
   major: string
   instagramHandle: string
-  motivation: string
-  specialRequest: string
-  paymentMethod: string
+  // paymentMethod: string
 }
 
 interface FormErrors {
@@ -50,20 +49,19 @@ export default function RegistrationForm() {
     fullName: '',
     phone: '',
     npm: '',
-    yearClass: '',
+    // yearClass: '',
+    institution: '',
     faculty: '',
     major: '',
-    instagramHandle: '',
-    motivation: '',
-    specialRequest: '',
-    paymentMethod: ''
+    instagramHandle: ''
+    // paymentMethod: ''
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
   const [instagramProof, setInstagramProof] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string>('')
-  const [paymentProof, setPaymentProof] = useState<File | null>(null)
-  const [paymentPreviewUrl, setPaymentPreviewUrl] = useState<string>('')
+  // const [paymentProof, setPaymentProof] = useState<File | null>(null)
+  // const [paymentPreviewUrl, setPaymentPreviewUrl] = useState<string>('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   
   // Pop-up notification states
@@ -81,7 +79,7 @@ export default function RegistrationForm() {
   })
 
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const paymentFileInputRef = useRef<HTMLInputElement>(null)
+  // const paymentFileInputRef = useRef<HTMLInputElement>(null)
 
   // Party popper confetti effect
   const triggerConfetti = () => {
@@ -355,50 +353,51 @@ export default function RegistrationForm() {
     }
   }
 
+  // PAYMENT FEATURE - COMMENTED OUT (can be re-enabled in the future)
   // Handle payment file upload
-  const handlePaymentFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+  // const handlePaymentFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0]
+  //   if (!file) return
 
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
-    if (!allowedTypes.includes(file.type)) {
-      setErrors(prev => ({ ...prev, paymentProof: 'File harus berformat JPG, JPEG, PNG, atau WEBP' }))
-      return
-    }
+  //   // Validate file type
+  //   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+  //   if (!allowedTypes.includes(file.type)) {
+  //     setErrors(prev => ({ ...prev, paymentProof: 'File harus berformat JPG, JPEG, PNG, atau WEBP' }))
+  //     return
+  //   }
 
-    // Validate file size (max 500KB)
-    const maxSize = 500 * 1024 // 500KB
-    if (file.size > maxSize) {
-      setErrors(prev => ({ ...prev, paymentProof: 'Ukuran file maksimal 500KB. Kompres gambar terlebih dahulu.' }))
-      return
-    }
+  //   // Validate file size (max 500KB)
+  //   const maxSize = 500 * 1024 // 500KB
+  //   if (file.size > maxSize) {
+  //     setErrors(prev => ({ ...prev, paymentProof: 'Ukuran file maksimal 500KB. Kompres gambar terlebih dahulu.' }))
+  //     return
+  //   }
 
-    // Clear any previous errors
-    setErrors(prev => ({ ...prev, paymentProof: '' }))
-    
-    // Set file state
-    setPaymentProof(file)
+  //   // Clear any previous errors
+  //   setErrors(prev => ({ ...prev, paymentProof: '' }))
+  //   
+  //   // Set file state
+  //   setPaymentProof(file)
 
-    // Create preview
-    const reader = new FileReader()
-    reader.onload = () => {
-      setPaymentPreviewUrl(reader.result as string)
-    }
-    reader.onerror = () => {
-      setErrors(prev => ({ ...prev, paymentProof: 'Gagal membaca file. Silakan coba file lain.' }))
-    }
-    reader.readAsDataURL(file)
-  }
+  //   // Create preview
+  //   const reader = new FileReader()
+  //   reader.onload = () => {
+  //     setPaymentPreviewUrl(reader.result as string)
+  //   }
+  //   reader.onerror = () => {
+  //     setErrors(prev => ({ ...prev, paymentProof: 'Gagal membaca file. Silakan coba file lain.' }))
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
 
   // Remove payment file
-  const removePaymentFile = () => {
-    setPaymentProof(null)
-    setPaymentPreviewUrl('')
-    if (paymentFileInputRef.current) {
-      paymentFileInputRef.current.value = ''
-    }
-  }
+  // const removePaymentFile = () => {
+  //   setPaymentProof(null)
+  //   setPaymentPreviewUrl('')
+  //   if (paymentFileInputRef.current) {
+  //     paymentFileInputRef.current.value = ''
+  //   }
+  // }
 
   // Validate Step 1 (Data Pribadi + Akademik)
   const validateStep1 = (): boolean => {
@@ -415,7 +414,8 @@ export default function RegistrationForm() {
     if (!formData.npm.trim()) newErrors.npm = 'NPM wajib diisi'
     else if (!/^\d{12}$/.test(formData.npm.trim())) newErrors.npm = 'NPM harus terdiri dari 12 digit angka'
 
-    if (!formData.yearClass.trim()) newErrors.yearClass = 'Tahun angkatan wajib dipilih'
+    // if (!formData.yearClass.trim()) newErrors.yearClass = 'Tahun angkatan wajib dipilih'
+    if (!formData.institution.trim()) newErrors.institution = 'Asal instansi wajib diisi'
     if (!formData.faculty.trim()) newErrors.faculty = 'Fakultas wajib diisi'
     if (!formData.major.trim()) newErrors.major = 'Jurusan wajib diisi'
     
@@ -423,15 +423,16 @@ export default function RegistrationForm() {
     return Object.keys(newErrors).length === 0
   }
 
-  // Validate Step 2 (Instagram + Info Tambahan + Pembayaran)
+  // Validate Step 2 (Instagram + Info Tambahan)
   const validateStep2 = (): boolean => {
     const newErrors: FormErrors = {}
 
+    // PAYMENT VALIDATION - COMMENTED OUT
     // Payment method wajib dipilih
-    if (!formData.paymentMethod.trim()) newErrors.paymentMethod = 'Metode pembayaran wajib dipilih'
+    // if (!formData.paymentMethod.trim()) newErrors.paymentMethod = 'Metode pembayaran wajib dipilih'
     
     // Payment proof wajib diupload
-    if (!paymentProof) newErrors.paymentProof = 'Bukti pembayaran wajib diupload'
+    // if (!paymentProof) newErrors.paymentProof = 'Bukti pembayaran wajib diupload'
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -453,7 +454,8 @@ export default function RegistrationForm() {
         fullName: formData.fullName,
         phone: formData.phone,
         npm: formData.npm,
-        yearClass: formData.yearClass,
+        // yearClass: formData.yearClass,
+        institution: formData.institution,
         faculty: formData.faculty,
         major: formData.major
       }
@@ -551,42 +553,41 @@ export default function RegistrationForm() {
         }
       }
 
+      // PAYMENT PROCESSING - COMMENTED OUT
       // Process payment proof - convert to base64 data URL
-      let paymentProofUrl = null
-      if (paymentProof) {
-        try {
-          console.log('🔄 Converting Payment file to base64:', paymentProof.name, 'Size:', paymentProof.size)
-          
-          // Convert file to base64 data URL
-          paymentProofUrl = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader()
-            reader.onload = () => resolve(reader.result as string)
-            reader.onerror = reject
-            reader.readAsDataURL(paymentProof)
-          })
-          
-          console.log('✅ Payment file converted to base64:', paymentProofUrl ? `Data URL (${paymentProofUrl.length} chars)` : 'No URL')
-          
-        } catch (uploadError) {
-          console.error('❌ Payment file conversion error:', uploadError)
-          paymentProofUrl = null
-        }
-      }
+      // let paymentProofUrl = null
+      // if (paymentProof) {
+      //   try {
+      //     console.log('🔄 Converting Payment file to base64:', paymentProof.name, 'Size:', paymentProof.size)
+      //     
+      //     // Convert file to base64 data URL
+      //     paymentProofUrl = await new Promise<string>((resolve, reject) => {
+      //       const reader = new FileReader()
+      //       reader.onload = () => resolve(reader.result as string)
+      //       reader.onerror = reject
+      //       reader.readAsDataURL(paymentProof)
+      //     })
+      //     
+      //     console.log('✅ Payment file converted to base64:', paymentProofUrl ? `Data URL (${paymentProofUrl.length} chars)` : 'No URL')
+      //     
+      //   } catch (uploadError) {
+      //     console.error('❌ Payment file conversion error:', uploadError)
+      //     paymentProofUrl = null
+      //   }
+      // }
 
       const step2Data = {
         registrationId,
         instagramHandle: formData.instagramHandle,
-        instagramProof: instagramProofUrl,
-        motivation: formData.motivation || null,
-        specialRequest: formData.specialRequest || null,
-        paymentMethod: formData.paymentMethod,
-        paymentProof: paymentProofUrl
+        instagramProof: instagramProofUrl
+        // paymentMethod: formData.paymentMethod,
+        // paymentProof: paymentProofUrl
       }
 
       console.log('🚀 Submitting step 2 data:', {
         ...step2Data,
-        instagramProof: instagramProofUrl ? `Data URL (${instagramProofUrl.length} chars)` : null,
-        paymentProof: paymentProofUrl ? `Data URL (${paymentProofUrl.length} chars)` : null
+        instagramProof: instagramProofUrl ? `Data URL (${instagramProofUrl.length} chars)` : null
+        // paymentProof: paymentProofUrl ? `Data URL (${paymentProofUrl.length} chars)` : null
       })
 
       const response = await fetch('/api/registrations/step2', {
@@ -622,35 +623,10 @@ export default function RegistrationForm() {
         triggerConfetti()
       }, 100) // Shorter delay
       
-      // Reset form setelah berhasil
+      // Redirect ke halaman informasi grup WhatsApp setelah 1 detik
       setTimeout(() => {
-        setFormData({
-          email: '',
-          fullName: '',
-          phone: '',
-          npm: '',
-          yearClass: '',
-          faculty: '',
-          major: '',
-          instagramHandle: '',
-          motivation: '',
-          specialRequest: '',
-          paymentMethod: ''
-        })
-        setInstagramProof(null)
-        setPreviewUrl('')
-        setPaymentProof(null)
-        setPaymentPreviewUrl('')
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ''
-        }
-        if (paymentFileInputRef.current) {
-          paymentFileInputRef.current.value = ''
-        }
-        setCurrentStep(1)
-        setRegistrationId(null)
-        setStep1Completed(false)
-      }, 6000)
+        window.location.href = '/pendaftaran/selesai'
+      }, 1000)
       
     } catch (error) {
       console.error('Error submitting step 2:', error)
@@ -881,18 +857,19 @@ export default function RegistrationForm() {
             <User className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            {currentStep === 1 ? 'Sesi 1: Data Pribadi & Akademik' : 'Sesi 2: Informasi Tambahan'}
+            {currentStep === 1 ? 'Sesi 1: Data Pribadi & Akademik' : 'Sesi 2: Informasi Instagram'}
           </h2>
           <p className="text-gray-600">
             {currentStep === 1 
               ? 'Lengkapi data pribadi dan akademik Anda. Data akan langsung tersimpan setelah sesi ini.' 
-              : 'Lengkapi informasi Instagram dan tambahan untuk menyelesaikan pendaftaran.'
+              : 'Lengkapi informasi Instagram untuk menyelesaikan pendaftaran.'
             }
           </p>
         </div>
 
+        {/* PAYMENT INFO - COMMENTED OUT (can be re-enabled in the future) */}
         {/* Informasi Biaya & Slot - Tampil di Step 1 */}
-        {currentStep === 1 && (
+        {/* {currentStep === 1 && (
           <>
             <div className="bg-linear-to-r from-green-500 to-emerald-600 rounded-xl p-4 sm:p-6 mb-6 text-white shadow-lg">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -960,8 +937,8 @@ export default function RegistrationForm() {
                 </div>
               </div>
             )} */}
-          </>
-        )}
+          {/* </>
+        )} */}
 
         <div className="space-y-8">
           
@@ -1056,8 +1033,27 @@ export default function RegistrationForm() {
                 {errors.npm && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.npm}</p>}
               </div>
 
-              {/* Tahun Angkatan */}
+              {/* Asal Instansi */}
               <div className="group">
+                <label htmlFor="institution" className="block text-sm font-medium text-gray-700 mb-3">
+                  <Building className="w-4 h-4 inline mr-2 text-[#4B061A]" />
+                  Asal Instansi <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="institution"
+                  name="institution"
+                  value={formData.institution}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm"
+                  placeholder="Universitas Nasional"
+                />
+                {errors.institution && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.institution}</p>}
+              </div>
+
+              {/* YEAR CLASS FIELD - COMMENTED OUT (can be re-enabled in the future) */}
+              {/* Tahun Angkatan */}
+              {/* <div className="group">
                 <label htmlFor="yearClass" className="block text-sm font-medium text-gray-700 mb-3">
                   <Calendar className="w-4 h-4 inline mr-2 text-[#4B061A]" />
                   Tahun Angkatan <span className="text-red-500">*</span>
@@ -1087,12 +1083,12 @@ export default function RegistrationForm() {
                     }).filter(Boolean)}
                   </select>
                   {/* Custom dropdown arrow overlay */}
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  {/* <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <Calendar className="w-5 h-5 text-gray-400" />
                   </div>
                 </div>
                 {errors.yearClass && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.yearClass}</p>}
-              </div>
+              </div> */}
 
               {/* Fakultas dan Jurusan */}
               <div className="grid md:grid-cols-2 gap-6">
@@ -1226,8 +1222,9 @@ export default function RegistrationForm() {
             </div>
           </div>
 
+          {/* PAYMENT SECTION - COMMENTED OUT (can be re-enabled in the future) */}
           {/* Section 4: Pembayaran */}
-          <div className="bg-linear-to-br from-purple-50 to-white rounded-2xl p-6 border border-purple-200 shadow-lg">
+          {/* <div className="bg-linear-to-br from-purple-50 to-white rounded-2xl p-6 border border-purple-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <CreditCard className="w-5 h-5 mr-2 text-purple-600" />
               Pembayaran
@@ -1235,13 +1232,13 @@ export default function RegistrationForm() {
             
             <div className="space-y-6">
               {/* Metode Pembayaran */}
-              <div className="group">
+              {/* <div className="group">
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Pilih Metode Pembayaran <span className="text-red-500">*</span>
                 </label>
                 <div className="space-y-3">
                   {/* BCA Transfer */}
-                  <div className="border border-gray-300 rounded-xl p-4 hover:border-purple-400 transition-colors">
+                  {/* <div className="border border-gray-300 rounded-xl p-4 hover:border-purple-400 transition-colors">
                     <label className="flex items-start cursor-pointer">
                       <input
                         type="radio"
@@ -1272,10 +1269,10 @@ export default function RegistrationForm() {
                         )}
                       </div>
                     </label>
-                  </div>
+                  </div> */}
 
                   {/* DANA E-wallet */}
-                  <div className="border border-gray-300 rounded-xl p-4 hover:border-purple-400 transition-colors">
+                  {/* <div className="border border-gray-300 rounded-xl p-4 hover:border-purple-400 transition-colors">
                     <label className="flex items-start cursor-pointer">
                       <input
                         type="radio"
@@ -1309,10 +1306,10 @@ export default function RegistrationForm() {
                   </div>
                 </div>
                 {errors.paymentMethod && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.paymentMethod}</p>}
-              </div>
+              </div> */}
 
               {/* Upload Bukti Pembayaran */}
-              <div className="group">
+              {/* <div className="group">
                 <label htmlFor="paymentProof" className="block text-sm font-medium text-gray-700 mb-3">
                   <Upload className="w-4 h-4 inline mr-2 text-purple-600" />
                   Upload Bukti Pembayaran <span className="text-red-500">*</span>
@@ -1372,50 +1369,7 @@ export default function RegistrationForm() {
                 {errors.paymentProof && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.paymentProof}</p>}
               </div>
             </div>
-          </div>
-
-          {/* Section 5: Informasi Tambahan */}
-          <div className="bg-linear-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-              <MessageSquare className="w-5 h-5 mr-2 text-[#4B061A]" />
-              Informasi Tambahan
-            </h3>
-            <div className="grid gap-6">
-              {/* Motivasi */}
-              <div className="group">
-                <label htmlFor="motivation" className="block text-sm font-medium text-gray-700 mb-3">
-                  <MessageSquare className="w-4 h-4 inline mr-2 text-[#4B061A]" />
-                  Motivasi Mengikuti Kegiatan <span className="text-gray-500">(Opsional)</span>
-                </label>
-                <textarea
-                  id="motivation"
-                  name="motivation"
-                  rows={4}
-                  value={formData.motivation}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm resize-none"
-                  placeholder="Ceritakan motivasi Anda mengikuti kegiatan ini... Apa yang ingin Anda pelajari?"
-                />
-              </div>
-
-              {/* Permintaan Khusus */}
-              <div className="group">
-                <label htmlFor="specialRequest" className="block text-sm font-medium text-gray-700 mb-3">
-                  <MessageSquare className="w-4 h-4 inline mr-2 text-[#4B061A]" />
-                  Permintaan Khusus <span className="text-gray-500">(Opsional)</span>
-                </label>
-                <textarea
-                  id="specialRequest"
-                  name="specialRequest"
-                  rows={3}
-                  value={formData.specialRequest}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm resize-none"
-                  placeholder="Ada permintaan khusus? (misal: alergi makanan, kebutuhan aksesibilitas, dll)"
-                />
-              </div>
-            </div>
-          </div>
+          </div> */}
           </>
           )}
 
@@ -1438,7 +1392,7 @@ export default function RegistrationForm() {
                       </span>
                     </>
                   )
-                  : 'Pastikan informasi Instagram dan tambahan sudah benar sebelum menyelesaikan pendaftaran.'
+                  : 'Pastikan informasi Instagram sudah benar sebelum menyelesaikan pendaftaran.'
                 }
               </p>
             </div>
