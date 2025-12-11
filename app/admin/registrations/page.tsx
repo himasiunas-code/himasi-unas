@@ -12,9 +12,9 @@ import {
   Eye,
   Trash2,
   RefreshCw,
-  User,
-  CreditCard,
-  Smartphone
+  User
+  // CreditCard,
+  // Smartphone
 } from 'lucide-react'
 
 interface Registration {
@@ -23,15 +23,16 @@ interface Registration {
   email: string
   phone: string
   npm?: string
-  yearClass?: string
+  // yearClass?: string
+  institution?: string
   faculty?: string
   major?: string
   instagramProof?: string
   instagramHandle?: string
-  paymentMethod?: string
-  paymentProof?: string
-  motivation?: string
-  specialRequest?: string
+  // paymentMethod?: string
+  // paymentProof?: string
+  // motivation?: string
+  // specialRequest?: string
   status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ATTENDED' | 'ABSENT'
   createdAt: string
   updatedAt: string
@@ -219,7 +220,7 @@ export default function RegistrationsPage() {
   })
 
   const exportToCSV = () => {
-    const headers = ['Nama Lengkap', 'Email', 'Telepon', 'NPM', 'Tahun Angkatan', 'Fakultas', 'Jurusan', 'Kegiatan', 'Status', 'Tanggal Daftar']
+    const headers = ['Nama Lengkap', 'Email', 'Telepon', 'NPM', 'Asal Instansi', 'Fakultas', 'Jurusan', 'Instagram Handle', 'Kegiatan', 'Status', 'Tanggal Daftar']
     const csvData = [
       headers,
       ...filteredRegistrations.map(reg => [
@@ -227,9 +228,10 @@ export default function RegistrationsPage() {
         reg.email,
         reg.phone,
         reg.npm || '',
-        reg.yearClass || '',
+        reg.institution || '',
         reg.faculty || '',
         reg.major || '',
+        reg.instagramHandle || '',
         reg.activity.title,
         reg.status,
         new Date(reg.createdAt).toLocaleDateString('id-ID')
@@ -326,11 +328,20 @@ export default function RegistrationsPage() {
       {/* Registrations Table */}
       <div className="bg-white shadow-lg rounded-xl border border-gray-100 overflow-hidden">
           <div className="space-y-4">
-            {filteredRegistrations.map((registration) => (
+            {filteredRegistrations.map((registration, index) => (
               <div key={registration.id} className="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow duration-200">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                   {/* Left Section - Main Info */}
                   <div className="flex-1 space-y-4">
+                    {/* Registration Number Badge */}
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-[#4B061A] text-white text-sm font-bold">
+                        {index + 1}
+                      </span>
+                      <span className="text-xs text-gray-500 font-medium">
+                        Pendaftar #{index + 1}
+                      </span>
+                    </div>
                     {/* Header with Photo and Basic Info */}
                     <div className="flex items-start gap-4">
                       {/* Instagram Follow Proof */}
@@ -373,45 +384,12 @@ export default function RegistrationsPage() {
                         </div>
                       </div>
 
-                      {/* Payment Proof */}
+                      {/* Payment Proof - Removed (no longer collecting payment info) */}
+                      {/* 
                       <div className="shrink-0">
-                        <div className="text-center">
-                          <div className="text-xs text-gray-500 mb-1 font-medium">Bukti Pembayaran</div>
-                          {registration.paymentProof ? (
-                            <div className="relative group">
-                              <Image
-                                src={registration.paymentProof}
-                                alt={`Bukti pembayaran ${registration.fullName}`}
-                                width={64}
-                                height={64}
-                                className="h-16 w-16 rounded-lg object-cover border-2 border-purple-200 cursor-pointer hover:shadow-lg transition-shadow duration-200"
-                                onClick={() => setSelectedImage(registration.paymentProof!)}
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none'
-                                  const sibling = e.currentTarget.nextElementSibling as HTMLElement
-                                  if (sibling) {
-                                    sibling.style.display = 'flex'
-                                  }
-                                }}
-                              />
-                              <div className="hidden h-16 w-16 rounded-lg bg-gray-300 items-center justify-center border-2 border-purple-200">
-                                <CreditCard className="h-8 w-8 text-gray-500" />
-                              </div>
-                              {/* Hover overlay */}
-                              <div 
-                                className="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200 cursor-pointer"
-                                onClick={() => setSelectedImage(registration.paymentProof!)}
-                              >
-                                <Eye className="h-4 w-4 text-white" />
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="h-16 w-16 rounded-lg bg-gray-300 flex items-center justify-center border-2 border-purple-200">
-                              <CreditCard className="h-8 w-8 text-gray-500" />
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                        ...
+                      </div> 
+                      */}
 
                       {/* Basic Info */}
                       <div className="flex-1 min-w-0">
@@ -426,9 +404,12 @@ export default function RegistrationsPage() {
                               {registration.npm && (
                                 <p className="text-sm text-gray-600">NPM: {registration.npm}</p>
                               )}
-                              <p className="text-sm text-gray-600">
-                                {registration.yearClass} - {registration.faculty}
-                              </p>
+                              {registration.institution && (
+                                <p className="text-sm text-gray-600">Instansi: {registration.institution}</p>
+                              )}
+                              {registration.faculty && (
+                                <p className="text-sm text-gray-600">Fakultas: {registration.faculty}</p>
+                              )}
                               {registration.major && (
                                 <p className="text-sm text-gray-600">Jurusan: {registration.major}</p>
                               )}
@@ -476,44 +457,13 @@ export default function RegistrationsPage() {
                         )}
                       </div>
 
-                      {/* Payment Info */}
+                      {/* Payment Info - Removed (no longer collecting payment info) */}
+                      {/* 
                       <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">Pembayaran</h4>
-                        {registration.paymentMethod ? (
-                          <div className="space-y-1">
-                            <p className="text-sm text-gray-900 flex items-center">
-                              {registration.paymentMethod === 'bca' ? (
-                                <CreditCard className="w-4 h-4 mr-2 text-blue-600" />
-                              ) : (
-                                <Smartphone className="w-4 h-4 mr-2 text-green-600" />
-                              )}
-                              {registration.paymentMethod === 'bca' ? 'Transfer BCA' : 'DANA E-wallet'}
-                            </p>
-                            {registration.paymentProof ? (
-                              <p className="text-xs text-green-600 flex items-center">
-                                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                Bukti pembayaran sudah diupload
-                              </p>
-                            ) : (
-                              <p className="text-xs text-red-600 flex items-center">
-                                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                                </svg>
-                                Bukti pembayaran belum diupload
-                              </p>
-                            )}
-                          </div>
-                        ) : (
-                          <p className="text-xs text-red-600 flex items-center">
-                            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                            </svg>
-                            Metode pembayaran belum dipilih
-                          </p>
-                        )}
-                      </div>
+                        <h4>Pembayaran</h4>
+                        ...
+                      </div> 
+                      */}
 
                       {/* Registration Time */}
                       <div>
@@ -549,25 +499,10 @@ export default function RegistrationsPage() {
                       )}
                     </div>
 
-                    {/* Motivation */}
-                    {registration.motivation && (
-                      <div className="pt-4 border-t border-gray-200">
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">Motivasi</h4>
-                        <p className="text-sm text-gray-900 bg-white p-3 rounded-md border">
-                          {registration.motivation}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Special Request */}
-                    {registration.specialRequest && (
-                      <div className="pt-2">
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">Permintaan Khusus</h4>
-                        <p className="text-sm text-gray-900 bg-white p-3 rounded-md border">
-                          {registration.specialRequest}
-                        </p>
-                      </div>
-                    )}
+                    {/* Motivation & Special Request - Removed (no longer collecting this info) */}
+                    {/* 
+                    <div>...</div> 
+                    */}
 
                     {/* Rejection Reason */}
                     {registration.rejectedReason && (
