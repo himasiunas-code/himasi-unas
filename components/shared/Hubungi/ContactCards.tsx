@@ -29,11 +29,11 @@ export default function ContactCards() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {/* WhatsApp 1 */}
-          <div className="group bg-gradient-to-br from-white via-white to-emerald-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-green-100 hover:border-green-200 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-green-500/10 to-green-600/20 rounded-full -mr-10 -mt-10"></div>
+          <div className="group bg-linear-to-br from-white via-white to-emerald-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-green-100 hover:border-green-200 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-green-500/10 to-green-600/20 rounded-full -mr-10 -mt-10"></div>
             <div className="relative z-10">
               <div className="flex items-center mb-3 sm:mb-4">
-                <div className="p-3 sm:p-4 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                <div className="p-3 sm:p-4 bg-linear-to-br from-green-500 to-green-600 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
                   <WhatsAppIcon className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="ml-2 sm:ml-4">
@@ -52,7 +52,7 @@ export default function ContactCards() {
                 href="https://wa.me/628569874380?text=Halo,%20saya%20ingin%20bertanya%20tentang%20HIMASI%20UNAS"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-linear-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
                 Chat Sekarang
               </Link>
@@ -60,11 +60,11 @@ export default function ContactCards() {
           </div>
 
           {/* WhatsApp 2 */}
-          <div className="group bg-gradient-to-br from-white via-white to-emerald-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-emerald-100 hover:border-emerald-200 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-500/10 to-emerald-600/20 rounded-full -mr-10 -mt-10"></div>
+          <div className="group bg-linear-to-br from-white via-white to-emerald-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-emerald-100 hover:border-emerald-200 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-emerald-500/10 to-emerald-600/20 rounded-full -mr-10 -mt-10"></div>
             <div className="relative z-10">
               <div className="flex items-center mb-3 sm:mb-4">
-                <div className="p-3 sm:p-4 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                <div className="p-3 sm:p-4 bg-linear-to-br from-emerald-500 to-emerald-600 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
                   <WhatsAppIcon className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="ml-2 sm:ml-4">
@@ -83,7 +83,7 @@ export default function ContactCards() {
                 href="https://wa.me/6281333105219?text=Halo,%20saya%20ingin%20bertanya%20tentang%20HIMASI%20UNAS"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-linear-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
                 Chat Sekarang
               </Link>
@@ -91,11 +91,11 @@ export default function ContactCards() {
           </div>
 
           {/* Email */}
-          <div className="group bg-gradient-to-br from-white via-white to-blue-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-blue-100 hover:border-blue-200 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-blue-600/20 rounded-full -mr-10 -mt-10"></div>
+          <div className="group bg-linear-to-br from-white via-white to-blue-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-blue-100 hover:border-blue-200 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-blue-500/10 to-blue-600/20 rounded-full -mr-10 -mt-10"></div>
             <div className="relative z-10">
               <div className="flex items-center mb-3 sm:mb-4">
-                <div className="p-3 sm:p-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                <div className="p-3 sm:p-4 bg-linear-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
                   <Mail className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="ml-2 sm:ml-4">
@@ -112,7 +112,7 @@ export default function ContactCards() {
               </p>
               <Link
                 href="mailto:himasiunas@gmail.com"
-                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
                 Kirim Email
               </Link>
@@ -120,11 +120,11 @@ export default function ContactCards() {
           </div>
 
           {/* Instagram */}
-          <div className="group bg-gradient-to-br from-white via-white to-pink-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-pink-100 hover:border-pink-200 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-pink-500/10 to-pink-600/20 rounded-full -mr-10 -mt-10"></div>
+          <div className="group bg-linear-to-br from-white via-white to-pink-50 rounded-3xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 border border-pink-100 hover:border-pink-200 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-pink-500/10 to-pink-600/20 rounded-full -mr-10 -mt-10"></div>
             <div className="relative z-10">
               <div className="flex items-center mb-3 sm:mb-4">
-                <div className="p-3 sm:p-4 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                <div className="p-3 sm:p-4 bg-linear-to-br from-purple-600 via-pink-500 to-orange-400 rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
                   <Instagram className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="ml-2 sm:ml-4">
@@ -143,7 +143,7 @@ export default function ContactCards() {
                 href="https://www.instagram.com/himasi.unas1949/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 hover:from-purple-700 hover:via-pink-600 hover:to-orange-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-linear-to-br from-purple-600 via-pink-500 to-orange-400 hover:from-purple-700 hover:via-pink-600 hover:to-orange-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
                 Follow Kami
               </Link>

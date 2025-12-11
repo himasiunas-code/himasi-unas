@@ -12,7 +12,7 @@ export default function SlideImage() {
                     {tripleSlides.map((slide, index) => (
                         <div 
                             key={`${slide.id}-${index}`}
-                            className="flex-shrink-0 w-96 mx-2 slide-container"
+                            className="shrink-0 w-96 mx-2 slide-container"
                         >
                             <div className="relative">
                                 <div 
@@ -27,7 +27,7 @@ export default function SlideImage() {
                                     />
                                     
                                     <div 
-                                        className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/20 slide-overlay"
+                                        className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-black/20 slide-overlay"
                                         style={{ transform: 'skewX(10deg)' }}
                                     />
                                 </div>
@@ -40,8 +40,8 @@ export default function SlideImage() {
                     HIMASI 2025
                 </div>
                 
-                <div className="absolute top-0 left-0 w-5 md:w-32 h-full bg-gradient-to-r from-[#4B061A] to-transparent pointer-events-none z-10" />
-                <div className="absolute top-0 right-0 w-5 md:w-32 h-full bg-gradient-to-l from-[#4B061A] to-transparent pointer-events-none z-10" />
+                <div className="absolute top-0 left-0 w-5 md:w-32 h-full bg-linear-to-r from-[#4B061A] to-transparent pointer-events-none z-10" />
+                <div className="absolute top-0 right-0 w-5 md:w-32 h-full bg-linear-to-l from-[#4B061A] to-transparent pointer-events-none z-10" />
             </div>
 
             <div className="text-center mt-8">

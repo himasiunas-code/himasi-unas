@@ -122,7 +122,7 @@ export default function AdminLogin() {
           {error && (
             <div className="rounded-lg bg-red-50 border border-red-200 p-4">
               <div className="flex">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <AlertCircle className="h-5 w-5 text-red-400" />
                 </div>
                 <div className="ml-3">
@@ -136,7 +136,7 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading || !password}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#4B061A] to-[#6B0B2A] hover:from-[#3A0514] hover:to-[#5A0B24] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4B061A] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-linear-to-r from-[#4B061A] to-[#6B0B2A] hover:from-[#3A0514] hover:to-[#5A0B24] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4B061A] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
             >
               {loading ? (
                 <div className="flex items-center">

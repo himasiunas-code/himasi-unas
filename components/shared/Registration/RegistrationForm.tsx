@@ -720,7 +720,7 @@ export default function RegistrationForm() {
           <p className="text-gray-600 mb-6">Saat ini belum ada kegiatan yang tersedia untuk pendaftaran.</p>
           <button
             onClick={() => window.location.href = '/kegiatan'}
-            className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
+            className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
           >
             Kembali ke Halaman Kegiatan
           </button>
@@ -759,7 +759,7 @@ export default function RegistrationForm() {
                   { label: 'Menit', value: timeLeft.minutes },
                   { label: 'Detik', value: timeLeft.seconds },
                 ].map((item, index) => (
-                  <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-200 shadow-lg">
+                  <div key={index} className="bg-linear-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-200 shadow-lg">
                     <div className="text-2xl font-bold text-[#4B061A] mb-1">
                       {String(item.value).padStart(2, '0')}
                     </div>
@@ -775,7 +775,7 @@ export default function RegistrationForm() {
           <div className="space-y-3">
             <button
               onClick={() => window.location.href = '/kegiatan'}
-              className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg mr-3"
+              className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg mr-3"
             >
               Kembali ke Halaman Kegiatan
             </button>
@@ -810,7 +810,7 @@ export default function RegistrationForm() {
           </p>
           <button
             onClick={() => window.location.href = '/kegiatan'}
-            className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
+            className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
           >
             Lihat Kegiatan Lainnya
           </button>
@@ -827,7 +827,7 @@ export default function RegistrationForm() {
           </p>
           <button
             onClick={() => window.location.href = '/kegiatan'}
-            className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
+            className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
           >
             Lihat Kegiatan Lainnya
           </button>
@@ -877,7 +877,7 @@ export default function RegistrationForm() {
 
         {/* Form Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] rounded-full mb-4 shadow-lg">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-r from-[#4B061A] to-[#8B1C3B] rounded-full mb-4 shadow-lg">
             <User className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -894,10 +894,10 @@ export default function RegistrationForm() {
         {/* Informasi Biaya & Slot - Tampil di Step 1 */}
         {currentStep === 1 && (
           <>
-            <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4 sm:p-6 mb-6 text-white shadow-lg">
+            <div className="bg-linear-to-r from-green-500 to-emerald-600 rounded-xl p-4 sm:p-6 mb-6 text-white shadow-lg">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center w-full sm:w-auto">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-3 sm:mr-4 shrink-0">
                     <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="flex-1">
@@ -911,11 +911,11 @@ export default function RegistrationForm() {
               </div>
               <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 text-xs sm:text-sm opacity-90">
                 <div className="flex items-center sm:mr-6">
-                  <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-white rounded-full mr-2 shrink-0"></span>
                   <span>Transfer Bank BCA</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="w-2 h-2 bg-white rounded-full mr-2 flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-white rounded-full mr-2 shrink-0"></span>
                   <span>DANA e-Wallet</span>
                 </div>
               </div>
@@ -923,9 +923,9 @@ export default function RegistrationForm() {
 
             {/* Informasi Slot & Sistem Reservasi */}
             {/* {activityStatus && (
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-8 shadow-lg">
+              <div className="bg-linear-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-8 shadow-lg">
                 <div className="flex items-start">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 shrink-0">
                     <User className="w-5 h-5 text-blue-600" />
                   </div>
                   <div className="flex-1">
@@ -969,7 +969,7 @@ export default function RegistrationForm() {
           {currentStep === 1 && (
             <>
               {/* Section 1: Data Pribadi */}
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
+              <div className="bg-linear-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <User className="w-5 h-5 mr-2 text-[#4B061A]" />
               Data Pribadi
@@ -1032,7 +1032,7 @@ export default function RegistrationForm() {
           </div>
 
           {/* Section 2: Data Akademik */}
-          <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
+          <div className="bg-linear-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <Building className="w-5 h-5 mr-2 text-[#4B061A]" />
               Data Akademik
@@ -1139,7 +1139,7 @@ export default function RegistrationForm() {
           {currentStep === 2 && (
             <>
               {/* Section 3: Instagram & Bukti Follow */}
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
+              <div className="bg-linear-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <Instagram className="w-5 h-5 mr-2 text-[#4B061A]" />
               Instagram & Bukti Follow
@@ -1185,7 +1185,7 @@ export default function RegistrationForm() {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
+                        className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
                       >
                         Pilih File Gambar
                       </button>
@@ -1227,7 +1227,7 @@ export default function RegistrationForm() {
           </div>
 
           {/* Section 4: Pembayaran */}
-          <div className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 border border-purple-200 shadow-lg">
+          <div className="bg-linear-to-br from-purple-50 to-white rounded-2xl p-6 border border-purple-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <CreditCard className="w-5 h-5 mr-2 text-purple-600" />
               Pembayaran
@@ -1375,7 +1375,7 @@ export default function RegistrationForm() {
           </div>
 
           {/* Section 5: Informasi Tambahan */}
-          <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
+          <div className="bg-linear-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <MessageSquare className="w-5 h-5 mr-2 text-[#4B061A]" />
               Informasi Tambahan
@@ -1420,9 +1420,9 @@ export default function RegistrationForm() {
           )}
 
           {/* Submit Section */}
-          <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg text-center">
+          <div className="bg-linear-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-lg text-center">
             <div className="mb-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] rounded-full mb-4 shadow-lg">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-r from-[#4B061A] to-[#8B1C3B] rounded-full mb-4 shadow-lg">
                 <CheckCircle className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
@@ -1446,7 +1446,7 @@ export default function RegistrationForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-[#4B061A] to-[#8B1C3B] text-white px-4 sm:px-8 py-4 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:from-[#5B0720] hover:to-[#9B2C4B] hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+              className="w-full bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-4 sm:px-8 py-4 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:from-[#5B0720] hover:to-[#9B2C4B] hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
             >
               {isSubmitting ? (
                 <span className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0">
@@ -1532,8 +1532,8 @@ export default function RegistrationForm() {
           <div 
             className={`relative max-w-md w-full mx-4 p-6 rounded-3xl shadow-2xl transform transition-all duration-300 scale-100 ${
               popupType === 'success' 
-                ? 'bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200' 
-                : 'bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200'
+                ? 'bg-linear-to-br from-green-50 to-green-100 border-2 border-green-200' 
+                : 'bg-linear-to-br from-red-50 to-red-100 border-2 border-red-200'
             }`}
             onClick={(e) => e.stopPropagation()}
           >

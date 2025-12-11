@@ -158,7 +158,7 @@ export default function StatisticsPage() {
             </button>
             <button
               onClick={exportStatistics}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#4B061A] to-[#6B0B2A] hover:from-[#3A0514] hover:to-[#5A0B24] transition-all duration-200"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-linear-to-r from-[#4B061A] to-[#6B0B2A] hover:from-[#3A0514] hover:to-[#5A0B24] transition-all duration-200"
             >
               <Download className="w-4 h-4 mr-2" />
               Export Report
@@ -170,9 +170,9 @@ export default function StatisticsPage() {
       {/* Main Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Revenue */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200 shadow-lg">
+        <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200 shadow-lg">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
@@ -188,9 +188,9 @@ export default function StatisticsPage() {
         </div>
 
         {/* Total Registrations */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200 shadow-lg">
+        <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200 shadow-lg">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
                 <Users className="w-6 h-6 text-white" />
               </div>
@@ -206,9 +206,9 @@ export default function StatisticsPage() {
         </div>
 
         {/* Approval Rate */}
-        <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-6 border border-purple-200 shadow-lg">
+        <div className="bg-linear-to-br from-purple-50 to-violet-50 rounded-xl p-6 border border-purple-200 shadow-lg">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
@@ -224,9 +224,9 @@ export default function StatisticsPage() {
         </div>
 
         {/* Attendance Rate */}
-        <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-6 border border-orange-200 shadow-lg">
+        <div className="bg-linear-to-br from-orange-50 to-amber-50 rounded-xl p-6 border border-orange-200 shadow-lg">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
                 <Target className="w-6 h-6 text-white" />
               </div>
@@ -460,7 +460,7 @@ export default function StatisticsPage() {
       </div>
 
       {/* Summary */}
-      <div className="bg-gradient-to-br from-[#4B061A] to-[#6B0B2A] rounded-xl shadow-sm p-6 text-white">
+      <div className="bg-linear-to-br from-[#4B061A] to-[#6B0B2A] rounded-xl shadow-sm p-6 text-white">
         <h3 className="text-lg font-semibold mb-4 flex items-center">
           <TrendingUp className="w-5 h-5 mr-2" />
           Ringkasan Executive

@@ -8,7 +8,7 @@ const text = "404".split("");
 
 export default function NotFound() {
   return (
-    <div className="hide-navbar-footer relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#4B061A] from-10% to-90% to-[#0f0520] px-4 overflow-hidden">
+    <div className="hide-navbar-footer relative min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-[#4B061A] from-10% to-90% to-[#0f0520] px-4 overflow-hidden">
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <LightRays
           raysOrigin="top-center"

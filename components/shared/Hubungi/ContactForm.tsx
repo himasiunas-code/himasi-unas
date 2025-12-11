@@ -59,10 +59,10 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#4B061A] via-[#732E39] to-[#994555] relative overflow-hidden">
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-[#4B061A] via-[#732E39] to-[#994555] relative overflow-hidden">
       {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-48 h-48 md:w-96 md:h-96 bg-gradient-to-br from-white/5 to-white/10 rounded-full -translate-x-24 -translate-y-24 md:-translate-x-48 md:-translate-y-48"></div>
-      <div className="absolute bottom-0 right-0 w-36 h-36 md:w-72 md:h-72 bg-gradient-to-tl from-white/5 to-white/10 rounded-full translate-x-18 translate-y-18 md:translate-x-36 md:translate-y-36"></div>
+      <div className="absolute top-0 left-0 w-48 h-48 md:w-96 md:h-96 bg-linear-to-br from-white/5 to-white/10 rounded-full -translate-x-24 -translate-y-24 md:-translate-x-48 md:-translate-y-48"></div>
+      <div className="absolute bottom-0 right-0 w-36 h-36 md:w-72 md:h-72 bg-linear-to-tl from-white/5 to-white/10 rounded-full translate-x-18 translate-y-18 md:translate-x-36 md:translate-y-36"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">

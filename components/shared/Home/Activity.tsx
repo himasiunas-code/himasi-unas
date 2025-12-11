@@ -14,7 +14,7 @@ export default function Activity() {
                     <div className="overflow-x-auto scrollbar-custom px-4 lg:px-8">
                         <div className="flex gap-4 md:gap-6 pb-4" style={{ width: 'max-content' }}>
                             {BANNER_DATA.map((banner) => (
-                                <div key={banner.id} className="group relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 w-72 sm:w-80 lg:w-96 flex-shrink-0">
+                                <div key={banner.id} className="group relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 w-72 sm:w-80 lg:w-96 shrink-0">
                                     <div className="relative h-44 sm:h-48 lg:h-64 overflow-hidden">
                                         <Image
                                             src={banner.image}
@@ -22,7 +22,7 @@ export default function Activity() {
                                             fill
                                             className="object-cover transition-transform duration-300 group-hover:scale-110"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                                        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
                                     </div>
                                     <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6 text-white">
                                         <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-2">{banner.title}</h3>

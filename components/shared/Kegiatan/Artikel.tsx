@@ -113,7 +113,7 @@ export default function Artikel() {
 
                             <div className="prose prose-lg max-w-none">
                                 <div className="flex items-start gap-2 mb-3">
-                                    <FileText className="w-5 h-5 text-white mt-1 flex-shrink-0" />
+                                    <FileText className="w-5 h-5 text-white mt-1 shrink-0" />
                                     <h3 className="text-lg font-semibold text-white">Deskripsi Lengkap</h3>
                                 </div>
                                 <p className="text-white leading-relaxed text-justify">

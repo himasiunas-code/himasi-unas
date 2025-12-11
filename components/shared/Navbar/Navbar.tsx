@@ -42,10 +42,10 @@ export default function Navbar() {
           }}
         >
           <div className="flex flex-col">
-          <span className="bg-gradient-to-r from-[#FFF0E6] via-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-[#FFF0E6] via-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
             HIMASI
           </span>
-          <span className="bg-gradient-to-r from-[#FFF0E6] via-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-[#FFF0E6] via-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
             UNAS
           </span>
           </div>

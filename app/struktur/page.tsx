@@ -30,7 +30,7 @@ export default function GaleriPage() {
                 priority
               />
               {/* Optional Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#4B061A]/30 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute inset-0 bg-linear-to-t from-[#4B061A]/30 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-6 left-6 right-6">
                   <h3 className="text-white text-xl sm:text-2xl font-bold drop-shadow-lg">
                     Pengurus HIMASI UNAS

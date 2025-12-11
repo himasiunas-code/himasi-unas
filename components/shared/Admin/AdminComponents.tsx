@@ -83,7 +83,7 @@ export function Notification({
     }`}>
       <div className={`max-w-md rounded-lg border p-4 shadow-lg ${config.bgColor} ${config.borderColor}`}>
         <div className="flex">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Icon className={`h-5 w-5 ${config.iconColor}`} />
           </div>
           <div className="ml-3 flex-1">
@@ -96,7 +96,7 @@ export function Notification({
               </div>
             )}
           </div>
-          <div className="ml-4 flex-shrink-0">
+          <div className="ml-4 shrink-0">
             <button
               onClick={handleClose}
               className={`inline-flex rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2 ${config.iconColor} hover:bg-white/20`}
@@ -151,7 +151,7 @@ export function PageHeader({ title, subtitle, badge, actions }: PageHeaderProps)
           )}
         </div>
         {actions && (
-          <div className="mt-4 sm:mt-0 flex-shrink-0">
+          <div className="mt-4 sm:mt-0 shrink-0">
             {actions}
           </div>
         )}
@@ -193,8 +193,8 @@ export function StatCard({ title, value, icon: Icon, color, trend }: StatCardPro
     <div className="bg-white overflow-hidden shadow-lg rounded-xl border border-gray-100 hover:shadow-xl transition-all duration-200">
       <div className="p-6">
         <div className="flex items-center">
-          <div className="flex-shrink-0">
-            <div className={`h-12 w-12 bg-gradient-to-r ${getColorClasses(color)} rounded-lg flex items-center justify-center`}>
+          <div className="shrink-0">
+            <div className={`h-12 w-12 bg-linear-to-r ${getColorClasses(color)} rounded-lg flex items-center justify-center`}>
               <Icon className="h-6 w-6 text-white" />
             </div>
           </div>

@@ -92,7 +92,7 @@ export default function FilterGaleri() {
               onClick={() => handleFilterChange(filter)}
               className={`px-3 py-2 md:px-6 md:py-3 rounded-full font-semibold text-xs md:text-sm transition-all duration-300 cursor-pointer relative group ${
                 activeFilter === filter
-                  ? "bg-gradient-to-r from-[#A14CF3] to-[#345CEB] text-white"
+                  ? "bg-linear-to-r from-[#A14CF3] to-[#345CEB] text-white"
                   : "bg-white/10 text-white hover:bg-white/20"
               }`}
               title={filterDescriptions[filter].description}
@@ -135,7 +135,7 @@ export default function FilterGaleri() {
                   className="object-cover"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all duration-300" />
 
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto">
                   <button
@@ -144,7 +144,7 @@ export default function FilterGaleri() {
                       console.log("Button clicked for:", item.title);
                       openModal(item);
                     }}
-                    className="detail-button bg-gradient-to-r from-[#A14CF3] to-[#345CEB] text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold text-sm md:text-base transform scale-90 group-hover:scale-100 transition-transform duration-300 shadow-lg pointer-events-auto cursor-pointer"
+                    className="detail-button bg-linear-to-r from-[#A14CF3] to-[#345CEB] text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold text-sm md:text-base transform scale-90 group-hover:scale-100 transition-transform duration-300 shadow-lg pointer-events-auto cursor-pointer"
                   >
                     Lihat Detail
                   </button>
@@ -153,13 +153,13 @@ export default function FilterGaleri() {
                 <div className="absolute bottom-2 left-2 right-2 md:bottom-4 md:left-4 md:right-4">
                   <div className="space-y-0.5 md:space-y-1 text-white text-xs md:text-sm text-shadow-lg">
                     <p className="flex items-center gap-1 md:gap-2">
-                      <Calendar className="text-[#FFE8DB] w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <Calendar className="text-[#FFE8DB] w-3 h-3 md:w-4 md:h-4 shrink-0" />
                       <span className="font-medium truncate text-xs md:text-sm">
                         {item.tanggal}
                       </span>
                     </p>
                     <p className="flex items-center gap-1 md:gap-2">
-                      <MapPin className="text-[#FFE8DB] w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <MapPin className="text-[#FFE8DB] w-3 h-3 md:w-4 md:h-4 shrink-0" />
                       <span className="font-medium truncate text-xs md:text-sm">
                         {item.lokasi}
                       </span>
@@ -174,13 +174,13 @@ export default function FilterGaleri() {
                       console.log("Fallback button clicked for:", item.title);
                       openModal(item);
                     }}
-                    className="bg-gradient-to-r from-[#A14CF3] to-[#345CEB] text-white px-2 py-1 rounded-full font-semibold text-xs shadow-lg cursor-pointer"
+                    className="bg-linear-to-r from-[#A14CF3] to-[#345CEB] text-white px-2 py-1 rounded-full font-semibold text-xs shadow-lg cursor-pointer"
                   >
                     Detail
                   </button>
                 </div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#A14CF3]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#A14CF3]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
               </div>
             </div>
           ))}
@@ -246,7 +246,7 @@ export default function FilterGaleri() {
 
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-linear-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center">
                         <Calendar className="text-white w-5 h-5" />
                       </div>
                       <div>
@@ -258,7 +258,7 @@ export default function FilterGaleri() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-linear-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center">
                         <MapPin className="text-white w-5 h-5" />
                       </div>
                       <div>
@@ -270,7 +270,7 @@ export default function FilterGaleri() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-10 h-10 bg-linear-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center shrink-0 mt-1">
                         <Map className="text-white w-5 h-5" />
                       </div>
                       <div className="flex-1">
@@ -282,7 +282,7 @@ export default function FilterGaleri() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-linear-to-r from-[#A14CF3] to-[#345CEB] rounded-full flex items-center justify-center">
                         <Folder className="text-white w-5 h-5" />
                       </div>
                       <div>
@@ -297,7 +297,7 @@ export default function FilterGaleri() {
                   <div className="pt-4">
                     <button
                       onClick={closeModal}
-                      className="w-full bg-gradient-to-r from-[#A14CF3] to-[#345CEB] text-white py-3 px-6 rounded-full font-semibold hover:shadow-lg transition-shadow duration-300"
+                      className="w-full bg-linear-to-r from-[#A14CF3] to-[#345CEB] text-white py-3 px-6 rounded-full font-semibold hover:shadow-lg transition-shadow duration-300"
                     >
                       Tutup Detail
                     </button>

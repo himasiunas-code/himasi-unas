@@ -196,12 +196,12 @@ export default function Pendaftaran() {
 
             {/* Banner Image - 16:9 Aspect Ratio */}
             <div className="mb-5">
-              <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-4xl">
+              <div className="relative w-full aspect-square md:aspect-video rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-4xl">
                 <Image
                   src={activity.image || "/image/Home/Banner 1.png"}
                   alt={`Banner ${activity.title}`}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 80vw"
                 />
               </div>

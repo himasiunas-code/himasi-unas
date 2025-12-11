@@ -10,7 +10,7 @@ export default function SlideGallery() {
         {[...committee, ...committee].map((item, index) => (
           <div
             key={index}
-            className="flex-shrink-0 w-[150px] text-center px-2 group/item"
+            className="shrink-0 w-[150px] text-center px-2 group/item"
           >
             <div className="relative">
               <Image

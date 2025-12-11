@@ -144,7 +144,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="flex justify-between h-16">
             {/* Left side - Logo & Brand */}
             <div className="flex items-center">
-              <div className="flex-shrink-0 flex items-center">
+              <div className="shrink-0 flex items-center">
                 <Image
                   src="/icon/HIMASI.png"
                   alt="HIMASI Logo"

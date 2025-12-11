@@ -30,7 +30,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="flex flex-col gap-6 md:w-[320px] items-center md:items-end">
-          <div className="flex-shrink-0 hidden md:flex flex-col items-center">
+          <div className="shrink-0 hidden md:flex flex-col items-center">
             <Image
               src={FTKI}
               alt="Fakultas Teknologi Komunikasi dan Informatika"

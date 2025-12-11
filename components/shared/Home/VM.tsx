@@ -21,7 +21,7 @@ export default function VM() {
                             {MISSION_DATA.map((mission) => (
                                 <div key={mission.id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                                     <div className="flex flex-col items-center gap-4 text-center">
-                                        <div className="bg-[#4B061A] text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                        <div className="bg-[#4B061A] text-white rounded-full w-12 h-12 flex items-center justify-center shrink-0">
                                             <span className="font-bold text-lg">{mission.id}</span>
                                         </div>
                                         <p className="font-semibold text-base text-[#4B061A] leading-relaxed">
@@ -37,9 +37,9 @@ export default function VM() {
                         <div className="overflow-x-auto scrollbar-hide pl-4 pr-16">
                             <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
                                 {MISSION_DATA.map((mission) => (
-                                    <div key={mission.id} className="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 w-48 h-48 sm:w-52 sm:h-52 flex-shrink-0">
+                                    <div key={mission.id} className="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 w-48 h-48 sm:w-52 sm:h-52 shrink-0">
                                         <div className="flex flex-col items-center justify-center gap-3 text-center h-full">
-                                            <div className="bg-[#4B061A] text-white rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
+                                            <div className="bg-[#4B061A] text-white rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
                                                 <span className="font-bold text-sm sm:text-lg">{mission.id}</span>
                                             </div>
                                             <p className="font-semibold text-xs sm:text-sm text-[#4B061A] leading-relaxed text-center">

@@ -275,7 +275,7 @@ export default function RegistrationsPage() {
             </button>
             <button
               onClick={exportToCSV}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#4B061A] to-[#6B0B2A] hover:from-[#3A0514] hover:to-[#5A0B24] transition-all duration-200"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-linear-to-r from-[#4B061A] to-[#6B0B2A] hover:from-[#3A0514] hover:to-[#5A0B24] transition-all duration-200"
             >
               <Download className="w-4 h-4 mr-2" />
               Export CSV
@@ -334,7 +334,7 @@ export default function RegistrationsPage() {
                     {/* Header with Photo and Basic Info */}
                     <div className="flex items-start gap-4">
                       {/* Instagram Follow Proof */}
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         <div className="text-center">
                           <div className="text-xs text-gray-500 mb-1 font-medium">Bukti Follow IG</div>
                           {registration.instagramProof ? (
@@ -374,7 +374,7 @@ export default function RegistrationsPage() {
                       </div>
 
                       {/* Payment Proof */}
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         <div className="text-center">
                           <div className="text-xs text-gray-500 mb-1 font-medium">Bukti Pembayaran</div>
                           {registration.paymentProof ? (
@@ -436,7 +436,7 @@ export default function RegistrationsPage() {
                           </div>
 
                           {/* Status Badge */}
-                          <div className="flex-shrink-0 ml-4">
+                          <div className="shrink-0 ml-4">
                             <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${getStatusColor(registration.status)}`}>
                               {registration.status}
                             </span>
@@ -746,7 +746,7 @@ export default function RegistrationsPage() {
 
               <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
                 <div className="flex items-start">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <svg className="w-5 h-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>

@@ -21,7 +21,7 @@ export default function Hero() {
         }
       `}</style>
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#4B061A] via-[#6B1B2F] to-[#8B2538]"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-[#4B061A] via-[#6B1B2F] to-[#8B2538]"></div>
 
       {/* Decorative Background Elements */}
       <div className="absolute inset-0">
@@ -104,7 +104,7 @@ export default function Hero() {
                     priority
                   />
                   {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#4B061A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-linear-to-t from-[#4B061A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
               </div>
 

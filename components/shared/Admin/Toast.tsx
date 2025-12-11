@@ -60,7 +60,7 @@ export function Toast({ message, type, duration = 3000, onClose }: ToastProps) {
     }`}>
       <div className={`max-w-md rounded-lg border p-4 shadow-lg ${config.bgColor} ${config.borderColor}`}>
         <div className="flex items-start">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Icon className={`h-5 w-5 ${config.iconColor}`} />
           </div>
           <div className="ml-3 flex-1">
@@ -68,7 +68,7 @@ export function Toast({ message, type, duration = 3000, onClose }: ToastProps) {
               {message}
             </p>
           </div>
-          <div className="ml-4 flex-shrink-0">
+          <div className="ml-4 shrink-0">
             <button
               onClick={() => {
                 setIsVisible(false)

@@ -107,7 +107,7 @@ export default function BPH() {
         <div className={`relative w-50 h-60 transition-all duration-700 ease-in-out group ${
           isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
         }`}>
-          <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${roleColors?.gradient || 'from-purple-500 to-pink-500'} opacity-20 transition-all duration-700 group-hover:opacity-30`} />
+          <div className={`absolute inset-0 rounded-2xl bg-linear-to-br ${roleColors?.gradient || 'from-purple-500 to-pink-500'} opacity-20 transition-all duration-700 group-hover:opacity-30`} />
           <Image
             src={leader.image}
             alt={leader.name}
@@ -119,7 +119,7 @@ export default function BPH() {
         <div className={`text-center ${alignRight ? "md:text-right" : "md:text-left"} transition-all duration-500 ease-in-out delay-100 ${
           isVisible ? 'opacity-100 translate-x-0' : `opacity-0 ${alignRight ? 'translate-x-8' : '-translate-x-8'}`
         }`}>
-          <h2 className={`text-xl font-bold mb-1 transition-all duration-700 bg-gradient-to-r ${roleColors?.gradient || 'from-purple-500 to-pink-500'} bg-clip-text text-transparent`}>
+          <h2 className={`text-xl font-bold mb-1 transition-all duration-700 bg-linear-to-r ${roleColors?.gradient || 'from-purple-500 to-pink-500'} bg-clip-text text-transparent`}>
             {leader.role}
           </h2>
           <h3 className="text-lg font-semibold transition-all duration-300 text-white">
@@ -132,7 +132,7 @@ export default function BPH() {
             href={leader.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className={`group inline-flex items-center justify-center mt-4 p-3 rounded-full bg-gradient-to-r ${roleColors?.gradient || 'from-purple-500 via-pink-500 to-red-500'} text-white shadow-lg transform transition-all duration-500 hover:scale-110 hover:shadow-xl ${roleColors?.shadow || 'hover:shadow-pink-500/25'} hover:-translate-y-1 cursor-pointer ${alignRight ? "mx-auto md:ml-auto" : ""}`}
+            className={`group inline-flex items-center justify-center mt-4 p-3 rounded-full bg-linear-to-r ${roleColors?.gradient || 'from-purple-500 via-pink-500 to-red-500'} text-white shadow-lg transform transition-all duration-500 hover:scale-110 hover:shadow-xl ${roleColors?.shadow || 'hover:shadow-pink-500/25'} hover:-translate-y-1 cursor-pointer ${alignRight ? "mx-auto md:ml-auto" : ""}`}
           >
             <Instagram 
               size={20} 
@@ -163,12 +163,12 @@ export default function BPH() {
               onClick={() => handleRoleChange(role)}
               className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-500 transform hover:scale-105 active:scale-95 relative overflow-hidden ${
                 isSelected
-                  ? `bg-gradient-to-r ${currentColors.gradient} text-white ${currentColors.border} shadow-lg ${currentColors.shadow}`
+                  ? `bg-linear-to-r ${currentColors.gradient} text-white ${currentColors.border} shadow-lg ${currentColors.shadow}`
                   : `border-gray-500 text-gray-300 ${roleColor.hover} hover:shadow-md`
               }`}
               disabled={isAnimating}
             >
-              <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${roleColor.gradient} transition-all duration-700 ease-in-out ${
+              <div className={`absolute inset-0 rounded-full bg-linear-to-r ${roleColor.gradient} transition-all duration-700 ease-in-out ${
                 isSelected ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
               }`} />
               

@@ -182,7 +182,7 @@ export default function Division() {
                           href={member.instagram}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group relative flex-shrink-0 w-8 h-8 md:w-9 md:h-9 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-lg flex items-center justify-center hover:scale-110 hover:rotate-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-pink-500/25 cursor-pointer"
+                          className="group relative shrink-0 w-8 h-8 md:w-9 md:h-9 bg-linear-to-br from-purple-600 via-pink-500 to-orange-400 rounded-lg flex items-center justify-center hover:scale-110 hover:rotate-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-pink-500/25 cursor-pointer"
                         >
                           <svg
                             className="w-4 h-4 md:w-5 md:h-5 text-white"

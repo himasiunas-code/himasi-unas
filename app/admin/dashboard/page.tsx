@@ -145,8 +145,8 @@ export default function AdminDashboard() {
         <div className="bg-white overflow-hidden shadow-lg rounded-xl border border-gray-100 hover:shadow-xl transition-shadow duration-200">
           <div className="p-6">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+              <div className="shrink-0">
+                <div className="h-12 w-12 bg-linear-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                   <Activity className="h-6 w-6 text-white" />
                 </div>
               </div>
@@ -163,8 +163,8 @@ export default function AdminDashboard() {
         <div className="bg-white overflow-hidden shadow-lg rounded-xl border border-gray-100 hover:shadow-xl transition-shadow duration-200">
           <div className="p-6">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+              <div className="shrink-0">
+                <div className="h-12 w-12 bg-linear-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
                   <Users className="h-6 w-6 text-white" />
                 </div>
               </div>
@@ -181,8 +181,8 @@ export default function AdminDashboard() {
         <div className="bg-white overflow-hidden shadow-lg rounded-xl border border-gray-100 hover:shadow-xl transition-shadow duration-200">
           <div className="p-6">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
+              <div className="shrink-0">
+                <div className="h-12 w-12 bg-linear-to-r from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
                   <TrendingUp className="h-6 w-6 text-white" />
                 </div>
               </div>
@@ -199,8 +199,8 @@ export default function AdminDashboard() {
         <div className="bg-white overflow-hidden shadow-lg rounded-xl border border-gray-100 hover:shadow-xl transition-shadow duration-200">
           <div className="p-6">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <div className="shrink-0">
+                <div className="h-12 w-12 bg-linear-to-r from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
                   <Eye className="h-6 w-6 text-white" />
                 </div>
               </div>
