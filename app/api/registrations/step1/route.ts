@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
       phone,
       npm,
       yearClass,
+      institution,
       faculty,
       major
     } = body
@@ -22,12 +23,12 @@ export async function POST(request: NextRequest) {
     console.log('🔍 Validating required fields for step 1...')
     
     // Validasi required fields untuk sesi 1
-    if (!email || !fullName || !phone || !npm || !yearClass) {
-      console.log('❌ Missing required fields:', { email: !!email, fullName: !!fullName, phone: !!phone, npm: !!npm, yearClass: !!yearClass })
+    if (!email || !fullName || !phone || !npm) {
+      console.log('❌ Missing required fields:', { email: !!email, fullName: !!fullName, phone: !!phone, npm: !!npm })
       return NextResponse.json(
         {
           success: false,
-          message: 'Email, nama lengkap, nomor HP, NPM, dan tahun angkatan wajib diisi'
+          message: 'Email, nama lengkap, nomor HP, dan NPM wajib diisi'
         },
         { status: 400 }
       )
@@ -226,7 +227,8 @@ export async function POST(request: NextRequest) {
           fullName,
           phone,
           npm,
-          yearClass,
+          // yearClass, // COMMENTED OUT - field is now optional
+          institution,
           faculty,
           major,
           // Instagram dan info tambahan null dulu, akan diisi di step 2
@@ -302,6 +304,9 @@ export async function POST(request: NextRequest) {
       } else if (error.message.includes('Required field')) {
         errorMessage = 'Data yang diperlukan tidak lengkap'
         statusCode = 400
+      } else {
+        // In development, show the actual error
+        errorMessage = error.message || 'Gagal menyimpan data sesi 1'
       }
     }
     
@@ -309,7 +314,8 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         message: errorMessage,
-        error: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
+        error: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined,
+        details: process.env.NODE_ENV === 'development' ? error : undefined
       },
       { status: statusCode }
     )
