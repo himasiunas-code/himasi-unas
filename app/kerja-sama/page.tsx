@@ -7,7 +7,6 @@ export default function KerjaSamaPage() {
     <div>
       <Hero />
       <SlideLogo />
-      <SlideLogo />
       <Contact />
     </div>
   );
