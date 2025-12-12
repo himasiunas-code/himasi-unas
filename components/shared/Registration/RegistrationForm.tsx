@@ -320,10 +320,10 @@ export default function RegistrationForm() {
       return
     }
 
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024
+    // Validate file size (max 300KB)
+    const maxSize = 300 * 1024
     if (file.size > maxSize) {
-      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 5MB. Kompres gambar terlebih dahulu.' }))
+      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 300KB. Kompres gambar terlebih dahulu.' }))
       return
     }
 
