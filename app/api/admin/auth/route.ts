@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 
 // Simple password for admin access
 // In production, use proper authentication with hashed passwords
-const ADMIN_PASSWORD = 'himasi#25gokilparah.'
+const ADMIN_PASSWORD = 'himasi25bos.'
 
 export async function POST(request: NextRequest) {
   try {
