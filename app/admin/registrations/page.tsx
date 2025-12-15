@@ -536,9 +536,10 @@ export default function RegistrationsPage() {
                       {/* Instagram Info */}
                       <div>
                         <h4 className="text-sm font-medium text-gray-700 mb-2">Instagram</h4>
-                        {registration.instagramHandle && (
-                          <p className="text-sm text-gray-900 mb-1">{registration.instagramHandle}</p>
-                        )}
+                        <p className="text-sm text-gray-900 mb-1">
+                          <span className="font-medium">Username: </span>
+                          {registration.instagramHandle || '-'}
+                        </p>
                         {registration.instagramProof ? (
                           <p className="text-xs text-green-600 flex items-center">
                             <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
