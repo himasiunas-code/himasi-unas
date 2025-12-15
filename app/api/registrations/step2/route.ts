@@ -97,13 +97,13 @@ export async function PUT(request: NextRequest) {
         )
       }
       
-      // Check size of base64 data (roughly 25MB limit in base64)
-      if (instagramProof.length > 33554432) { // 32MB in characters
+      // Check size of base64 data (1MB file = ~1.37MB in base64)
+      if (instagramProof.length > 1400000) { // ~1MB original file size in base64
         console.log('❌ Instagram proof too large:', instagramProof.length)
         return NextResponse.json(
           {
             success: false,
-            message: 'Gambar bukti follow Instagram terlalu besar. Kompres gambar terlebih dahulu.'
+            message: 'Gambar bukti follow Instagram terlalu besar (max 1MB). Kompres gambar terlebih dahulu.'
           },
           { status: 400 }
         )
