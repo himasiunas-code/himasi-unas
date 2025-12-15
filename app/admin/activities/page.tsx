@@ -144,7 +144,15 @@ export default function AdminActivitiesPage() {
       const activityData = {
         ...formData,
         image: imageUrl,
-        maxParticipants: Number(formData.maxParticipants)
+        maxParticipants: Number(formData.maxParticipants),
+        // Set deadline to end of day (23:59:59) if provided
+        registrationDeadline: formData.registrationDeadline 
+          ? `${formData.registrationDeadline}T23:59:59` 
+          : '',
+        // Set start date to beginning of day (09:00:00) if provided
+        registrationStartDate: formData.registrationStartDate 
+          ? `${formData.registrationStartDate}T09:00:00` 
+          : ''
       }
 
       console.log('🚀 Submitting activity data:', activityData)
@@ -451,6 +459,7 @@ export default function AdminActivitiesPage() {
                     value={formData.registrationStartDate}
                     onChange={(e) => setFormData(prev => ({ ...prev, registrationStartDate: e.target.value }))}
                   />
+                  <p className="text-xs text-gray-500 mt-1">Pendaftaran mulai pukul 09:00 WIB</p>
                 </div>
                 <div>
                   <Label htmlFor="registrationDeadline">Batas Pendaftaran</Label>
@@ -460,6 +469,7 @@ export default function AdminActivitiesPage() {
                     value={formData.registrationDeadline}
                     onChange={(e) => setFormData(prev => ({ ...prev, registrationDeadline: e.target.value }))}
                   />
+                  <p className="text-xs text-gray-500 mt-1">Pendaftaran ditutup pukul 23:59 WIB</p>
                 </div>
               </div>
 
