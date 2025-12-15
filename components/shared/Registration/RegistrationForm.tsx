@@ -1185,8 +1185,8 @@ export default function RegistrationForm() {
                       >
                         Pilih File Gambar
                       </button>
-                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG, WEBP (Max: 5MB)</p>
-                      <p className="text-gray-500 text-xs mt-1">Screenshot harus menunjukkan bahwa Anda sudah follow @himasi_unas</p>
+                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG, WEBP (Max: 300KB)</p>
+                      <p className="text-gray-500 text-xs mt-1">Screenshot harus menunjukkan bahwa Anda sudah follow @himasi.unas1949</p>
                       <p className="text-blue-600 text-xs mt-1">💡 Tip: Kompres gambar jika ukuran terlalu besar</p>
                     </div>
                   ) : (
