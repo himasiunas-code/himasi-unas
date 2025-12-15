@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Upload, User, Mail, Phone, Calendar, Building, FileImage, Instagram, MessageSquare, AlertCircle, CheckCircle, X /*, CreditCard, Smartphone */ } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import imageCompression from 'browser-image-compression'
 
 interface FormData {
   email: string
@@ -308,8 +309,8 @@ export default function RegistrationForm() {
     }
   }
 
-  // Handle file upload
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle file upload with automatic compression
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -320,28 +321,55 @@ export default function RegistrationForm() {
       return
     }
 
-    // Validate file size (max 300KB)
-    const maxSize = 300 * 1024
+    // Validate file size (max 1MB before compression)
+    const maxSize = 1024 * 1024
     if (file.size > maxSize) {
-      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 300KB. Kompres gambar terlebih dahulu.' }))
+      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 1MB. Silakan pilih gambar yang lebih kecil.' }))
       return
     }
 
     // Clear any previous errors
     setErrors(prev => ({ ...prev, instagramProof: '' }))
     
-    // Set file state
-    setInstagramProof(file)
+    try {
+      // Show compression progress
+      setErrors(prev => ({ ...prev, instagramProof: 'Mengompres gambar...' }))
+      
+      // Compression options - compress further for database efficiency
+      const options = {
+        maxSizeMB: 0.5, // Target 500KB after compression (from max 1MB input)
+        maxWidthOrHeight: 1920, // Max resolution
+        useWebWorker: true,
+        fileType: 'image/jpeg' as const // Convert to JPEG for better compression
+      }
+      
+      // Compress the image
+      const compressedFile = await imageCompression(file, options)
+      
+      // Log compression result
+      console.log('📤 Original file size:', (file.size / 1024).toFixed(2), 'KB')
+      console.log('📦 Compressed file size:', (compressedFile.size / 1024).toFixed(2), 'KB')
+      console.log('💾 Space saved:', ((1 - compressedFile.size / file.size) * 100).toFixed(1), '%')
+      
+      // Clear compression message
+      setErrors(prev => ({ ...prev, instagramProof: '' }))
+      
+      // Set compressed file
+      setInstagramProof(compressedFile)
 
-    // Create preview
-    const reader = new FileReader()
-    reader.onload = () => {
-      setPreviewUrl(reader.result as string)
+      // Create preview
+      const reader = new FileReader()
+      reader.onload = () => {
+        setPreviewUrl(reader.result as string)
+      }
+      reader.onerror = () => {
+        setErrors(prev => ({ ...prev, instagramProof: 'Gagal membaca file. Silakan coba file lain.' }))
+      }
+      reader.readAsDataURL(compressedFile)
+    } catch (error) {
+      console.error('Compression error:', error)
+      setErrors(prev => ({ ...prev, instagramProof: 'Gagal mengompres gambar. Silakan coba lagi.' }))
     }
-    reader.onerror = () => {
-      setErrors(prev => ({ ...prev, instagramProof: 'Gagal membaca file. Silakan coba file lain.' }))
-    }
-    reader.readAsDataURL(file)
   }
 
   // Remove file
@@ -1185,7 +1213,7 @@ export default function RegistrationForm() {
                       >
                         Pilih File Gambar
                       </button>
-                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG, WEBP (Max: 300KB)</p>
+                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG, WEBP (Max: 1MB)</p>
                       <p className="text-gray-500 text-xs mt-1">Screenshot harus menunjukkan bahwa Anda sudah follow @himasi.unas1949</p>
                       <p className="text-blue-600 text-xs mt-1">💡 Tip: Kompres gambar jika ukuran terlalu besar</p>
                     </div>
