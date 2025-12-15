@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
+import ExcelJS from 'exceljs'
 import {
   Users,
   Search,
@@ -60,6 +61,7 @@ export default function RegistrationsPage() {
   const [statusFilter, setStatusFilter] = useState('')
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [showPreview, setShowPreview] = useState(false)
   const [rejectionModal, setRejectionModal] = useState<{
     isOpen: boolean;
     registrationId: string;
@@ -79,11 +81,13 @@ export default function RegistrationsPage() {
           closeRejectionModal()
         } else if (selectedImage) {
           setSelectedImage(null)
+        } else if (showPreview) {
+          setShowPreview(false)
         }
       }
     }
 
-    if (selectedImage || rejectionModal.isOpen) {
+    if (selectedImage || rejectionModal.isOpen || showPreview) {
       document.addEventListener('keydown', handleEscKey)
       document.body.style.overflow = 'hidden' // Prevent background scrolling
     }
@@ -92,7 +96,7 @@ export default function RegistrationsPage() {
       document.removeEventListener('keydown', handleEscKey)
       document.body.style.overflow = 'unset'
     }
-  }, [selectedImage, rejectionModal.isOpen])
+  }, [selectedImage, rejectionModal.isOpen, showPreview])
 
   useEffect(() => {
     fetchRegistrations()
@@ -219,31 +223,119 @@ export default function RegistrationsPage() {
     return matchesSearch && matchesStatus
   })
 
-  const exportToCSV = () => {
-    const headers = ['Nama Lengkap', 'Email', 'Telepon', 'NPM', 'Asal Instansi', 'Fakultas', 'Jurusan', 'Instagram Handle', 'Kegiatan', 'Status', 'Tanggal Daftar']
-    const csvData = [
-      headers,
-      ...filteredRegistrations.map(reg => [
-        reg.fullName,
-        reg.email,
-        reg.phone,
-        reg.npm || '',
-        reg.institution || '',
-        reg.faculty || '',
-        reg.major || '',
-        reg.instagramHandle || '',
-        reg.activity.title,
-        reg.status,
-        new Date(reg.createdAt).toLocaleDateString('id-ID')
-      ])
+  const exportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook()
+    const worksheet = workbook.addWorksheet('Pendaftaran', {
+      properties: { tabColor: { argb: 'FF4B061A' } }
+    })
+
+    // Define columns
+    worksheet.columns = [
+      { header: 'No', key: 'no', width: 5 },
+      { header: 'Nama Lengkap', key: 'fullName', width: 25 },
+      { header: 'Email', key: 'email', width: 30 },
+      { header: 'Telepon', key: 'phone', width: 18 },
+      { header: 'NPM', key: 'npm', width: 15 },
+      { header: 'Asal Instansi', key: 'institution', width: 25 },
+      { header: 'Fakultas', key: 'faculty', width: 25 },
+      { header: 'Jurusan', key: 'major', width: 25 },
+      { header: 'Instagram Handle', key: 'instagram', width: 20 },
+      { header: 'Kegiatan', key: 'activity', width: 30 },
+      { header: 'Status', key: 'status', width: 15 },
+      { header: 'Tanggal Daftar', key: 'date', width: 20 }
     ]
 
-    const csvContent = csvData.map(row => row.join(',')).join('\n')
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    // Style header row
+    const headerRow = worksheet.getRow(1)
+    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 12 }
+    headerRow.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF4B061A' }
+    }
+    headerRow.alignment = { vertical: 'middle', horizontal: 'center' }
+    headerRow.height = 25
+
+    // Add data rows
+    filteredRegistrations.forEach((reg, index) => {
+      const row = worksheet.addRow({
+        no: index + 1,
+        fullName: reg.fullName,
+        email: reg.email,
+        phone: reg.phone,
+        npm: reg.npm || '-',
+        institution: reg.institution || '-',
+        faculty: reg.faculty || '-',
+        major: reg.major || '-',
+        instagram: reg.instagramHandle || '-',
+        activity: reg.activity.title,
+        status: reg.status,
+        date: new Date(reg.createdAt).toLocaleDateString('id-ID', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        })
+      })
+
+      // Alternate row colors
+      if (index % 2 === 0) {
+        row.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFF9FAFB' }
+        }
+      }
+
+      // Style status cell based on value
+      const statusCell = row.getCell('status')
+      statusCell.font = { bold: true }
+      switch (reg.status) {
+        case 'APPROVED':
+          statusCell.font = { ...statusCell.font, color: { argb: 'FF10B981' } }
+          break
+        case 'PENDING':
+          statusCell.font = { ...statusCell.font, color: { argb: 'FFF59E0B' } }
+          break
+        case 'REJECTED':
+          statusCell.font = { ...statusCell.font, color: { argb: 'FFEF4444' } }
+          break
+        case 'ATTENDED':
+          statusCell.font = { ...statusCell.font, color: { argb: 'FF3B82F6' } }
+          break
+        case 'ABSENT':
+          statusCell.font = { ...statusCell.font, color: { argb: 'FF6B7280' } }
+          break
+      }
+
+      // Center align No and Status columns
+      row.getCell('no').alignment = { horizontal: 'center', vertical: 'middle' }
+      row.getCell('status').alignment = { horizontal: 'center', vertical: 'middle' }
+      
+      // Set row height
+      row.height = 20
+    })
+
+    // Add borders to all cells
+    worksheet.eachRow((row, rowNumber) => {
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+          left: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+          bottom: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+          right: { style: 'thin', color: { argb: 'FFD1D5DB' } }
+        }
+      })
+    })
+
+    // Generate Excel file
+    const buffer = await workbook.xlsx.writeBuffer()
+    const blob = new Blob([buffer], { 
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+    })
     const link = document.createElement('a')
     const url = URL.createObjectURL(blob)
     link.setAttribute('href', url)
-    link.setAttribute('download', `registrations_${new Date().toISOString().split('T')[0]}.csv`)
+    link.setAttribute('download', `Pendaftaran_${new Date().toISOString().split('T')[0]}.xlsx`)
     link.style.visibility = 'hidden'
     document.body.appendChild(link)
     link.click()
@@ -276,11 +368,18 @@ export default function RegistrationsPage() {
               Refresh
             </button>
             <button
-              onClick={exportToCSV}
+              onClick={() => setShowPreview(true)}
+              className="inline-flex items-center px-4 py-2 border border-[#4B061A] rounded-lg shadow-sm text-sm font-medium text-[#4B061A] bg-white hover:bg-gray-50 transition-colors duration-200"
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Lihat Data
+            </button>
+            <button
+              onClick={exportToExcel}
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-linear-to-r from-[#4B061A] to-[#6B0B2A] hover:from-[#3A0514] hover:to-[#5A0B24] transition-all duration-200"
             >
               <Download className="w-4 h-4 mr-2" />
-              Export CSV
+              Export Excel
             </button>
           </div>
         </div>
@@ -580,16 +679,18 @@ export default function RegistrationsPage() {
                 </div>
               </div>
             ))}
-          </div>        {filteredRegistrations.length === 0 && (
-          <div className="text-center py-12">
-            <Users className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">Tidak ada pendaftaran</h3>
-            <p className="mt-1 text-sm text-gray-500">
-              {searchTerm || statusFilter ? 'Tidak ada hasil yang sesuai dengan filter.' : 'Belum ada pendaftaran yang masuk.'}
-            </p>
+
+            {filteredRegistrations.length === 0 && (
+              <div className="text-center py-12">
+                <Users className="mx-auto h-12 w-12 text-gray-400" />
+                <h3 className="mt-2 text-sm font-medium text-gray-900">Tidak ada pendaftaran</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  {searchTerm || statusFilter ? 'Tidak ada hasil yang sesuai dengan filter.' : 'Belum ada pendaftaran yang masuk.'}
+                </p>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
 
       {/* Image Modal */}
       {selectedImage && typeof document !== 'undefined' ? createPortal(
@@ -717,6 +818,108 @@ export default function RegistrationsPage() {
                   'Tolak Pendaftaran'
                 )}
               </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      ) : null}
+
+      {/* Data Preview Modal */}
+      {showPreview && typeof document !== 'undefined' ? createPortal(
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg w-full max-w-[95vw] max-h-[95vh] flex flex-col shadow-2xl">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b bg-[#4B061A] text-white rounded-t-lg">
+              <h2 className="text-xl font-bold">Preview Data Pendaftaran</h2>
+              <button
+                onClick={() => setShowPreview(false)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Table Container */}
+            <div className="flex-1 overflow-auto p-4">
+              <div className="min-w-max">
+                <table className="w-full border-collapse">
+                  <thead className="sticky top-0 bg-[#4B061A] text-white z-10">
+                    <tr>
+                      <th className="border border-gray-300 px-3 py-3 text-center font-bold text-sm">No</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Nama Lengkap</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Email</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Telepon</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">NPM</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Asal Instansi</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Fakultas</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Jurusan</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Instagram</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Kegiatan</th>
+                      <th className="border border-gray-300 px-3 py-3 text-center font-bold text-sm">Status</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Tanggal Daftar</th>
+                    </tr>
+                  </thead>
+                  <tbody className='text-black'>
+                    {filteredRegistrations.map((reg, index) => (
+                      <tr key={reg.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                        <td className="border border-gray-300 px-3 py-2 text-center text-sm">{index + 1}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.fullName}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.email}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.phone}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.npm || '-'}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.institution || '-'}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.faculty || '-'}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.major || '-'}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.instagramHandle || '-'}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.activity.title}</td>
+                        <td className="border border-gray-300 px-3 py-2 text-center">
+                          <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                            reg.status === 'APPROVED' ? 'bg-green-100 text-green-700' :
+                            reg.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+                            reg.status === 'REJECTED' ? 'bg-red-100 text-red-700' :
+                            reg.status === 'ATTENDED' ? 'bg-blue-100 text-blue-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>
+                            {reg.status}
+                          </span>
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm whitespace-nowrap">
+                          {new Date(reg.createdAt).toLocaleDateString('id-ID', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric'
+                          })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="border-t p-4 bg-gray-50 rounded-b-lg flex items-center justify-between">
+              <p className="text-sm text-gray-600">
+                Total: <strong>{filteredRegistrations.length}</strong> pendaftaran
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowPreview(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                >
+                  Tutup
+                </button>
+                <button
+                  onClick={() => {
+                    setShowPreview(false)
+                    exportToExcel()
+                  }}
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#4B061A] hover:bg-[#3A0514] transition-colors"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download Excel
+                </button>
+              </div>
             </div>
           </div>
         </div>,
