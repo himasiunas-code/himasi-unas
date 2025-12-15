@@ -36,6 +36,18 @@ export async function PUT(request: NextRequest) {
       )
     }
 
+    // Validasi Instagram handle
+    if (!instagramHandle || !instagramHandle.trim()) {
+      console.log('❌ Missing Instagram handle')
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Username Instagram harus diisi'
+        },
+        { status: 400 }
+      )
+    }
+
     // PAYMENT VALIDATION - COMMENTED OUT
     // Validasi payment method
     // if (!paymentMethod) {
