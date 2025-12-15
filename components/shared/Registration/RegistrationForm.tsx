@@ -455,6 +455,16 @@ export default function RegistrationForm() {
   const validateStep2 = (): boolean => {
     const newErrors: FormErrors = {}
 
+    // Instagram handle validation
+    if (!formData.instagramHandle.trim()) {
+      newErrors.instagramHandle = 'Username Instagram wajib diisi'
+    }
+
+    // Instagram proof validation
+    if (!instagramProof) {
+      newErrors.instagramProof = 'Bukti follow Instagram wajib diupload'
+    }
+
     // PAYMENT VALIDATION - COMMENTED OUT
     // Payment method wajib dipilih
     // if (!formData.paymentMethod.trim()) newErrors.paymentMethod = 'Metode pembayaran wajib dipilih'
