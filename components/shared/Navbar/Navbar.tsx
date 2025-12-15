@@ -22,9 +22,9 @@ export default function Navbar() {
 
   return (
     // Fixed overlay header that visually "floats" centered with rounded-full container
-    <header className="fixed z-[60] inset-x-0 top-6 pointer-events-none">
+    <header className="fixed z-60 inset-x-0 top-6 pointer-events-none">
       <div className="mx-auto max-w-[1440px] w-full px-4 pointer-events-auto">
-        <div className="h-[80px] w-full rounded-full bg-[rgba(107,20,48,0.85)] border border-[rgba(255,255,255,0.06)] backdrop-blur-sm shadow-xl flex items-center justify-between px-6">
+        <div className="h-20 w-full rounded-full bg-[rgba(107,20,48,0.85)] border border-[rgba(255,255,255,0.06)] backdrop-blur-sm shadow-xl flex items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex flex-row items-center space-x-2 md:space-x-0">
         <Image
