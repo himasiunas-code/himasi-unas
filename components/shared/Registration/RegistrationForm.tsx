@@ -45,6 +45,8 @@ export default function RegistrationForm() {
   const [currentStep, setCurrentStep] = useState<1 | 2>(1)
   const [registrationId, setRegistrationId] = useState<string | null>(null)
   const [step1Completed, setStep1Completed] = useState(false)
+  const [hasIncompleteRegistration, setHasIncompleteRegistration] = useState(false)
+  const [showResumePrompt, setShowResumePrompt] = useState(false)
   
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -209,13 +211,180 @@ export default function RegistrationForm() {
     setShowPopup(false)
   }
 
+  // Compress data untuk localStorage (remove empty/default values)
+  const compressFormData = (data: FormData) => {
+    const compressed: Partial<FormData> = {}
+    Object.entries(data).forEach(([key, value]) => {
+      if (value && value !== '') {
+        compressed[key as keyof FormData] = value
+      }
+    })
+    return compressed
+  }
+
+  // Save registration state to localStorage (optimized)
+  const saveStateToLocalStorage = () => {
+    try {
+      // Only save essential data untuk network efficiency
+      const registrationState = {
+        s: currentStep, // Shortened keys untuk mengurangi size
+        r: registrationId,
+        c: step1Completed,
+        d: compressFormData(formData), // Compressed data
+        t: Date.now() // Timestamp as number (lebih kecil dari ISO string)
+      }
+      const serialized = JSON.stringify(registrationState)
+      
+      // Check size before saving
+      const sizeKB = new Blob([serialized]).size / 1024
+      if (sizeKB > 100) {
+        console.warn('⚠️ State size too large:', sizeKB.toFixed(2), 'KB')
+      }
+      
+      localStorage.setItem('himasi_registration_state', serialized)
+      console.log('✅ State saved:', sizeKB.toFixed(2), 'KB')
+    } catch (error) {
+      console.error('Failed to save state to localStorage:', error)
+    }
+  }
+
+  // Load registration state from localStorage (with decompression)
+  const loadStateFromLocalStorage = () => {
+    try {
+      const savedState = localStorage.getItem('himasi_registration_state')
+      if (savedState) {
+        const state = JSON.parse(savedState)
+        
+        // Handle both old and new format (backward compatibility)
+        const isCompressed = 's' in state && 'r' in state
+        
+        if (isCompressed) {
+          // New compressed format
+          const savedTime = state.t
+          const now = Date.now()
+          const hoursDiff = (now - savedTime) / (1000 * 60 * 60)
+          
+          if (hoursDiff < 24 && state.c && state.r) {
+            console.log('🔄 Found incomplete registration (compressed)')
+            // Decompress back to original format
+            return {
+              currentStep: state.s,
+              registrationId: state.r,
+              step1Completed: state.c,
+              formData: state.d,
+              timestamp: new Date(state.t).toISOString()
+            }
+          } else if (hoursDiff >= 24) {
+            console.log('⏰ Saved state expired (>24 hours), clearing...')
+            localStorage.removeItem('himasi_registration_state')
+          }
+        } else {
+          // Old uncompressed format (fallback)
+          const savedTime = new Date(state.timestamp).getTime()
+          const now = new Date().getTime()
+          const hoursDiff = (now - savedTime) / (1000 * 60 * 60)
+          
+          if (hoursDiff < 24 && state.step1Completed && state.registrationId) {
+            console.log('🔄 Found incomplete registration (legacy)')
+            return state
+          } else if (hoursDiff >= 24) {
+            localStorage.removeItem('himasi_registration_state')
+          }
+        }
+      }
+      return null
+    } catch (error) {
+      console.error('Failed to load state from localStorage:', error)
+      return null
+    }
+  }
+
+  // Clear registration state from localStorage
+  const clearStateFromLocalStorage = () => {
+    try {
+      localStorage.removeItem('himasi_registration_state')
+      console.log('🗑️ State cleared from localStorage')
+    } catch (error) {
+      console.error('Failed to clear state from localStorage:', error)
+    }
+  }
+
+  // Resume incomplete registration
+  const resumeRegistration = (savedState: any) => {
+    setCurrentStep(savedState.currentStep)
+    setRegistrationId(savedState.registrationId)
+    setStep1Completed(savedState.step1Completed)
+    setFormData(savedState.formData)
+    setShowResumePrompt(false)
+    showNotification('success', '🔄 Pendaftaran Dilanjutkan', 'Anda dapat melanjutkan pendaftaran dari langkah terakhir')
+  }
+
+  // Start new registration (clear saved state)
+  const startNewRegistration = () => {
+    clearStateFromLocalStorage()
+    setShowResumePrompt(false)
+    setHasIncompleteRegistration(false)
+    showNotification('success', '✨ Pendaftaran Baru Dimulai', 'Silakan isi formulir dari awal')
+  }
+
+  // Load saved state on component mount
+  useEffect(() => {
+    const savedState = loadStateFromLocalStorage()
+    if (savedState) {
+      setHasIncompleteRegistration(true)
+      setShowResumePrompt(true)
+    }
+  }, [])
+
+  // Save state whenever it changes (with debounce untuk efisiensi)
+  useEffect(() => {
+    if (step1Completed && registrationId) {
+      // Debounce save - tunggu 500ms setelah perubahan terakhir
+      const debounceTimer = setTimeout(() => {
+        saveStateToLocalStorage()
+      }, 500)
+      
+      return () => clearTimeout(debounceTimer)
+    }
+  }, [currentStep, registrationId, step1Completed, formData])
+
+  // Cache untuk activity status (mengurangi redundant API calls)
+  const activityCacheRef = useRef<{ data: ActivityStatus | null; timestamp: number } | null>(null)
+  
   // Check activity status and determine registration availability
   useEffect(() => {
+    let isCancelled = false // Prevent race condition
+    
     const checkActivityStatus = async () => {
       try {
-        const response = await fetch('/api/activities/current')
+        // Check cache first (cache selama 30 detik)
+        const now = Date.now()
+        if (activityCacheRef.current && (now - activityCacheRef.current.timestamp) < 30000) {
+          console.log('📦 Using cached activity status')
+          const cachedData = activityCacheRef.current.data
+          if (cachedData && !isCancelled) {
+            setActivityStatus(cachedData)
+            // Process status dari cache...
+            return
+          }
+        }
+        
+        const response = await fetch('/api/activities/current', {
+          // Add cache control headers
+          headers: {
+            'Cache-Control': 'max-age=30'
+          }
+        })
         const result = await response.json()
+        
+        if (isCancelled) return // Don't update if component unmounted
         if (result.success && result.data) {
+          // Update cache
+          activityCacheRef.current = {
+            data: result.data,
+            timestamp: Date.now()
+          }
+          
           setActivityStatus(result.data)
           console.log('🔍 Activity Status Check:', result.data.registrationStatus)
           
@@ -270,7 +439,10 @@ export default function RegistrationForm() {
     
     // Check every 60 seconds for status updates (dikurangi dari 30 detik untuk hemat bandwidth)
     const interval = setInterval(checkActivityStatus, 60000)
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+      isCancelled = true // Cancel any pending updates
+    }
   }, [registrationId, step1Completed])
 
   // Calculate countdown timer for registration start
@@ -522,12 +694,18 @@ export default function RegistrationForm() {
       setRegistrationId(result.data.registrationId)
       setStep1Completed(true)
       
+      // Save state to localStorage immediately
+      setTimeout(() => {
+        saveStateToLocalStorage()
+      }, 100)
+      
       // Show success pop-up
-      showNotification('success', '🎉 Sesi 1 Berhasil!', result.message)
+      showNotification('success', '🎉 Sesi 1 Berhasil!', result.message + ' \n\n🥳')
       
       // Pindah ke step 2 setelah 3 detik
       setTimeout(() => {
         setCurrentStep(2)
+        saveStateToLocalStorage()
       }, 3000)
       
     } catch (error) {
@@ -646,6 +824,9 @@ export default function RegistrationForm() {
         throw new Error(result.message || 'Gagal menyelesaikan pendaftaran')
       }
       
+      // Clear localStorage karena pendaftaran sudah selesai
+      clearStateFromLocalStorage()
+      
       // Show success pop-up with confetti effect
       showNotification('success', '🎉 Pendaftaran Selesai!', result.message)
       
@@ -719,6 +900,50 @@ export default function RegistrationForm() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Resume Incomplete Registration Prompt */}
+      {showResumePrompt && hasIncompleteRegistration && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border-2 border-[#4B061A] animate-scale-in">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-yellow-400 to-orange-500 rounded-full mb-4 shadow-lg">
+                <AlertCircle className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">🔄 Pendaftaran Belum Selesai</h3>
+              <p className="text-gray-600">
+                Kami menemukan pendaftaran Anda yang belum diselesaikan. Apakah Anda ingin melanjutkan?
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={() => {
+                  const savedState = loadStateFromLocalStorage()
+                  if (savedState) resumeRegistration(savedState)
+                }}
+                className="w-full bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-4 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-semibold shadow-lg flex items-center justify-center"
+              >
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Lanjutkan Pendaftaran
+              </button>
+              
+              <button
+                onClick={startNewRegistration}
+                className="w-full bg-gray-200 text-gray-700 px-6 py-4 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold flex items-center justify-center"
+              >
+                <X className="w-5 h-5 mr-2" />
+                Mulai Pendaftaran Baru
+              </button>
+            </div>
+
+            <div className="mt-4 p-4 bg-blue-50 rounded-xl">
+              <p className="text-sm text-blue-800">
+                💡 <strong>Tips:</strong> Jika Anda melanjutkan, data yang sudah Anda isi akan dimuat kembali.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Registration Status Guard */}
       {registrationStatus === 'loading' ? (
         <div className="flex flex-col items-center justify-center min-h-[400px] bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl">
