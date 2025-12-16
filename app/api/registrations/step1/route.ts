@@ -179,16 +179,50 @@ export async function POST(request: NextRequest) {
         throw new Error('Activity not found during transaction')
       }
 
-      console.log('🔍 Final slot check:', {
-        currentParticipants: currentActivity._count.registrations,
-        maxParticipants: currentActivity.maxParticipants,
-        availableSlots: currentActivity.maxParticipants ? currentActivity.maxParticipants - currentActivity._count.registrations : 'unlimited'
+      // Hitung jumlah peserta per status akademik
+      const mahasiswaCount = await tx.registration.count({
+        where: {
+          activityId: activity.id,
+          academicStatus: 'Mahasiswa'
+        }
       })
 
-      // Final check untuk maksimal peserta dalam transaksi
-      if (currentActivity.maxParticipants && currentActivity._count.registrations >= currentActivity.maxParticipants) {
-        console.log('❌ Activity is full during transaction:', currentActivity._count.registrations, '>=', currentActivity.maxParticipants)
-        throw new Error('SLOT_FULL')
+      const pelajarCount = await tx.registration.count({
+        where: {
+          activityId: activity.id,
+          academicStatus: 'Pelajar'
+        }
+      })
+
+      console.log('🔍 Final slot check:', {
+        totalParticipants: currentActivity._count.registrations,
+        maxParticipants: currentActivity.maxParticipants,
+        mahasiswaCount,
+        maxMahasiswa: currentActivity.maxParticipantsMahasiswa,
+        pelajarCount,
+        maxPelajar: currentActivity.maxParticipantsPelajar,
+        requestedStatus: academicStatus
+      })
+
+      // Jika ada pembagian slot berdasarkan status akademik
+      if (currentActivity.maxParticipantsMahasiswa && currentActivity.maxParticipantsPelajar) {
+        if (academicStatus === 'Mahasiswa') {
+          if (mahasiswaCount >= currentActivity.maxParticipantsMahasiswa) {
+            console.log('❌ Slot Mahasiswa penuh:', mahasiswaCount, '>=', currentActivity.maxParticipantsMahasiswa)
+            throw new Error('SLOT_MAHASISWA_FULL')
+          }
+        } else if (academicStatus === 'Pelajar') {
+          if (pelajarCount >= currentActivity.maxParticipantsPelajar) {
+            console.log('❌ Slot Pelajar penuh:', pelajarCount, '>=', currentActivity.maxParticipantsPelajar)
+            throw new Error('SLOT_PELAJAR_FULL')
+          }
+        }
+      } else {
+        // Fallback ke pengecekan total slot jika tidak ada pembagian
+        if (currentActivity.maxParticipants && currentActivity._count.registrations >= currentActivity.maxParticipants) {
+          console.log('❌ Activity is full during transaction:', currentActivity._count.registrations, '>=', currentActivity.maxParticipants)
+          throw new Error('SLOT_FULL')
+        }
       }
 
       // Double-check untuk email yang sudah terdaftar dalam transaksi
@@ -281,6 +315,12 @@ export async function POST(request: NextRequest) {
       // Handle transaction-specific errors
       if (error.message === 'SLOT_FULL') {
         errorMessage = 'Maaf, slot kegiatan sudah penuh. Kuota habis saat Anda sedang mendaftar.'
+        statusCode = 400
+      } else if (error.message === 'SLOT_MAHASISWA_FULL') {
+        errorMessage = 'Maaf, slot untuk Mahasiswa sudah penuh. Silakan coba kegiatan lain atau tunggu pengumuman slot tambahan.'
+        statusCode = 400
+      } else if (error.message === 'SLOT_PELAJAR_FULL') {
+        errorMessage = 'Maaf, slot untuk Pelajar sudah penuh. Silakan coba kegiatan lain atau tunggu pengumuman slot tambahan.'
         statusCode = 400
       } else if (error.message === 'EMAIL_DUPLICATE') {
         errorMessage = 'Email Anda sudah terdaftar untuk kegiatan ini'
