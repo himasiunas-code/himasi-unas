@@ -24,31 +24,53 @@ export async function GET(request: NextRequest) {
 
     const activities = await prisma.activity.findMany({
       where: whereClause,
-      include: {
-        _count: {
-          select: { registrations: true }
-        },
-        registrations: {
-          select: {
-            academicStatus: true
-          }
-        }
-      },
       orderBy: {
         startDate: 'desc'
       }
     })
 
-    // Add currentParticipants field and count by status
+    // Ambil semua activity IDs untuk counting
+    const activityIds = activities.map(a => a.id)
+    
+    // Count registrations per activity dengan query batch yang efisien
+    const registrationCounts = await Promise.all(
+      activityIds.map(async (activityId) => {
+        const [total, mahasiswa, pelajar] = await Promise.all([
+          prisma.registration.count({
+            where: { activityId }
+          }),
+          prisma.registration.count({
+            where: { 
+              activityId,
+              academicStatus: 'Mahasiswa'
+            }
+          }),
+          prisma.registration.count({
+            where: { 
+              activityId,
+              academicStatus: 'Pelajar'
+            }
+          })
+        ])
+        
+        return {
+          activityId,
+          total,
+          mahasiswaCount: mahasiswa,
+          pelajarCount: pelajar
+        }
+      })
+    )
+
+    // Map counts ke activities
     const activitiesWithCount = activities.map(activity => {
-      const mahasiswaCount = activity.registrations.filter(r => r.academicStatus === 'Mahasiswa').length
-      const pelajarCount = activity.registrations.filter(r => r.academicStatus === 'Pelajar').length
+      const counts = registrationCounts.find(c => c.activityId === activity.id)
       
       return {
         ...activity,
-        currentParticipants: activity._count.registrations,
-        mahasiswaCount,
-        pelajarCount
+        currentParticipants: counts?.total || 0,
+        mahasiswaCount: counts?.mahasiswaCount || 0,
+        pelajarCount: counts?.pelajarCount || 0
       }
     })
 
