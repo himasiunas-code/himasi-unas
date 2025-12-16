@@ -1,25 +1,29 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { cache } from '@/lib/cache'
 
 // GET /api/activities/current - Ambil kegiatan aktif saat ini untuk halaman utama
 export async function GET() {
   try {
     console.log('📥 Current activity API called')
     
+    // Check cache dulu (TTL 30 detik)
+    const CACHE_KEY = 'current-activity'
+    const cached = cache.get(CACHE_KEY)
+    
+    if (cached) {
+      console.log('✅ Returning cached activity data')
+      return NextResponse.json({
+        success: true,
+        data: cached,
+        cached: true
+      })
+    }
+    
     // Ambil kegiatan yang paling terbaru dan published
     const activity = await prisma.activity.findFirst({
       where: {
         isPublished: true
-      },
-      include: {
-        _count: {
-          select: { registrations: true }
-        },
-        registrations: {
-          select: {
-            academicStatus: true
-          }
-        }
       },
       orderBy: {
         createdAt: 'desc'  // Yang paling baru dibuat
@@ -35,9 +39,24 @@ export async function GET() {
       })
     }
 
-    // Hitung peserta berdasarkan status akademik
-    const mahasiswaCount = activity.registrations.filter(r => r.academicStatus === 'Mahasiswa').length
-    const pelajarCount = activity.registrations.filter(r => r.academicStatus === 'Pelajar').length
+    // Hitung peserta berdasarkan status akademik dengan query terpisah (lebih efisien)
+    const [totalCount, mahasiswaCount, pelajarCount] = await Promise.all([
+      prisma.registration.count({
+        where: { activityId: activity.id }
+      }),
+      prisma.registration.count({
+        where: { 
+          activityId: activity.id,
+          academicStatus: 'Mahasiswa'
+        }
+      }),
+      prisma.registration.count({
+        where: { 
+          activityId: activity.id,
+          academicStatus: 'Pelajar'
+        }
+      })
+    ])
 
     // Check auto-open status based on registrationStartDate (same logic as registration API)
     const now = new Date()
@@ -55,7 +74,7 @@ export async function GET() {
       isAutoOpenTime,
       isWithinDeadline,
       finalRegistrationStatus: isRegistrationOpen,
-      currentParticipants: activity._count.registrations,
+      currentParticipants: totalCount,
       maxParticipants: activity.maxParticipants,
       mahasiswaCount,
       maxMahasiswa: activity.maxParticipantsMahasiswa,
@@ -66,7 +85,7 @@ export async function GET() {
     // Add currentParticipants field and computed registration status
     const activityWithCount = {
       ...activity,
-      currentParticipants: activity._count.registrations,
+      currentParticipants: totalCount,
       mahasiswaCount,
       pelajarCount,
       // Add computed fields for debugging
@@ -79,9 +98,13 @@ export async function GET() {
       }
     }
 
+    // Simpan ke cache (TTL 30 detik)
+    cache.set(CACHE_KEY, activityWithCount, 30000)
+
     return NextResponse.json({
       success: true,
-      data: activityWithCount
+      data: activityWithCount,
+      cached: false
     })
   } catch (error) {
     console.error('❌ Error fetching current activity:', error)
