@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
       fullName,
       phone,
       npm,
+      academicStatus,
       yearClass,
       institution,
       faculty,
@@ -42,18 +43,6 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           message: 'Format email tidak valid'
-        },
-        { status: 400 }
-      )
-    }
-
-    // Validasi format NPM (harus 12 digit)
-    if (npm && !/^\d{12}$/.test(npm.trim())) {
-      console.log('❌ Invalid NPM format:', npm)
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'NPM harus terdiri dari 12 digit angka'
         },
         { status: 400 }
       )
@@ -227,6 +216,7 @@ export async function POST(request: NextRequest) {
           fullName,
           phone,
           npm,
+          academicStatus,
           // yearClass, // COMMENTED OUT - field is now optional
           institution,
           faculty,
