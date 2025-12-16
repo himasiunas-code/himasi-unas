@@ -33,6 +33,7 @@ export async function GET() {
         id: true,
         title: true,
         description: true,
+        image: true, // ✅ IMPORTANT: Include image field
         startDate: true,
         endDate: true,
         registrationOpen: true,
