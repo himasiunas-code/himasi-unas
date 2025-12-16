@@ -27,6 +27,11 @@ export async function GET(request: NextRequest) {
       include: {
         _count: {
           select: { registrations: true }
+        },
+        registrations: {
+          select: {
+            academicStatus: true
+          }
         }
       },
       orderBy: {
@@ -34,11 +39,18 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    // Add currentParticipants field
-    const activitiesWithCount = activities.map(activity => ({
-      ...activity,
-      currentParticipants: activity._count.registrations
-    }))
+    // Add currentParticipants field and count by status
+    const activitiesWithCount = activities.map(activity => {
+      const mahasiswaCount = activity.registrations.filter(r => r.academicStatus === 'Mahasiswa').length
+      const pelajarCount = activity.registrations.filter(r => r.academicStatus === 'Pelajar').length
+      
+      return {
+        ...activity,
+        currentParticipants: activity._count.registrations,
+        mahasiswaCount,
+        pelajarCount
+      }
+    })
 
     return NextResponse.json({
       success: true,
@@ -71,6 +83,8 @@ export async function POST(request: NextRequest) {
       endDate,
       location,
       maxParticipants,
+      maxParticipantsMahasiswa,
+      maxParticipantsPelajar,
       registrationDeadline,
       registrationStartDate,
       requiresApproval,
@@ -119,6 +133,8 @@ export async function POST(request: NextRequest) {
         endDate: endDate ? new Date(endDate) : null,
         location,
         maxParticipants: maxParticipants || null,
+        maxParticipantsMahasiswa: maxParticipantsMahasiswa || null,
+        maxParticipantsPelajar: maxParticipantsPelajar || null,
         registrationDeadline: registrationDeadline ? new Date(registrationDeadline) : null,
         registrationStartDate: registrationStartDate ? new Date(registrationStartDate) : null,
         requiresApproval: requiresApproval || false,
