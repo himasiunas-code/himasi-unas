@@ -38,7 +38,7 @@ export default function Hero() {
           <div className="text-white space-y-6 lg:space-y-8 order-2 lg:order-1">
             <div className="space-y-3 lg:space-y-4 text-center lg:text-left">
               <h2 className="text-base md:text-lg lg:text-xl font-light text-white/80">
-                Putra
+                Universitas Nasional
               </h2>
               <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
                 <span className="block">Himpunan Mahasiswa</span>
