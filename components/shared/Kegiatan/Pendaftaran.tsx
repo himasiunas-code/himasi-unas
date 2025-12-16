@@ -39,6 +39,9 @@ export default function Pendaftaran() {
         if (response.ok) {
           const result = await response.json();
           if (result.success && result.data) {
+            console.log('📊 Activity data fetched:', result.data);
+            console.log('🖼️ Image URL:', result.data.image);
+            console.log('🔍 Image type:', result.data.image?.startsWith('data:') ? 'Base64 Data URL' : 'Static Path');
             setActivity(result.data);
           }
         }
@@ -197,13 +200,39 @@ export default function Pendaftaran() {
             {/* Banner Image - 16:9 Aspect Ratio */}
             <div className="mb-5">
               <div className="relative w-full aspect-square md:aspect-video rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-4xl">
-                <Image
-                  src={activity.image || "/image/Home/Banner 1.png"}
-                  alt={`Banner ${activity.title}`}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 1024px) 100vw, 80vw"
-                />
+                {!activity.image ? (
+                  // No image - show fallback
+                  <Image
+                    src="/image/Home/Banner 1.png"
+                    alt={`Banner ${activity.title}`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 80vw"
+                  />
+                ) : activity.image.startsWith('data:') ? (
+                  // Base64 data URL from admin upload
+                  <img
+                    src={activity.image}
+                    alt={`Banner ${activity.title}`}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      console.error('❌ Failed to load image:', activity.image?.substring(0, 50) + '...');
+                      e.currentTarget.src = '/image/Home/Banner 1.png';
+                    }}
+                  />
+                ) : (
+                  // Static file path from /public
+                  <Image
+                    src={activity.image}
+                    alt={`Banner ${activity.title}`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 80vw"
+                    onError={() => {
+                      console.error('❌ Failed to load image:', activity.image);
+                    }}
+                  />
+                )}
               </div>
             </div>
           </>
