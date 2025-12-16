@@ -15,9 +15,9 @@ interface Activity {
   registrationDeadline: string | null;
   registrationStartDate?: string | null;
   registrationOpen: boolean;
-  _count: {
-    registrations: number;
-  };
+  currentParticipants: number;
+  mahasiswaCount?: number;
+  pelajarCount?: number;
 }
 
 export default function Pendaftaran() {
@@ -249,7 +249,7 @@ export default function Pendaftaran() {
                 Slot Tersedia
               </div>
               <div className="text-lg md:text-2xl font-bold text-[#732E39]">
-                {activity._count.registrations} / {activity.maxParticipants}{" "}
+                {activity.currentParticipants} / {activity.maxParticipants}{" "}
                 Terdaftar
               </div>
               <div className="w-full bg-white/30 rounded-full h-2 mt-2">
@@ -257,7 +257,7 @@ export default function Pendaftaran() {
                   className="bg-[#4B061A] h-1 md:h-2 rounded-full transition-all duration-300"
                   style={{
                     width: `${Math.min(
-                      (activity._count.registrations /
+                      (activity.currentParticipants /
                         activity.maxParticipants) *
                         100,
                       100
@@ -307,7 +307,7 @@ export default function Pendaftaran() {
             )}
 
             {status === "open" &&
-              activity._count.registrations < activity.maxParticipants && (
+              activity.currentParticipants < activity.maxParticipants && (
                 <Link
                   href="/pendaftaran"
                   className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
@@ -318,7 +318,7 @@ export default function Pendaftaran() {
               )}
 
             {status === "open" &&
-              activity._count.registrations >= activity.maxParticipants && (
+              activity.currentParticipants >= activity.maxParticipants && (
                 <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed">
                   <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
                   Slot Penuh
@@ -344,14 +344,14 @@ export default function Pendaftaran() {
             )}
 
             {status === "open" &&
-              activity._count.registrations < activity.maxParticipants && (
+              activity.currentParticipants < activity.maxParticipants && (
                 <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
                   Jangan sampai terlewat! Daftar sebelum waktu dan slot habis.
                 </p>
               )}
 
             {status === "open" &&
-              activity._count.registrations >= activity.maxParticipants && (
+              activity.currentParticipants >= activity.maxParticipants && (
                 <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
                   Maaf, slot pendaftaran sudah penuh. Nantikan kegiatan
                   berikutnya!
