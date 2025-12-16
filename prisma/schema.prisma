@@ -8,26 +8,28 @@ datasource db {
 }
 
 model Activity {
-  id                   String         @id @default(cuid())
-  title                String
-  slug                 String         @unique
-  description          String
-  content              String?
-  image                String?
-  category             String?
-  startDate            DateTime
-  endDate              DateTime?
-  location             String?
-  maxParticipants      Int?
-  currentParticipants  Int            @default(0)
-  registrationOpen     Boolean        @default(false)
-  registrationStartDate DateTime?
-  registrationDeadline DateTime?
-  requiresApproval     Boolean        @default(false)
-  isPublished          Boolean        @default(false)
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
-  registrations        Registration[]
+  id                        String         @id @default(cuid())
+  title                     String
+  slug                      String         @unique
+  description               String
+  content                   String?
+  image                     String?
+  category                  String?
+  startDate                 DateTime
+  endDate                   DateTime?
+  location                  String?
+  maxParticipants           Int?
+  maxParticipantsMahasiswa  Int?
+  maxParticipantsPelajar    Int?
+  currentParticipants       Int            @default(0)
+  registrationOpen          Boolean        @default(false)
+  registrationStartDate     DateTime?
+  registrationDeadline      DateTime?
+  requiresApproval          Boolean        @default(false)
+  isPublished               Boolean        @default(false)
+  createdAt                 DateTime       @default(now())
+  updatedAt                 DateTime       @updatedAt
+  registrations             Registration[]
 
   @@map("activities")
 }
