@@ -268,8 +268,8 @@ export default function RegistrationForm() {
     
     checkActivityStatus()
     
-    // Check every 30 seconds for status updates
-    const interval = setInterval(checkActivityStatus, 30000)
+    // Check every 60 seconds for status updates (dikurangi dari 30 detik untuk hemat bandwidth)
+    const interval = setInterval(checkActivityStatus, 60000)
     return () => clearInterval(interval)
   }, [registrationId, step1Completed])
 
