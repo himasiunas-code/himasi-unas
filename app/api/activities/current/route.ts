@@ -14,6 +14,11 @@ export async function GET() {
       include: {
         _count: {
           select: { registrations: true }
+        },
+        registrations: {
+          select: {
+            academicStatus: true
+          }
         }
       },
       orderBy: {
@@ -29,6 +34,10 @@ export async function GET() {
         message: 'No active activity found'
       })
     }
+
+    // Hitung peserta berdasarkan status akademik
+    const mahasiswaCount = activity.registrations.filter(r => r.academicStatus === 'Mahasiswa').length
+    const pelajarCount = activity.registrations.filter(r => r.academicStatus === 'Pelajar').length
 
     // Check auto-open status based on registrationStartDate (same logic as registration API)
     const now = new Date()
@@ -47,13 +56,19 @@ export async function GET() {
       isWithinDeadline,
       finalRegistrationStatus: isRegistrationOpen,
       currentParticipants: activity._count.registrations,
-      maxParticipants: activity.maxParticipants
+      maxParticipants: activity.maxParticipants,
+      mahasiswaCount,
+      maxMahasiswa: activity.maxParticipantsMahasiswa,
+      pelajarCount,
+      maxPelajar: activity.maxParticipantsPelajar
     })
 
     // Add currentParticipants field and computed registration status
     const activityWithCount = {
       ...activity,
       currentParticipants: activity._count.registrations,
+      mahasiswaCount,
+      pelajarCount,
       // Add computed fields for debugging
       computedRegistrationOpen: isRegistrationOpen,
       registrationStatus: {
