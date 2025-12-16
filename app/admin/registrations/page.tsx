@@ -24,6 +24,7 @@ interface Registration {
   email: string
   phone: string
   npm?: string
+  academicStatus?: string
   // yearClass?: string
   institution?: string
   faculty?: string
@@ -236,6 +237,7 @@ export default function RegistrationsPage() {
       { header: 'Email', key: 'email', width: 30 },
       { header: 'Telepon', key: 'phone', width: 18 },
       { header: 'NPM', key: 'npm', width: 15 },
+      { header: 'Status', key: 'academicStatus', width: 15 },
       { header: 'Asal Instansi', key: 'institution', width: 25 },
       { header: 'Fakultas', key: 'faculty', width: 25 },
       { header: 'Jurusan', key: 'major', width: 25 },
@@ -264,6 +266,7 @@ export default function RegistrationsPage() {
         email: reg.email,
         phone: reg.phone,
         npm: reg.npm || '-',
+        academicStatus: reg.academicStatus || '-',
         institution: reg.institution || '-',
         faculty: reg.faculty || '-',
         major: reg.major || '-',
@@ -502,6 +505,9 @@ export default function RegistrationsPage() {
                               <p className="text-sm text-gray-600">{registration.phone}</p>
                               {registration.npm && (
                                 <p className="text-sm text-gray-600">NPM: {registration.npm}</p>
+                              )}
+                              {registration.academicStatus && (
+                                <p className="text-sm text-gray-600">Status: {registration.academicStatus}</p>
                               )}
                               {registration.institution && (
                                 <p className="text-sm text-gray-600">Instansi: {registration.institution}</p>
@@ -851,6 +857,7 @@ export default function RegistrationsPage() {
                       <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Email</th>
                       <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Telepon</th>
                       <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">NPM</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Status</th>
                       <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Asal Instansi</th>
                       <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Fakultas</th>
                       <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Jurusan</th>
@@ -868,6 +875,7 @@ export default function RegistrationsPage() {
                         <td className="border border-gray-300 px-4 py-2 text-sm">{reg.email}</td>
                         <td className="border border-gray-300 px-4 py-2 text-sm">{reg.phone}</td>
                         <td className="border border-gray-300 px-4 py-2 text-sm">{reg.npm || '-'}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">{reg.academicStatus || '-'}</td>
                         <td className="border border-gray-300 px-4 py-2 text-sm">{reg.institution || '-'}</td>
                         <td className="border border-gray-300 px-4 py-2 text-sm">{reg.faculty || '-'}</td>
                         <td className="border border-gray-300 px-4 py-2 text-sm">{reg.major || '-'}</td>
