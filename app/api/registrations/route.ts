@@ -95,12 +95,21 @@ export async function POST(request: NextRequest) {
 
     console.log('🔍 Searching for published activity...')
     
-    // Ambil kegiatan utama yang published
+    // 🚀 OPTIMIZED: Select only essential fields untuk reduce Neon bandwidth
     const activity = await prisma.activity.findFirst({
       where: { 
         isPublished: true 
       },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        registrationOpen: true,
+        registrationStartDate: true,
+        registrationDeadline: true,
+        startDate: true,
+        maxParticipants: true,
+        maxParticipantsMahasiswa: true,
+        maxParticipantsPelajar: true,
         _count: {
           select: { registrations: true }
         }

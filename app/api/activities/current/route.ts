@@ -21,12 +21,27 @@ export async function GET() {
     }
     
     // Ambil kegiatan yang paling terbaru dan published
+    // 🚀 OPTIMIZED: Select only needed fields untuk reduce bandwidth
     const activity = await prisma.activity.findFirst({
       where: {
         isPublished: true
       },
       orderBy: {
         createdAt: 'desc'  // Yang paling baru dibuat
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        registrationOpen: true,
+        registrationStartDate: true,
+        registrationDeadline: true,
+        maxParticipants: true,
+        maxParticipantsMahasiswa: true,
+        maxParticipantsPelajar: true,
+        // Exclude heavy fields: createdAt, updatedAt, long descriptions
       }
     })
 
