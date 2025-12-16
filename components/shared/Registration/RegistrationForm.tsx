@@ -11,6 +11,7 @@ interface FormData {
   fullName: string
   phone: string
   npm: string
+  academicStatus: string
   // yearClass: string
   institution: string
   faculty: string
@@ -50,6 +51,7 @@ export default function RegistrationForm() {
     fullName: '',
     phone: '',
     npm: '',
+    academicStatus: '',
     // yearClass: '',
     institution: '',
     faculty: '',
@@ -440,8 +442,8 @@ export default function RegistrationForm() {
     else if (!/^[\d\-\+\(\)\s]+$/.test(formData.phone)) newErrors.phone = 'Format nomor HP tidak valid'
     
     if (!formData.npm.trim()) newErrors.npm = 'NPM wajib diisi'
-    else if (!/^\d{12}$/.test(formData.npm.trim())) newErrors.npm = 'NPM harus terdiri dari 12 digit angka'
 
+    if (!formData.academicStatus.trim()) newErrors.academicStatus = 'Status wajib dipilih'
     // if (!formData.yearClass.trim()) newErrors.yearClass = 'Tahun angkatan wajib dipilih'
     if (!formData.institution.trim()) newErrors.institution = 'Asal instansi wajib diisi'
     if (!formData.faculty.trim()) newErrors.faculty = 'Fakultas wajib diisi'
@@ -492,6 +494,7 @@ export default function RegistrationForm() {
         fullName: formData.fullName,
         phone: formData.phone,
         npm: formData.npm,
+        academicStatus: formData.academicStatus,
         // yearClass: formData.yearClass,
         institution: formData.institution,
         faculty: formData.faculty,
@@ -1053,11 +1056,39 @@ export default function RegistrationForm() {
               Data Akademik
             </h3>
             <div className="grid gap-6">
+              {/* Status Akademik */}
+              <div className="group">
+                <label htmlFor="academicStatus" className="block text-sm font-medium text-gray-700 mb-3">
+                  <User className="w-4 h-4 inline mr-2 text-[#4B061A]" />
+                  Status <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <select
+                    id="academicStatus"
+                    name="academicStatus"
+                    value={formData.academicStatus}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm appearance-none cursor-pointer"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                      backgroundPosition: 'right 12px center',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: '16px'
+                    }}
+                  >
+                    <option value="" className="text-gray-500 bg-gray-50">Pilih Status</option>
+                    <option value="Mahasiswa" className="text-gray-800 bg-white py-2">Mahasiswa</option>
+                    <option value="Pelajar" className="text-gray-800 bg-white py-2">Pelajar</option>
+                  </select>
+                </div>
+                {errors.academicStatus && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.academicStatus}</p>}
+              </div>
+
               {/* NPM */}
               <div className="group">
                 <label htmlFor="npm" className="block text-sm font-medium text-gray-700 mb-3">
                   <User className="w-4 h-4 inline mr-2 text-[#4B061A]" />
-                  Nomor Pokok Mahasiswa (NPM) <span className="text-red-500">*</span>
+                  NPM / NIM / NIS / NISN <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -1133,7 +1164,7 @@ export default function RegistrationForm() {
                 <div className="group">
                   <label htmlFor="faculty" className="block text-sm font-medium text-gray-700 mb-3">
                     <Building className="w-4 h-4 inline mr-2 text-[#4B061A]" />
-                    Fakultas <span className="text-red-500">*</span>
+                    Fakultas / Kelas <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -1142,7 +1173,7 @@ export default function RegistrationForm() {
                     value={formData.faculty}
                     onChange={handleInputChange}
                     className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm"
-                    placeholder="FTKI"
+                    placeholder="FTKI / XII"
                   />
                   {errors.faculty && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.faculty}</p>}
                 </div>
@@ -1159,7 +1190,7 @@ export default function RegistrationForm() {
                     value={formData.major}
                     onChange={handleInputChange}
                     className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4B061A] focus:border-[#4B061A] transition-all duration-300 hover:border-gray-400 shadow-sm"
-                    placeholder="Sistem Informasi"
+                    placeholder="SI / RPL / TKJ"
                   />
                   {errors.major && <p className="text-red-500 text-sm mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1" />{errors.major}</p>}
                 </div>
