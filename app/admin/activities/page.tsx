@@ -32,7 +32,11 @@ interface Activity {
   endDate?: string
   location?: string
   maxParticipants?: number
+  maxParticipantsMahasiswa?: number
+  maxParticipantsPelajar?: number
   currentParticipants: number
+  mahasiswaCount?: number
+  pelajarCount?: number
   registrationOpen: boolean
   registrationDeadline?: string
   registrationStartDate?: string
@@ -52,6 +56,8 @@ interface ActivityFormData {
   endDate: string
   location: string
   maxParticipants: number
+  maxParticipantsMahasiswa: number
+  maxParticipantsPelajar: number
   registrationDeadline: string
   registrationStartDate: string
   requiresApproval: boolean
@@ -68,6 +74,8 @@ const initialFormData: ActivityFormData = {
   endDate: '',
   location: '',
   maxParticipants: 0,
+  maxParticipantsMahasiswa: 0,
+  maxParticipantsPelajar: 0,
   registrationDeadline: '',
   registrationStartDate: '',
   requiresApproval: false,
@@ -145,6 +153,8 @@ export default function AdminActivitiesPage() {
         ...formData,
         image: imageUrl,
         maxParticipants: Number(formData.maxParticipants),
+        maxParticipantsMahasiswa: Number(formData.maxParticipantsMahasiswa) || null,
+        maxParticipantsPelajar: Number(formData.maxParticipantsPelajar) || null,
         // Set deadline to end of day (23:59:59) if provided
         registrationDeadline: formData.registrationDeadline 
           ? `${formData.registrationDeadline}T23:59:59` 
@@ -209,6 +219,8 @@ export default function AdminActivitiesPage() {
       endDate: activity.endDate?.split('T')[0] || '',
       location: activity.location || '',
       maxParticipants: activity.maxParticipants || 0,
+      maxParticipantsMahasiswa: activity.maxParticipantsMahasiswa || 0,
+      maxParticipantsPelajar: activity.maxParticipantsPelajar || 0,
       registrationDeadline: activity.registrationDeadline?.split('T')[0] || '',
       registrationStartDate: activity.registrationStartDate?.split('T')[0] || '',
       requiresApproval: activity.requiresApproval,
@@ -438,7 +450,7 @@ export default function AdminActivitiesPage() {
 
               {/* Max Participants */}
               <div>
-                <Label htmlFor="maxParticipants">Maksimal Peserta</Label>
+                <Label htmlFor="maxParticipants">Maksimal Peserta (Total)</Label>
                 <Input
                   id="maxParticipants"
                   type="number"
@@ -447,7 +459,35 @@ export default function AdminActivitiesPage() {
                   placeholder="0 = unlimited"
                   min="0"
                 />
+                <p className="text-xs text-gray-500 mt-1">Total maksimal peserta (opsional jika menggunakan pembagian slot)</p>
               </div>
+
+              {/* Slot Division */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="maxParticipantsMahasiswa">Slot Mahasiswa</Label>
+                  <Input
+                    id="maxParticipantsMahasiswa"
+                    type="number"
+                    value={formData.maxParticipantsMahasiswa}
+                    onChange={(e) => setFormData(prev => ({ ...prev, maxParticipantsMahasiswa: parseInt(e.target.value) || 0 }))}
+                    placeholder="0 = tidak dibatasi"
+                    min="0"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="maxParticipantsPelajar">Slot Pelajar</Label>
+                  <Input
+                    id="maxParticipantsPelajar"
+                    type="number"
+                    value={formData.maxParticipantsPelajar}
+                    onChange={(e) => setFormData(prev => ({ ...prev, maxParticipantsPelajar: parseInt(e.target.value) || 0 }))}
+                    placeholder="0 = tidak dibatasi"
+                    min="0"
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 -mt-2">Pembagian slot berdasarkan status akademik. Kosongkan jika tidak perlu pembagian.</p>
 
               {/* Registration Period */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -639,6 +679,12 @@ export default function AdminActivitiesPage() {
                       <span>
                         {activity.currentParticipants}
                         {activity.maxParticipants ? `/${activity.maxParticipants}` : ''}
+                        {(activity.maxParticipantsMahasiswa || activity.maxParticipantsPelajar) && (
+                          <span className="ml-2 text-xs text-gray-500">
+                            (👨‍🎓 {activity.mahasiswaCount || 0}/{activity.maxParticipantsMahasiswa || 0} | 
+                            📚 {activity.pelajarCount || 0}/{activity.maxParticipantsPelajar || 0})
+                          </span>
+                        )}
                       </span>
                     </div>
                     {activity.location && (
