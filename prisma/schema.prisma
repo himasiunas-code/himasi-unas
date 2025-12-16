@@ -39,6 +39,7 @@ model Registration {
   fullName        String
   phone           String
   npm             String?
+  academicStatus  String?
   yearClass       String?
   institution     String?
   faculty         String?
