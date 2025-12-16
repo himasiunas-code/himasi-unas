@@ -31,6 +31,7 @@ model Activity {
   updatedAt                 DateTime       @updatedAt
   registrations             Registration[]
 
+  @@index([isPublished, createdAt])
   @@map("activities")
 }
 
@@ -63,6 +64,8 @@ model Registration {
   activity        Activity           @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   @@unique([activityId, email])
+  @@index([activityId, academicStatus])
+  @@index([academicStatus])
   @@map("registrations")
 }
 
