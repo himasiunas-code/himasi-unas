@@ -495,10 +495,10 @@ export default function RegistrationForm() {
       return
     }
 
-    // Validate file size (max 1MB before compression)
-    const maxSize = 1024 * 1024
+    // Validate file size (max 5MB before compression)
+    const maxSize = 5 * 1024 * 1024 // 5MB
     if (file.size > maxSize) {
-      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 1MB. Silakan pilih gambar yang lebih kecil.' }))
+      setErrors(prev => ({ ...prev, instagramProof: 'Ukuran file maksimal 5MB. Silakan pilih gambar yang lebih kecil.' }))
       return
     }
 
@@ -509,19 +509,21 @@ export default function RegistrationForm() {
       // Show compression progress
       setErrors(prev => ({ ...prev, instagramProof: 'Mengompres gambar...' }))
       
-      // Compression options - compress further for database efficiency
+      // Auto-compression with aggressive 90% compression settings
       const options = {
-        maxSizeMB: 0.5, // Target 500KB after compression (from max 1MB input)
-        maxWidthOrHeight: 1920, // Max resolution
+        maxSizeMB: 0.5, // Target 500KB for ~90% compression from 5MB
+        maxWidthOrHeight: 1600, // Reduced resolution for smaller size
         useWebWorker: true,
-        fileType: 'image/jpeg' as const // Convert to JPEG for better compression
+        fileType: 'image/jpeg' as const, // Convert to JPEG for better compression
+        initialQuality: 0.7, // Lower quality for aggressive compression
+        alwaysKeepResolution: false // Allow resolution reduction if needed
       }
       
       // Compress the image
       const compressedFile = await imageCompression(file, options)
       
       // Log compression result
-      console.log('📤 Original file size:', (file.size / 1024).toFixed(2), 'KB')
+      console.log('📤 Original file size:', (file.size / 1024 / 1024).toFixed(2), 'MB')
       console.log('📦 Compressed file size:', (compressedFile.size / 1024).toFixed(2), 'KB')
       console.log('💾 Space saved:', ((1 - compressedFile.size / file.size) * 100).toFixed(1), '%')
       
@@ -1479,7 +1481,7 @@ export default function RegistrationForm() {
                       >
                         Pilih File Gambar
                       </button>
-                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG, WEBP (Max: 1MB)</p>
+                      <p className="text-gray-600 text-sm mt-3">Format: JPG, JPEG, PNG, WEBP (Max: 5MB)</p>
                       <p className="text-gray-500 text-xs mt-1">Screenshot harus menunjukkan bahwa Anda sudah follow @himasi.unas1949</p>
                       <p className="text-blue-600 text-xs mt-1">💡 Tip: Kompres gambar jika ukuran terlalu besar</p>
                     </div>
