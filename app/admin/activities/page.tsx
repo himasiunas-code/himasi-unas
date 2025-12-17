@@ -155,13 +155,13 @@ export default function AdminActivitiesPage() {
         maxParticipants: Number(formData.maxParticipants),
         maxParticipantsMahasiswa: Number(formData.maxParticipantsMahasiswa) || null,
         maxParticipantsPelajar: Number(formData.maxParticipantsPelajar) || null,
-        // Set deadline to end of day (23:59:59) if provided
+        // Set deadline to end of day (23:59:59) WIB timezone if provided
         registrationDeadline: formData.registrationDeadline 
-          ? `${formData.registrationDeadline}T23:59:59` 
+          ? `${formData.registrationDeadline}T23:59:59+07:00` 
           : '',
-        // Set start date to beginning of day (09:00:00) if provided
+        // Set start date to beginning of day (09:00:00) WIB timezone if provided
         registrationStartDate: formData.registrationStartDate 
-          ? `${formData.registrationStartDate}T09:00:00` 
+          ? `${formData.registrationStartDate}T09:00:00+07:00` 
           : ''
       }
 
