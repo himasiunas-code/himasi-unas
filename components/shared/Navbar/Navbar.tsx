@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
@@ -17,12 +17,60 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
   const router = useRouter();
 
+  // Handle scroll detection
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          // Determine scroll direction
+          if (currentScrollY < lastScrollY) {
+            // Scrolling up
+            setIsVisible(true);
+          } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down past threshold
+            setIsVisible(false);
+          }
+          
+          // Show at top of page
+          if (currentScrollY < 10) {
+            setIsVisible(true);
+          }
+          
+          setLastScrollY(currentScrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
+
+  // Keep navbar visible when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      setIsVisible(true);
+    }
+  }, [menuOpen]);
+
   return (
     // Fixed overlay header that visually "floats" centered with rounded-full container
-    <header className="fixed z-60 inset-x-0 top-6 pointer-events-none">
+    <header className={`fixed z-60 inset-x-0 transition-all duration-500 ease-in-out pointer-events-none ${
+      isVisible ? 'top-6 opacity-100' : '-top-24 opacity-0'
+    }`}>
       <div className="mx-auto max-w-[1440px] w-full px-4 pointer-events-auto">
         <div className="h-20 w-full rounded-full bg-[rgba(107,20,48,0.85)] border border-[rgba(255,255,255,0.06)] backdrop-blur-sm shadow-xl flex items-center justify-between px-6">
         {/* Logo */}
