@@ -168,8 +168,8 @@ export default function Pendaftaran() {
   }, [activity, closeDate]);
 
   return (
-    <main className="bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)] pt-10 sm:pt-12 md:pt-16">
-      <div className="max-w-6xl mx-auto px-6 text-center">
+    <main className="relative bg-[#FFE8DB] pt-10 sm:pt-12 md:pt-16">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[400px]">
             {/* Spinner Animation */}
@@ -251,7 +251,7 @@ export default function Pendaftaran() {
         {/* Countdown Timer & Registration Info */}
         {activity && (
           <div className="mb-1 md:mb-8">
-            <h3 className="text-lg md:text-3xl font-bold text-[#4B061A]">
+            <h3 className="text-lg pb-2 md:pb-5 md:text-3xl font-bold text-[#4B061A]">
               {status === "waiting" &&
                 (timeLeft.days > 0 ||
                 timeLeft.hours > 0 ||
@@ -273,7 +273,7 @@ export default function Pendaftaran() {
             </h3>
 
             {/* Registration Stats */}
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 mb-6 border border-white/30 shadow-lg max-w-md mx-auto">
+            {/* <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 mb-6 border border-white/30 shadow-lg max-w-md mx-auto">
               <div className="text-base md:text-lg font-bold text-[#4B061A] mb-2">
                 Slot Tersedia
               </div>
@@ -294,7 +294,7 @@ export default function Pendaftaran() {
                   }}
                 ></div>
               </div>
-            </div>
+            </div> */}
 
             {(status === "waiting" || status === "open") &&
               (timeLeft.days > 0 ||
@@ -329,7 +329,7 @@ export default function Pendaftaran() {
         {activity && (
           <div>
             {status === "waiting" && (
-              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed">
+              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
                 <UserLock className="w-5 h-5 md:w-6 md:h-6" />
                 Belum Dibuka
               </div>
@@ -339,7 +339,8 @@ export default function Pendaftaran() {
               activity.currentParticipants < activity.maxParticipants && (
                 <Link
                   href="/pendaftaran"
-                  className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 transform hover:scale-105"
+                  style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}
                 >
                   <UserRoundPlus className="w-5 h-5 md:w-6 md:h-6" />
                   Daftar Sekarang
@@ -348,21 +349,21 @@ export default function Pendaftaran() {
 
             {status === "open" &&
               activity.currentParticipants >= activity.maxParticipants && (
-                <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed">
+                <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
                   <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
                   Slot Penuh
                 </div>
               )}
 
             {status === "closed" && (
-              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed">
+              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
                 <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
                 Pendaftaran Ditutup
               </div>
             )}
 
             {status === "waiting" && (
-              <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
+              <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
                 {timeLeft.days > 0 ||
                 timeLeft.hours > 0 ||
                 timeLeft.minutes > 0 ||
@@ -374,21 +375,21 @@ export default function Pendaftaran() {
 
             {status === "open" &&
               activity.currentParticipants < activity.maxParticipants && (
-                <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
+                <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
                   Jangan sampai terlewat! Daftar sebelum waktu dan slot habis.
                 </p>
               )}
 
             {status === "open" &&
               activity.currentParticipants >= activity.maxParticipants && (
-                <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
+                <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
                   Maaf, slot pendaftaran sudah penuh. Nantikan kegiatan
                   berikutnya!
                 </p>
               )}
 
             {status === "closed" && (
-              <p className="mt-1 md:mt-4 text-sm md:text-base text-white font-medium">
+              <p className="pt-2mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
                 {new Date().getTime() > new Date(activity.startDate).getTime()
                   ? "Kegiatan telah selesai dilaksanakan. Nantikan kegiatan berikutnya!"
                   : new Date().getTime() >
@@ -399,6 +400,16 @@ export default function Pendaftaran() {
             )}
           </div>
         )}
+      </div>
+      
+      {/* Bottom Wave Decoration */}
+      <div className="absolute bottom-0 left-0 right-0 z-0">
+        <svg viewBox="0 0 1200 120" className="w-full h-auto">
+          <path
+            d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z"
+            fill="rgba(75, 6, 26, 1)"
+          />
+        </svg>
       </div>
       
       {/* Custom CSS for animation delays */}
