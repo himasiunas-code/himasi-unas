@@ -65,6 +65,16 @@ export default function Hero() {
           </Link>
         </div>
       </div>
+      
+      {/* Bottom Wave Decoration */}
+      <div className="w-full">
+        <svg viewBox="0 0 1200 120" className="w-full h-auto">
+          <path
+            d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z"
+            fill="#4B061A"
+          />
+        </svg>
+      </div>
     </main>
   );
 }
