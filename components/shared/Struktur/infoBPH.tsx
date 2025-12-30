@@ -104,14 +104,18 @@ export default function BPH() {
             : 'opacity-0 translate-y-8 scale-95'
         }`}
       >
-        <div className={`relative w-50 h-60 transition-all duration-700 ease-in-out group ${
+        <div className={`relative w-50 h-60 transition-all duration-700 ease-in-out group ${roleColors?.shadow || 'shadow-lg'} ${
           isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
-        }`}>
-          <div className={`absolute inset-0 rounded-2xl bg-linear-to-br ${roleColors?.gradient || 'from-purple-500 to-pink-500'} opacity-20 transition-all duration-700 group-hover:opacity-30`} />
+        }`} style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+          <div className={`absolute inset-0 rounded-2xl bg-linear-to-br ${roleColors?.gradient || 'from-purple-500 to-pink-500'} opacity-20 transition-all duration-700 group-hover:opacity-30`} style={{ transform: 'translate3d(0, 0, 0)' }} />
           <Image
             src={leader.image}
             alt={leader.name}
             fill
+            quality={85}
+            priority={leader.role === selectedRole}
+            placeholder="blur"
+            sizes="(max-width: 768px) 200px, 250px"
             className="rounded-2xl object-cover transition-transform duration-500 hover:scale-105 relative z-10"
           />
         </div>
@@ -148,8 +152,8 @@ export default function BPH() {
   }
 
   return (
-    <div className="max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto px-4 py-10">
-      <div className="border-t-3 border-white" />
+    <div className="max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto px-4 pt-2 pb-10">
+      <div className="border-t-2 border-white" />
       <div className="flex justify-center font-bold text-center text-xl md:text-4xl uppercase py-5 md:py-10 text-white">
         <h2>Badan Pengurus Harian</h2>
       </div>
