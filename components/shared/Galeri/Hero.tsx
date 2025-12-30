@@ -23,8 +23,8 @@ export default function EventCarousel({ event, interval = 3000 }: EventCarouselP
   }, [event.images.length, interval]);
 
   return (
-    <div className="relative w-full bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)]">
-      <div className="max-w-7xl mx-auto pt-30 pb-12 px-4 md:pt-30 md:pb-20">
+    <div className="relative w-full bg-[#FFE8DB]">
+      <div className="relative z-10 max-w-7xl mx-auto pt-30 pb-12 px-4 md:pt-30 md:pb-20">
         <div className="flex flex-col items-center md:hidden">
           <div className="relative w-full max-w-md h-52 rounded-2xl overflow-hidden mb-6">
             <AnimatePresence mode="wait">
@@ -108,6 +108,16 @@ export default function EventCarousel({ event, interval = 3000 }: EventCarouselP
             )}
           </div>
         </div>
+      </div>
+      
+      {/* Bottom Wave Decoration */}
+      <div className="absolute bottom-0 left-0 right-0 z-0">
+        <svg viewBox="0 0 1200 120" className="w-full h-auto">
+          <path
+            d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z"
+            fill="rgba(75, 6, 26, 1)"
+          />
+        </svg>
       </div>
     </div>
   );
