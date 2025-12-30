@@ -7,7 +7,7 @@ import { getCategoryColor, formatDate, getYear } from "@/lib/partnership";
 
 export default function SlideLogo() {
   return (
-    <main className="bg-linear-to-br from-[#4B061A] via-[#5A0720] to-[#4B061A] py-16">
+    <main className="bg-[#4B061A] pb-16">
       <div className="container mx-auto px-4">
         {/* Active Partnerships Section - Only show if there are active partnerships */}
         {activePartnerships.length > 0 && (
@@ -72,7 +72,7 @@ export default function SlideLogo() {
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center gap-2 bg-gray-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-400/30">
                 <Clock className="w-5 h-5 text-gray-300" />
-                <h3 className="text-xl font-semibold text-white">
+                <h3 className="text-sm md:text-xl font-semibold text-white">
                   Riwayat Kerja Sama
                 </h3>
               </div>
