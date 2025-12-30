@@ -71,6 +71,21 @@ export default function Division() {
           animation: fadeInUp 0.6s ease-out;
         }
       `}</style>
+      <style jsx global>{`
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out;
+          will-change: transform, opacity;
+          transform: translate3d(0, 0, 0);
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+        
+        .animate-fadeInUp img {
+          transform: translate3d(0, 0, 0);
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+      `}</style>
       <main className="bg-[#4B061A] pb-20">
         <div className="flex justify-center font-bold text-center text-xl md:text-4xl uppercase text-white pb-5">
           Divisi Himpunan
@@ -141,8 +156,9 @@ export default function Division() {
                       src={member.image}
                       alt={member.name}
                       fill
+                      quality={85}
                       className="object-cover"
-                      priority={selectedDivision === currentDivision?.id}
+                      priority={selectedDivision === currentDivision?.id && index < 4}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
@@ -157,7 +173,7 @@ export default function Division() {
 
                       <div className="flex items-end justify-between">
                         <div className="flex-1 mr-3">
-                          <h3 className="text-white font-semibold text-sm md:text-base leading-tight">
+                          <h3 className="text-white font-semibold text-sm md:text-base leading-tight" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
                             {(() => {
                               const words = member.name.split(" ");
                               const midPoint = Math.ceil(words.length / 2);
