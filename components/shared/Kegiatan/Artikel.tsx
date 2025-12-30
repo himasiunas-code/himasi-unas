@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { kegiatanData, KegiatanData } from '@/constants/Kegiatan/dataKegiatan';
 import { X, Calendar, FileText } from 'lucide-react';
 
@@ -12,15 +12,24 @@ export default function Artikel() {
     const handleOpenModal = (kegiatan: KegiatanData) => {
         setSelectedKegiatan(kegiatan);
         setIsClosing(false);
+        document.body.style.overflow = 'hidden';
     };
 
     const handleCloseModal = () => {
         setIsClosing(true);
+        document.body.style.overflow = 'unset';
         setTimeout(() => {
             setSelectedKegiatan(null);
             setIsClosing(false);
         }, 300); 
     };
+
+    // Cleanup saat component unmount
+    useEffect(() => {
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
 
     return (
         <main className="bg-[#4B061A] pt-8 pb-16">
@@ -35,7 +44,7 @@ export default function Artikel() {
                                 index % 2 === 1 ? 'md:flex-row-reverse' : ''
                             } md:bg-transparent bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-0 border border-white/10 md:border-none`}
                         >
-                            <div className="flex-1 w-full">
+                            <div className="hidden md:block flex-1 w-full">
                                 <div className="relative w-full h-40 md:h-72 lg:h-80 rounded-xl shadow-2xl bg-white/10 p-4">
                                     <div className="relative w-full h-full rounded-lg overflow-hidden">
                                         <Image
@@ -58,9 +67,10 @@ export default function Artikel() {
                                         {kegiatan.date}
                                     </p>
                                     
-                                    <p className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-2 lg:line-clamp-4">
-                                        {kegiatan.description}
-                                    </p>
+                                    <div 
+                                        className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-2 lg:line-clamp-4"
+                                        dangerouslySetInnerHTML={{ __html: kegiatan.description }}
+                                    />
                                     
                                     <button
                                         onClick={() => handleOpenModal(kegiatan)}
@@ -76,8 +86,8 @@ export default function Artikel() {
             </div>
 
             {selectedKegiatan && (
-                <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-26 ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}>
-                    <div className={`bg-[#4B061A] rounded-2xl max-w-4xl w-full max-h-[75vh] relative custom-scrollbar ${isClosing ? 'animate-slideOut' : 'animate-slideIn'}`}>
+                <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-26 overflow-y-auto ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}>
+                    <div className={`bg-[#4B061A] rounded-2xl max-w-4xl w-full my-8 relative ${isClosing ? 'animate-slideOut' : 'animate-slideIn'}`}>
                         {/* Close Button */}
                         <button
                             onClick={handleCloseModal}
@@ -86,7 +96,7 @@ export default function Artikel() {
                             <X className="w-6 h-6 text-white" />
                         </button>
 
-                        <div className="p-6 md:p-8 overflow-y-auto max-h-[75vh] custom-scrollbar">
+                        <div className="p-6 md:p-8">
                             <h1 className="text-3xl md:text-4xl font-bold text-[#FFFFFF] mb-4 pr-16">
                                 {selectedKegiatan.title}
                             </h1>
@@ -116,9 +126,10 @@ export default function Artikel() {
                                     <FileText className="w-5 h-5 text-white mt-1 shrink-0" />
                                     <h3 className="text-lg font-semibold text-white">Deskripsi Lengkap</h3>
                                 </div>
-                                <p className="text-white leading-relaxed text-justify">
-                                    {selectedKegiatan.description}
-                                </p>
+                                <div 
+                                    className="text-white leading-relaxed text-justify"
+                                    dangerouslySetInnerHTML={{ __html: selectedKegiatan.description }}
+                                />
                             </div>
                         </div>
                     </div>
@@ -182,35 +193,6 @@ export default function Artikel() {
                 
                 .animate-slideOut {
                     animation: slideOut 0.3s ease-out forwards;
-                }
-                
-                /* Custom Scrollbar */
-                .custom-scrollbar {
-                    scrollbar-width: thin;
-                    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(75, 6, 26, 0.1);
-                }
-                
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 8px;
-                }
-                
-                .custom-scrollbar::-webkit-scrollbar-track {
-                    background: rgba(255, 255, 255, 0.1);
-                    border-radius: 10px;
-                }
-                
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%);
-                    border-radius: 10px;
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                }
-                
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 100%);
-                }
-                
-                .custom-scrollbar::-webkit-scrollbar-corner {
-                    background: transparent;
                 }
             `}</style>
         </main>
