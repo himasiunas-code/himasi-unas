@@ -1,13 +1,11 @@
 import BPH from "@/components/shared/Struktur/infoBPH";
 import Divisi from "@/components/shared/Struktur/infoDivision";
-import Banner from "@/public/image/Struktur/BannerV1.png";
-import Image from "next/image";
 
 export default function GaleriPage() {
   return (
     <main>
       {/* Banner Section */}
-      <section className="bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)] py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-[#FFE8DB] pt-8 pb-1 md:pt-12 md:pb-8 lg:pt-16 lg:pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto px-4 pt-20 md:pt-15">
           {/* Title */}
           <div className="text-center mb-8 sm:mb-12">
@@ -20,7 +18,7 @@ export default function GaleriPage() {
           </div>
 
           {/* Banner Card with Video Aspect Ratio */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-2xl hover:shadow-3xl transition-all duration-500">
+          {/* <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-2xl hover:shadow-3xl transition-all duration-500">
             <div className="aspect-video w-full overflow-hidden rounded-2xl shadow-xl">
               <Image
                 src={Banner}
@@ -29,7 +27,6 @@ export default function GaleriPage() {
                 className="object-cover rounded-2xl hover:scale-105 transition-transform duration-700"
                 priority
               />
-              {/* Optional Overlay */}
               <div className="absolute inset-0 bg-linear-to-t from-[#4B061A]/30 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-6 left-6 right-6">
                   <h3 className="text-white text-xl sm:text-2xl font-bold drop-shadow-lg">
@@ -41,11 +38,19 @@ export default function GaleriPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+        </div>
+
+        {/* Bottom Wave Decoration */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1200 120" className="w-full h-auto">
+            <path
+              d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z"
+              fill="rgba(75, 6, 26, 1)"
+            />
+          </svg>
         </div>
       </section>
-
-      {/* Gradient Transition */}
      
       <div className="bg-[#4B061A]">
         <BPH />
