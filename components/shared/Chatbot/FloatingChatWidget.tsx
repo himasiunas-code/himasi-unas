@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import ChatBot from './ChatBot';
 
 const FloatingChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [displayedText, setDisplayedText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
@@ -49,7 +51,16 @@ const FloatingChatWidget = () => {
     }, [currentTextIndex, displayedText, isDeleting, isOpen, animatedTexts]);
 
     const toggleChat = () => {
-        setIsOpen(!isOpen);
+        if (isOpen) {
+            // Trigger closing animation
+            setIsClosing(true);
+            setTimeout(() => {
+                setIsOpen(false);
+                setIsClosing(false);
+            }, 300); // Match animation duration
+        } else {
+            setIsOpen(true);
+        }
     };
 
     return (
@@ -81,27 +92,33 @@ const FloatingChatWidget = () => {
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 ) : (
-                    // Robot Icon
-                    <svg 
-                        width="28" 
-                        height="28" 
-                        viewBox="0 0 24 24" 
-                        fill="currentColor"
+                    // Mascot Video
+                    <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="mascot-video"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                     >
-                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V7C1.9 7 1 7.9 1 9V16C1 17.1 1.9 18 3 18V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V18C22.1 18 23 17.1 23 16V9C23 7.9 22.1 7 21 7V9ZM19 16H5V9H19V16ZM7.5 13.5C7.5 14.3 6.8 15 6 15S4.5 14.3 4.5 13.5S5.2 12 6 12S7.5 12.7 7.5 13.5ZM19.5 13.5C19.5 14.3 18.8 15 18 15S16.5 14.3 16.5 13.5S17.2 12 18 12S19.5 12.7 19.5 13.5ZM16 17.5H8C8 16.1 9.3 15 11 15H13C14.7 15 16 16.1 16 17.5Z"/>
-                    </svg>
+                        <source src="/Mascot.mp4" type="video/mp4" />
+                    </video>
                 )}
             </div>
 
             {/* Chat Window */}
-            {isOpen && (
-                <div className="floating-chat-window">
+            {(isOpen || isClosing) && (
+                <div className={`floating-chat-window ${isClosing ? 'closing' : ''}`}>
                     <div className="chat-window-header">
                         <div className="header-content">
                             <div className="robot-avatar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V7C1.9 7 1 7.9 1 9V16C1 17.1 1.9 18 3 18V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V18C22.1 18 23 17.1 23 16V9C23 7.9 22.1 7 21 7V9ZM19 16H5V9H19V16ZM7.5 13.5C7.5 14.3 6.8 15 6 15S4.5 14.3 4.5 13.5S5.2 12 6 12S7.5 12.7 7.5 13.5ZM19.5 13.5C19.5 14.3 18.8 15 18 15S16.5 14.3 16.5 13.5S17.2 12 18 12S19.5 12.7 19.5 13.5Z"/>
-                                </svg>
+                                <Image 
+                                    src="/Mascot.png" 
+                                    alt="SIBot Mascot" 
+                                    width={32} 
+                                    height={32}
+                                    style={{ objectFit: 'contain' }}
+                                />
                             </div>
                             <div className="header-text">
                                 <h3>SIBot | Asisten</h3>
@@ -120,8 +137,8 @@ const FloatingChatWidget = () => {
                     position: fixed;
                     bottom: 30px;
                     right: 95px;
-                    background: linear-gradient(135deg, #940002 0%, #4B061A 100%);
-                    color: white;
+                    background: white;
+                    color: #4b061a;
                     padding: 12px 18px;
                     border-radius: 20px 20px 5px 20px;
                     font-size: 14px;
@@ -142,7 +159,7 @@ const FloatingChatWidget = () => {
                     animation: blink 1s infinite;
                     margin-left: 2px;
                     font-weight: bold;
-                    color: rgba(255, 255, 255, 0.8);
+                    color: black;
                 }
 
                 .floating-text::after {
@@ -154,7 +171,7 @@ const FloatingChatWidget = () => {
                     height: 0;
                     border-left: 8px solid transparent;
                     border-right: 8px solid transparent;
-                    border-top: 8px solid #4B061A;
+                    border-top: 8px solid #ffffff;
                     transform: rotate(-20deg);
                 }
 
@@ -235,6 +252,10 @@ const FloatingChatWidget = () => {
                     border: 2px solid #940002;
                 }
 
+                .floating-chat-window.closing {
+                    animation: slideDown 0.3s ease-out;
+                }
+
                 @keyframes slideUp {
                     from {
                         opacity: 0;
@@ -243,6 +264,17 @@ const FloatingChatWidget = () => {
                     to {
                         opacity: 1;
                         transform: translateY(0);
+                    }
+                }
+
+                @keyframes slideDown {
+                    from {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                    to {
+                        opacity: 0;
+                        transform: translateY(20px);
                     }
                 }
 
@@ -262,7 +294,7 @@ const FloatingChatWidget = () => {
                 .robot-avatar {
                     width: 40px;
                     height: 40px;
-                    background: rgba(255, 255, 255, 0.2);
+                    background: white;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
