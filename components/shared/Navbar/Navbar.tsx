@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { navMenu } from "@/constants/navMenu";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -19,6 +19,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -104,26 +105,66 @@ export default function Navbar() {
         <nav className="hidden lg:flex mr-8">
         <NavigationMenu>
           <NavigationMenuList className="flex flex-row gap-8">
-          {navMenu.map(({ title, path }) => {
+          {navMenu.map(({ title, path, dropdown }) => {
+            const hasDropdown = dropdown && dropdown.length > 0;
+            const isActive = pathname === path || (hasDropdown && dropdown.some(item => pathname.startsWith(item.path.split('?')[0])));
+            
             return (
             <NavigationMenuItem
               key={title}
               className="relative flex items-center"
             >
-              <NavigationMenuLink asChild>
-                <Link 
-                  href={path}
-                  className={`
-                  relative px-2 py-1 text-white transition-colors duration-150
-                  after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
-                  hover:after:w-full
-                  ${pathname === path ? "after:w-full after:bg-white after:h-0.5" : ""}
-                  font-bold
-                  `}
+              {hasDropdown ? (
+                <div 
+                  className="relative"
+                  onMouseEnter={() => setDropdownOpen(title)}
+                  onMouseLeave={() => setDropdownOpen(null)}
                 >
-                  {title}
-                </Link>
-              </NavigationMenuLink>
+                  <button
+                    className={`
+                      relative px-2 py-1 text-white transition-colors duration-150 flex items-center gap-1
+                      after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
+                      hover:after:w-full
+                      ${isActive ? "after:w-full after:bg-white after:h-0.5" : ""}
+                      font-bold
+                    `}
+                  >
+                    {title}
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${dropdownOpen === title ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {dropdownOpen === title && (
+                    <div className="absolute top-full left-0 pt-2">
+                      <div className="bg-[rgba(107,20,48,0.95)] backdrop-blur-sm rounded-lg shadow-xl border border-[rgba(255,255,255,0.1)] py-2 min-w-[120px] z-50">
+                        {dropdown.map((item) => (
+                          <Link
+                            key={item.title}
+                            href={item.path}
+                            className="block px-4 py-2 text-white font-semibold mx-2 rounded-full transition-all duration-200 hover:bg-linear-to-r hover:from-[rgba(255,232,219,0.15)] hover:to-[rgba(176,91,122,0.15)] hover:scale-105 hover:shadow-md"
+                          >
+                            {item.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <NavigationMenuLink asChild>
+                  <Link 
+                    href={path}
+                    className={`
+                    relative px-2 py-1 text-white transition-colors duration-150
+                    after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
+                    hover:after:w-full
+                    ${pathname === path ? "after:w-full after:bg-white after:h-0.5" : ""}
+                    font-bold
+                    `}
+                  >
+                    {title}
+                  </Link>
+                </NavigationMenuLink>
+              )}
             </NavigationMenuItem>
             );
           })}
@@ -165,27 +206,76 @@ export default function Navbar() {
           <div className="max-w-md w-full mx-auto flex flex-col items-center">
           <NavigationMenu>
             <NavigationMenuList className="flex flex-col gap-6 items-center w-full">
-            {navMenu.map(({ title, path }) => (
-              <NavigationMenuItem
-              key={title}
-              className="w-full flex flex-col items-center"
-              >
-              <button
-                className={`
-                relative text-white px-4 py-3 font-semibold text-lg w-full text-center transition-colors duration-150
-                after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
-                hover:after:w-full
-                ${pathname === path ? "after:w-full after:bg-white after:h-0.5" : ""}
-                `}
-                onClick={() => {
-                setMenuOpen(false);
-                setTimeout(() => router.push(path), 300);
-                }}
-              >
-                {title}
-              </button>
-              </NavigationMenuItem>
-            ))}
+            {navMenu.map(({ title, path, dropdown }) => {
+              const hasDropdown = dropdown && dropdown.length > 0;
+              const isActive = pathname === path || (hasDropdown && dropdown.some(item => pathname.startsWith(item.path.split('?')[0])));
+              const isDropdownOpen = dropdownOpen === title;
+
+              return (
+                <NavigationMenuItem
+                  key={title}
+                  className="w-full flex flex-col items-center"
+                >
+                  {hasDropdown ? (
+                    <div className="w-full flex flex-col items-center">
+                      <button
+                        className={`
+                          relative text-white px-4 py-3 font-semibold text-lg w-full text-center transition-colors duration-150 flex items-center justify-center gap-2
+                          after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
+                          hover:after:w-full
+                          ${isActive ? "after:w-full after:bg-white after:h-0.5" : ""}
+                        `}
+                        onClick={() => setDropdownOpen(isDropdownOpen ? null : title)}
+                      >
+                        {title}
+                        <ChevronDown size={16} className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      <AnimatePresence>
+                        {isDropdownOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="w-full flex flex-col items-center mt-2 gap-2 overflow-hidden"
+                          >
+                            {dropdown.map((item) => (
+                              <button
+                                key={item.title}
+                                className="text-white px-4 py-2 font-medium hover:bg-[rgba(255,255,255,0.1)] rounded-lg transition-colors duration-150 w-[80%]"
+                                onClick={() => {
+                                  setMenuOpen(false);
+                                  setDropdownOpen(null);
+                                  setTimeout(() => router.push(item.path), 300);
+                                }}
+                              >
+                                {item.title}
+                              </button>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <button
+                      className={`
+                        relative text-white px-4 py-3 font-semibold text-lg w-full text-center transition-colors duration-150
+                        after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
+                        hover:after:w-full
+                        ${pathname === path ? "after:w-full after:bg-white after:h-0.5" : ""}
+                      `}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setTimeout(() => router.push(path), 300);
+                      }}
+                    >
+                      {title}
+                    </button>
+                  )}
+                </NavigationMenuItem>
+              );
+            })}
             </NavigationMenuList>
           </NavigationMenu>
           </div>
