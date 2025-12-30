@@ -4,6 +4,7 @@ const nextConfig = {
   // output: 'export',  // Enable for static export only
   images: {
     unoptimized: true,
+    qualities: [75, 85], // Support both default and high quality images
   },
   // Updated to use new Next.js 15 config option
   serverExternalPackages: ['@prisma/client'],
