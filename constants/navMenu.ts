@@ -11,6 +11,16 @@ export const navMenu = [
   {
     path: "/galeri",
     title: "Galeri",
+    dropdown: [
+      {
+        path: "/galeri/2025",
+        title: "2025",
+      },
+      {
+        path: "/galeri/2024",
+        title: "2024",
+      },
+    ],
   },
   {
     path: "/struktur",
