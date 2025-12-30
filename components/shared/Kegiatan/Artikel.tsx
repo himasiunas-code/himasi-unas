@@ -23,8 +23,8 @@ export default function Artikel() {
     };
 
     return (
-        <main className="bg-[#4B061A] py-16">
-            <div className="border-t-4 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
+        <main className="bg-[#4B061A] pt-8 pb-16">
+            <div className="border-t-2 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
             
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="grid gap-8">
