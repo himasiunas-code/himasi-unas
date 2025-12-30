@@ -18,7 +18,7 @@ export default function Contact() {
             <Instagram className="w-6 h-6 md:w-10 md:h-10 text-white" />
           </div>
           
-          <div className="flex flex-col items-center flex-grow">
+          <div className="flex flex-col items-center grow">
             <h3 className="text-base md:text-xl font-bold text-white mb-2 md:mb-3">Instagram</h3>
             
             <p className="text-white mb-4 md:mb-6 text-xs md:text-base text-center italic">@himasi.unas1949</p>
@@ -45,7 +45,7 @@ export default function Contact() {
             </svg>
           </div>
           
-          <div className="flex flex-col items-center flex-grow">
+          <div className="flex flex-col items-center grow">
             <h3 className="text-base md:text-xl font-bold text-white mb-2 md:mb-3">WhatsApp</h3>
             
             <p className="text-white mb-4 md:mb-6 text-xs md:text-base text-center">+62 812-3456-7890</p>
