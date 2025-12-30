@@ -2,6 +2,7 @@
 export interface GalleryImage {
   src: string;
   alt: string;
+  category?: "PLBA" | "Himpunan";
 }
 
 export interface GalleryEvent {
