@@ -23,6 +23,10 @@ export default function SlideImage() {
                                         src={slide.src}
                                         alt={slide.alt}
                                         fill
+                                        quality={85}
+                                        priority={index < 6}
+                                        placeholder="blur"
+                                        sizes="(max-width: 768px) 100vw, 384px"
                                         className="object-cover slide-image"
                                     />
                                     
