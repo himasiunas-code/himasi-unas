@@ -389,7 +389,7 @@ export default function Pendaftaran() {
               )}
 
             {status === "closed" && (
-              <p className="pt-2mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+              <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
                 {new Date().getTime() > new Date(activity.startDate).getTime()
                   ? "Kegiatan telah selesai dilaksanakan. Nantikan kegiatan berikutnya!"
                   : new Date().getTime() >
