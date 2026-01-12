@@ -56,7 +56,7 @@ export default function Artikel() {
                 <div className="grid gap-8">
                     {kegiatanData.slice().reverse().map((kegiatan, index) => (
                         <div 
-                            id={`kegiatan-${kegiatan.id}`}
+                            id={`${kegiatan.id}`}
                             key={kegiatan.id}
                             className={`flex flex-col md:flex-row items-center gap-8 scroll-mt-24 ${
                                 index % 2 === 1 ? 'md:flex-row-reverse' : ''
