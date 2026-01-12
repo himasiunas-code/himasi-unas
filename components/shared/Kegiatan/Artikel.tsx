@@ -24,6 +24,23 @@ export default function Artikel() {
         }, 300); 
     };
 
+    // Handle scroll ke artikel berdasarkan hash URL
+    useEffect(() => {
+        const hash = window.location.hash;
+        if (hash) {
+            // Tunggu sebentar agar elemen sudah ter-render
+            setTimeout(() => {
+                const element = document.querySelector(hash);
+                if (element) {
+                    element.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }
+            }, 100);
+        }
+    }, []);
+
     // Cleanup saat component unmount
     useEffect(() => {
         return () => {
@@ -39,8 +56,9 @@ export default function Artikel() {
                 <div className="grid gap-8">
                     {kegiatanData.slice().reverse().map((kegiatan, index) => (
                         <div 
+                            id={`kegiatan-${kegiatan.id}`}
                             key={kegiatan.id}
-                            className={`flex flex-col md:flex-row items-center gap-8 ${
+                            className={`flex flex-col md:flex-row items-center gap-8 scroll-mt-24 ${
                                 index % 2 === 1 ? 'md:flex-row-reverse' : ''
                             } md:bg-transparent bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-0 border border-white/10 md:border-none`}
                         >
