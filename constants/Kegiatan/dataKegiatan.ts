@@ -128,7 +128,7 @@ export const kegiatanData: KegiatanData[] = [
       dengan sesi tanya jawab, penutupan acara, serta dokumentasi bersama. Melalui kegiatan ini, 
       diharapkan peserta mendapatkan wawasan dan bekal awal untuk mengembangkan keterampilan di bidang 
       game development serta termotivasi untuk terus berkarya di industri kreatif digital.`,
-    image: "image/Home/Kegiatan/workshop-game-developer.jpg",
+    image: "image/Home/Kegiatan/workshop-game-developer.png",
     buttonText: "Baca"
   },
 ];
