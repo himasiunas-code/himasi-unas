@@ -12,6 +12,96 @@ export const kegiatanData: KegiatanData[] = [
   {
     id: 1,
     title: "KEGIATAN 1",
+    subtitle: "Stuban × HMSI ITK",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 2,
+    title: "KEGIATAN 2",
+    subtitle: "Company Visit ke PT. Torabika Eka Semesta",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 3,
+    title: "KEGIATAN 3",
+    subtitle: "Workshop \"Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python\"",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 4,
+    title: "KEGIATAN 4",
+    subtitle: "Podcast",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 5,
+    title: "KEGIATAN 5",
+    subtitle: "Company Visit HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 6,
+    title: "KEGIATAN 6",
+    subtitle: "Student Mobility to University College Sedaya International (UCSI) Malaysia",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 7,
+    title: "KEGIATAN 7",
+    subtitle: "International Benchmarking at Universiti Poly-Tech Malaysia (UPTM)",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 8,
+    title: "KEGIATAN 8",
+    subtitle: "International PKM  to the Guidance Center for Children of Indonesian Migrant Workers",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 9,
+    title: "KEGIATAN 9",
+    subtitle: "Visit the Embassy of the Republic of Indonesia in Kuala Lumpur, Malaysia",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 10,
+    title: "KEGIATAN 10",
+    subtitle: "Visit to the Malaysian National Palace",
+    date: "",
+    description: `Coming Soon...`,
+    image: "",
+    buttonText: "Baca"
+  },
+  {
+    id: 11,
+    title: "KEGIATAN 11",
     subtitle: "Godot for Beginners: Langkah Pertama Menjadi Game Developer",
     date: "20 Desember 2025",
     description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) bersama Program Studi Sistem Informasi 
