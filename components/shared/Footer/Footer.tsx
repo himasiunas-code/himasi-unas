@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import HIMASI from "@/public/icon/LOGO HIMASI.png";
+import HIMASI from "@/public/icon/LOGO HIMASI UNAS.png";
 import FTKI from "@/public/icon/FTKI.png";
 
 export default function Footer() {
