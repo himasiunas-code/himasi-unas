@@ -12,7 +12,6 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navMenu";
-import HIMASI from "@/public/icon/LOGO HIMASI.png";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Navbar() {
@@ -76,13 +75,13 @@ export default function Navbar() {
         <div className="h-20 w-full rounded-full bg-[rgba(107,20,48,0.85)] border border-[rgba(255,255,255,0.06)] backdrop-blur-sm shadow-xl flex items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex flex-row items-center space-x-2 md:space-x-0">
-        <Image
+        {/* <Image
           src={HIMASI}
           alt="Logo HIMASI UNAS"
           width={140}
           height={70}
           className="h-[50px] w-[50px] object-contain md:h-[60px] md:w-[100px]"
-        />
+        /> */}
         <div 
           className="text-white font-bold text-lg md:text-2xl tracking-wider"
           style={{
@@ -90,11 +89,11 @@ export default function Navbar() {
           textShadow: '4px 4px 8px rgba(0,0,0,0.3)'
           }}
         >
-          <div className="flex flex-col">
-          <span className="bg-linear-to-r from-[#FFF0E6] via-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
+          <div className="flex flex-row space-x-1.5 md:space-x-2.5">
+          <span className="bg-linear-to-r from-[#FFF0E6] to-[#F5D6CC] bg-clip-text text-transparent">
             HIMASI
           </span>
-          <span className="bg-linear-to-r from-[#FFF0E6] via-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
             UNAS
           </span>
           </div>
@@ -102,9 +101,9 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-        <nav className="hidden lg:flex mr-8">
+        <nav className="hidden lg:flex mr-8 ml-16">
         <NavigationMenu>
-          <NavigationMenuList className="flex flex-row gap-8">
+          <NavigationMenuList className="flex flex-row gap-4">
           {navMenu.map(({ title, path, dropdown }) => {
             const hasDropdown = dropdown && dropdown.length > 0;
             const isActive = pathname === path || (hasDropdown && dropdown.some(item => pathname.startsWith(item.path.split('?')[0])));
