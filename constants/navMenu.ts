@@ -1,3 +1,4 @@
+import path from "path";
 
 export const navMenu = [
   {
@@ -29,6 +30,10 @@ export const navMenu = [
   {
     path: "/kerja-sama",
     title: "Kerja Sama",
+  },
+  {
+    path: "tentang-kami",
+    title: "Tentang Kami",
   },
   {
     path: "/hubungi-kami",
