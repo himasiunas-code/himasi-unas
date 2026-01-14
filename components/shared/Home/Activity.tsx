@@ -13,7 +13,7 @@ export default function Activity() {
                 <div className="w-full">
                     <div className="overflow-x-auto scrollbar-custom px-4 lg:px-8">
                         <div className="flex gap-4 md:gap-6 pb-4" style={{ width: 'max-content' }}>
-                            {BANNER_DATA.map((banner) => (
+                            {[...BANNER_DATA].reverse().map((banner) => (
                                 <div key={banner.id} className="group relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 w-72 sm:w-80 lg:w-96 shrink-0">
                                     <div className="relative h-44 sm:h-48 lg:h-64 overflow-hidden">
                                         <Image
