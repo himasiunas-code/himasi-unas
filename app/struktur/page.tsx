@@ -5,7 +5,7 @@ export default function GaleriPage() {
   return (
     <main>
       {/* Banner Section */}
-      <section className="relative bg-[#FFE8DB] pt-8 pb-1 md:pt-12 md:pb-8 lg:pt-16 lg:pb-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-[#FFE8DB] pt-3 pb-1 md:pt-12 md:pb-8 lg:pt-16 lg:pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto px-4 pt-20 md:pt-15">
           {/* Title */}
           <div className="text-center mb-8 sm:mb-12">
