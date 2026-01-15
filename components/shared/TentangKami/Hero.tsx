@@ -19,7 +19,7 @@ export default function HeroAbout() {
       </div>
 
       {/* Main Content Container */}
-      <div className="relative z-10 container mx-auto px-4 max-w-6xl pt-12 lg:pt-1 mt-20 lg:mt-10 min-h-[70vh] lg:min-h-[80vh] flex items-center">
+      <div className="relative z-10 container mx-auto px-4 max-w-6xl pt-12 lg:pt-1 mt-15 lg:mt-10 min-h-[70vh] lg:min-h-[80vh] flex items-center">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
           {/* Left Content - Logo */}
           <div className="flex justify-center lg:justify-start order-2 lg:order-1">
