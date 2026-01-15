@@ -242,7 +242,7 @@ export default function Pendaftaran() {
               Tidak Ada Kegiatan Aktif
             </h1>
             <div className="w-24 md:w-32 h-1 bg-[#4B061A] mx-auto rounded-full"></div>
-            <p className="text-lg text-[#FFFFFF] mt-4">
+            <p className="text-lg text-[#FFFFFF] mt-4" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
               Saat ini belum ada kegiatan yang tersedia untuk pendaftaran.
             </p>
           </div>
