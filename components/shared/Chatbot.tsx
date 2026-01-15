@@ -146,7 +146,7 @@ export default function Chatbot() {
                   </div>
                 )}
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl break-words ${
+                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl wrap-break-word ${
                     message.isBot
                       ? "bg-white text-gray-800 shadow-sm border"
                       : "bg-[#4B061A] text-white"
