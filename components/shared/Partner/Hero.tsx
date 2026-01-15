@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Hero() {
   return (
     <main className="bg-[#FFE8DB] relative">
-      <div className="max-w-[1560px] pt-20 md:pt-15 mx-auto relative">
+      <div className="max-w-[1560px] pt-15 mx-auto relative">
         <div className="absolute top-4 left-4 md:top-8 md:left-8 z-10">
           <Image
             src="/icon/Partner/1.png"
