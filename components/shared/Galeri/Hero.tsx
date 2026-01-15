@@ -25,7 +25,7 @@ export default function EventCarousel({ event, interval = 3000, year }: EventCar
 
   return (
     <div className="relative w-full bg-[#FFE8DB]">
-      <div className="relative z-10 max-w-7xl mx-auto pt-30 pb-12 px-4 md:pt-30 md:pb-20">
+      <div className="relative z-10 max-w-7xl mx-auto pt-25 pb-12 px-4 md:pt-30 md:pb-20">
         <div className="flex flex-col items-center md:hidden">
           <div className="relative w-full max-w-md h-52 rounded-2xl overflow-hidden mb-6">
             {event.images.length > 0 ? (
