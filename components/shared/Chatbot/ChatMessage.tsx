@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface ChatMessageProps {
   sender: 'user' | 'bot';
@@ -99,9 +100,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ sender, message }) => {
               <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
             </svg>
           ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V7C1.9 7 1 7.9 1 9V16C1 17.1 1.9 18 3 18V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V18C22.1 18 23 17.1 23 16V9C23 7.9 22.1 7 21 7V9ZM19 16H5V9H19V16ZM7.5 13.5C7.5 14.3 6.8 15 6 15S4.5 14.3 4.5 13.5S5.2 12 6 12S7.5 12.7 7.5 13.5ZM19.5 13.5C19.5 14.3 18.8 15 18 15S16.5 14.3 16.5 13.5S17.2 12 18 12S19.5 12.7 19.5 13.5Z"/>
-            </svg>
+            <div className="bot-avatar-container">
+              <Image
+                src="/Mascot.png"
+                alt="HIMASI Bot"
+                width={32}
+                height={32}
+                className="bot-avatar-image"
+              />
+            </div>
           )}
         </div>
         <div className="message-bubble">
@@ -159,9 +166,21 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ sender, message }) => {
         }
 
         .bot .message-avatar {
-          background: rgba(255, 255, 255, 0.9);
-          color: #940002;
-          border: 2px solid #940002;
+          background: white;
+          border: none;
+        }
+
+        .bot-avatar-container {
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .bot-avatar-image {
+          border-radius: 50%;
+          object-fit: cover;
         }
 
         .message-bubble {
