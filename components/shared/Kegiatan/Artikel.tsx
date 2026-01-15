@@ -8,6 +8,7 @@ import { X, Calendar, FileText } from 'lucide-react';
 export default function Artikel() {
     const [selectedKegiatan, setSelectedKegiatan] = useState<KegiatanData | null>(null);
     const [isClosing, setIsClosing] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const handleOpenModal = (kegiatan: KegiatanData) => {
         setSelectedKegiatan(kegiatan);
@@ -48,11 +49,86 @@ export default function Artikel() {
         };
     }, []);
 
+    // Handle scroll untuk dots indicator
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const scrollLeft = e.currentTarget.scrollLeft;
+        const cardWidth = 320 + 24; // w-80 (320px) + gap-6 (24px)
+        const index = Math.round(scrollLeft / cardWidth);
+        setActiveIndex(index);
+    };
+
     return (
         <main className="bg-[#4B061A] pt-8 pb-16">
             <div className="border-t-2 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
             
-            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            {/* Mobile: Horizontal Scroll */}
+            <div className="md:hidden mb-8">
+                <div className="overflow-x-auto scrollbar-hide px-6" onScroll={handleScroll}>
+                    <div className="flex gap-4" style={{ width: 'max-content' }}>
+                        {kegiatanData.slice().reverse().map((kegiatan) => (
+                            <div 
+                                id={`${kegiatan.id}`}
+                                key={kegiatan.id}
+                                className="flex flex-col w-75 shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 border border-white/50"
+                            >
+                                <div className="block w-full mb-6">
+                                    <div className="relative w-full aspect-video">
+                                        <div className="relative w-full h-full rounded-lg overflow-hidden">
+                                            <Image
+                                                src={kegiatan.image}
+                                                alt={kegiatan.title}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="text-white">
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                                        <h2 className="text-xl font-bold mb-2 tracking-wider">
+                                            {kegiatan.title}
+                                        </h2>
+                                        
+                                        <p className="text-white/80 text-sm mb-4 font-medium">
+                                            {kegiatan.date}
+                                        </p>
+                                        
+                                        <div 
+                                            className="text-white/90 text-sm leading-relaxed mb-6 line-clamp-3"
+                                            dangerouslySetInnerHTML={{ __html: kegiatan.description }}
+                                        />
+                                        
+                                        <button
+                                            onClick={() => handleOpenModal(kegiatan)}
+                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                        >
+                                            {kegiatan.buttonText}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                
+                {/* Dots Indicator */}
+                <div className="flex justify-center gap-2 mt-6">
+                    {kegiatanData.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`h-2 rounded-full transition-all duration-300 ${
+                                index === activeIndex 
+                                    ? 'w-8 bg-white' 
+                                    : 'w-2 bg-white/30'
+                            }`}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            {/* Desktop & Tablet: Grid Layout */}
+            <div className="hidden md:block max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="grid gap-8">
                     {kegiatanData.slice().reverse().map((kegiatan, index) => (
                         <div 
@@ -60,10 +136,10 @@ export default function Artikel() {
                             key={kegiatan.id}
                             className={`flex flex-col md:flex-row items-center gap-8 scroll-mt-24 ${
                                 index % 2 === 1 ? 'md:flex-row-reverse' : ''
-                            } md:bg-transparent bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-0 border border-white/10 md:border-none`}
+                            }`}
                         >
-                            <div className="hidden md:block flex-1 w-full">
-                                <div className="relative w-full h-40 md:h-72 lg:h-80 rounded-xl shadow-2xl bg-white/10 p-4">
+                            <div className="block flex-1 w-full">
+                                <div className="relative w-full aspect-video rounded-xl shadow-2xl bg-white/10 p-4">
                                     <div className="relative w-full h-full rounded-lg overflow-hidden">
                                         <Image
                                             src={kegiatan.image}
