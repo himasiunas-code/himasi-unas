@@ -12,37 +12,37 @@ export const kegiatanData: KegiatanData[] = [
   {
     id: 1,
     title: "KEGIATAN 1",
-    subtitle: "Stuban × HMSI ITK",
-    date: "",
+    subtitle: "HIMASI UNAS × HMSI ITK",
+    date: "12 Agustus 2024",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/HIMASI UNAS × HMSI ITK.png",
     buttonText: "Baca"
   },
   {
     id: 2,
     title: "KEGIATAN 2",
-    subtitle: "Company Visit ke PT. Torabika Eka Semesta",
-    date: "",
+    subtitle: "Company Visit Goes To PT. Torabika Eka Semesta",
+    date: "26 Mei 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/Company Visit Goes To PT. Torabika Eka Semesta.png",
     buttonText: "Baca"
   },
   {
     id: 3,
     title: "KEGIATAN 3",
     subtitle: "Workshop \"Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python\"",
-    date: "",
+    date: "6 Februari 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python.png",
     buttonText: "Baca"
   },
   {
     id: 4,
     title: "KEGIATAN 4",
-    subtitle: "Podcast",
-    date: "",
+    subtitle: "CERMASI Podcast: Business Intelligence Susah Itu Susah? Gak Juga",
+    date: "15 Mei 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/Business Intelligence Susah Itu Susah, Gak Juga.png",
     buttonText: "Baca"
   },
   {
@@ -58,45 +58,45 @@ export const kegiatanData: KegiatanData[] = [
     id: 6,
     title: "KEGIATAN 6",
     subtitle: "Student Mobility to University College Sedaya International (UCSI) Malaysia",
-    date: "",
+    date: "9 Juli 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/Student mobility to University College Sedaya International.png",
     buttonText: "Baca"
   },
   {
     id: 7,
     title: "KEGIATAN 7",
-    subtitle: "International Benchmarking at Universiti Poly-Tech Malaysia (UPTM)",
-    date: "",
+    subtitle: "International Benchmarking at University Poly-Tech Malaysia (UPTM)",
+    date: "10 Juli 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/International Benchmarking at Universiti Poly-Tech Malaysia.png",
     buttonText: "Baca"
   },
   {
     id: 8,
     title: "KEGIATAN 8",
     subtitle: "International PKM  to the Guidance Center for Children of Indonesian Migrant Workers",
-    date: "",
+    date: "10 Juli 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/International PKM  to the Guidance Center for Children of Indonesian Migrant Workers.jpeg",
     buttonText: "Baca"
   },
   {
     id: 9,
     title: "KEGIATAN 9",
     subtitle: "Visit the Embassy of the Republic of Indonesia in Kuala Lumpur, Malaysia",
-    date: "",
+    date: "11 Juli 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/Embassy of the Republic of Indonesia in Kuala Lumpur.png",
     buttonText: "Baca"
   },
   {
     id: 10,
     title: "KEGIATAN 10",
     subtitle: "Visit to the Malaysian National Palace",
-    date: "",
+    date: "11 Juli 2025",
     description: `Coming Soon...`,
-    image: "",
+    image: "image/Home/Kegiatan/Visit to the Malaysian National Palace.png",
     buttonText: "Baca"
   },
   {
