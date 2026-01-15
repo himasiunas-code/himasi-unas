@@ -3,22 +3,22 @@ import Image from "next/image";
 export default function Sejarah() {
   const ketuaData = [
     {
-      periode: "2022/2023",
+      periode: "2024/2025",
       ketua: "Nama Ketua",
       wakil: "Nama Wakil",
-      image: "/image/Tentang-kami/ketua-2020.jpg"
+      image: "/image/Tentang-kami/Kahim/2025.jpeg"
     },
     {
       periode: "2023/2024",
       ketua: "Nama Ketua",
       wakil: "Nama Wakil",
-      image: "/image/Tentang-kami/ketua-2022.jpg"
+      image: "/image/Tentang-kami/Kahim/2025.jpeg"
     },
     {
-      periode: "2024/2025",
+      periode: "2022/2023",
       ketua: "Nama Ketua",
       wakil: "Nama Wakil",
-      image: "/image/Tentang-kami/ketua-2024.jpg"
+      image: "/image/Tentang-kami/Kahim/2025.jpeg"
     }
   ];
 
@@ -93,11 +93,14 @@ export default function Sejarah() {
                   
                   {/* Card */}
                   <div className="w-full bg-[#3A0414]/80 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-white/10">
-                    {/* Image Placeholder */}
+                    {/* Image */}
                     <div className="relative w-full aspect-3/4 bg-[#2A0310] rounded-2xl overflow-hidden mb-4">
-                      <div className="absolute inset-0 flex items-center justify-center text-white/30 text-sm">
-                        Foto Ketua
-                      </div>
+                      <Image
+                        src={data.image}
+                        alt={`Ketua HIMASI ${data.periode}`}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
                     
                     {/* Names */}
@@ -125,11 +128,14 @@ export default function Sejarah() {
               
               {/* Card */}
               <div className="w-full max-w-xs bg-[#3A0414]/80 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-white/10 hover:scale-105 transition-transform duration-300">
-                {/* Image Placeholder */}
+                {/* Image */}
                 <div className="relative w-full aspect-3/4 bg-[#2A0310] rounded-2xl overflow-hidden mb-4">
-                  <div className="absolute inset-0 flex items-center justify-center text-white/30 text-sm">
-                    Foto Ketua
-                  </div>
+                  <Image
+                    src={data.image}
+                    alt={`Ketua HIMASI ${data.periode}`}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
                 
                 {/* Names */}
