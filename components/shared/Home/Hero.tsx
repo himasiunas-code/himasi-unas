@@ -110,7 +110,7 @@ export default function Hero() {
 
               {/* Secondary Image Circle - Top Right */}
               <div
-                className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 lg:-top-8 lg:-right-8 w-20 h-20 sm:w-28 sm:h-28 lg:w-40 lg:h-40"
+                className="absolute -top-8 -right-8 sm:-top-6 sm:-right-6 lg:-top-8 lg:-right-8 w-28 h-28 lg:w-40 lg:h-40"
                 style={{
                   animation: "float 5s ease-in-out infinite",
                   animationDelay: "1s",
