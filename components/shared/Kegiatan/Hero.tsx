@@ -1,7 +1,7 @@
 export default function HeroKegiatan() {
   return (
     <main className="bg-[#FFE8DB]">
-      <div className="flex flex-col justify-center text-center pt-30 md:pt-30 max-w-4xl mx-auto px-4">
+      <div className="flex flex-col justify-center text-center pt-25 md:pt-30 max-w-4xl mx-auto px-4">
         <h2 className="uppercase text-lg md:text-4xl font-bold text-black">
           rangkaian kegiatan himpunan mahasiswa sistem informasi
         </h2>
