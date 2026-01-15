@@ -238,7 +238,7 @@ export default function Pendaftaran() {
           </>
         ) : (
           <div className="text-center">
-            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#4B061A] mb-3">
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#FFFFFF] mb-3" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
               Tidak Ada Kegiatan Aktif
             </h1>
             <div className="w-24 md:w-32 h-1 bg-[#4B061A] mx-auto rounded-full"></div>
