@@ -219,7 +219,7 @@ export default function Sejarah() {
               onClick={() => scrollToCard(index)}
               className={`transition-all duration-300 rounded-full ${
                 activeIndex === index
-                  ? 'w-8 h-3 bg-linear-to-r from-[#FFE8DB] to-[#FFFFFF]'
+                  ? 'w-8 h-3 bg-linear-to-r from-[#FFE8DB] to-[#FFFFFA]'
                   : 'w-3 h-3 bg-white/40 hover:bg-white/60'
               }`}
               aria-label={`Scroll ke periode ${ketuaData[index].periode}`}
