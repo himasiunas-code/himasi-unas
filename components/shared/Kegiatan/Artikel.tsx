@@ -51,57 +51,67 @@ export default function Artikel() {
 
     // Handle scroll untuk dots indicator
     const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-        const scrollLeft = e.currentTarget.scrollLeft;
-        const cardWidth = 320 + 24; // w-80 (320px) + gap-6 (24px)
-        const index = Math.round(scrollLeft / cardWidth);
-        setActiveIndex(index);
+        const container = e.currentTarget;
+        const scrollLeft = container.scrollLeft;
+        const scrollWidth = container.scrollWidth;
+        const clientWidth = container.clientWidth;
+        
+        // Hitung index berdasarkan persentase scroll
+        const totalScrollableWidth = scrollWidth - clientWidth;
+        const scrollPercentage = scrollLeft / totalScrollableWidth;
+        const totalItems = kegiatanData.length;
+        const index = Math.round(scrollPercentage * (totalItems - 1));
+        
+        // Pastikan index dalam range yang valid
+        const clampedIndex = Math.max(0, Math.min(index, totalItems - 1));
+        setActiveIndex(clampedIndex);
     };
 
     return (
         <main className="bg-[#4B061A] pt-8 pb-16">
             <div className="border-t-2 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
             
-            {/* Mobile: Horizontal Scroll */}
-            <div className="md:hidden mb-8">
+            {/* Horizontal Scroll - All Devices */}
+            <div className="mb-8">
                 <div className="overflow-x-auto scrollbar-hide px-6" onScroll={handleScroll}>
                     <div className="flex gap-4" style={{ width: 'max-content' }}>
                         {kegiatanData.slice().reverse().map((kegiatan) => (
                             <div 
                                 id={`${kegiatan.id}`}
                                 key={kegiatan.id}
-                                className="flex flex-col w-75 shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 border border-white/50"
+                                className="flex flex-col w-75 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
                             >
                                 <div className="block w-full mb-6">
-                                    <div className="relative w-full aspect-video">
-                                        <div className="relative w-full h-full rounded-lg overflow-hidden">
+                                    <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                                        {kegiatan.image && (
                                             <Image
                                                 src={kegiatan.image}
                                                 alt={kegiatan.title}
                                                 fill
                                                 className="object-cover"
                                             />
-                                        </div>
+                                        )}
                                     </div>
                                 </div>
 
                                 <div className="text-white">
-                                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                                        <h2 className="text-xl font-bold mb-2 tracking-wider">
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
+                                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2 tracking-wider">
                                             {kegiatan.title}
                                         </h2>
                                         
-                                        <p className="text-white/80 text-sm mb-4 font-medium">
+                                        <p className="text-white/80 text-sm md:text-base mb-4 font-medium">
                                             {kegiatan.date}
                                         </p>
                                         
                                         <div 
-                                            className="text-white/90 text-sm leading-relaxed mb-6 line-clamp-3"
+                                            className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-3"
                                             dangerouslySetInnerHTML={{ __html: kegiatan.description }}
                                         />
                                         
                                         <button
                                             onClick={() => handleOpenModal(kegiatan)}
-                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
                                         >
                                             {kegiatan.buttonText}
                                         </button>
@@ -127,58 +137,6 @@ export default function Artikel() {
                 </div>
             </div>
 
-            {/* Desktop & Tablet: Grid Layout */}
-            <div className="hidden md:block max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="grid gap-8">
-                    {kegiatanData.slice().reverse().map((kegiatan, index) => (
-                        <div 
-                            id={`${kegiatan.id}`}
-                            key={kegiatan.id}
-                            className={`flex flex-col md:flex-row items-center gap-8 scroll-mt-24 ${
-                                index % 2 === 1 ? 'md:flex-row-reverse' : ''
-                            }`}
-                        >
-                            <div className="block flex-1 w-full">
-                                <div className="relative w-full aspect-video rounded-xl shadow-2xl bg-white/10 p-4">
-                                    <div className="relative w-full h-full rounded-lg overflow-hidden">
-                                        <Image
-                                            src={kegiatan.image}
-                                            alt={kegiatan.title}
-                                            fill
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex-1 text-white">
-                                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
-                                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 tracking-wider">
-                                        {kegiatan.title}
-                                    </h2>
-                                    
-                                    <p className="text-white/80 text-sm md:text-base mb-4 font-medium">
-                                        {kegiatan.date}
-                                    </p>
-                                    
-                                    <div 
-                                        className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-2 lg:line-clamp-4"
-                                        dangerouslySetInnerHTML={{ __html: kegiatan.description }}
-                                    />
-                                    
-                                    <button
-                                        onClick={() => handleOpenModal(kegiatan)}
-                                        className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer"
-                                    >
-                                        {kegiatan.buttonText}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
             {selectedKegiatan && (
                 <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-26 overflow-y-auto ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}>
                     <div className={`bg-[#4B061A] rounded-2xl max-w-4xl w-full my-8 relative ${isClosing ? 'animate-slideOut' : 'animate-slideIn'}`}>
@@ -195,13 +153,15 @@ export default function Artikel() {
                                 {selectedKegiatan.title}
                             </h1>
 
-                            <div className="relative w-full h-64 md:h-80 lg:h-96 mb-6 rounded-xl overflow-hidden">
-                                <Image
-                                    src={selectedKegiatan.image}
-                                    alt={selectedKegiatan.title}
-                                    fill
-                                    className="object-contain"
-                                />
+                            <div className="relative w-full h-64 md:h-80 lg:h-96 mb-6 rounded-xl overflow-hidden bg-gray-200">
+                                {selectedKegiatan.image && (
+                                    <Image
+                                        src={selectedKegiatan.image}
+                                        alt={selectedKegiatan.title}
+                                        fill
+                                        className="object-contain"
+                                    />
+                                )}
                             </div>
 
                             <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">
