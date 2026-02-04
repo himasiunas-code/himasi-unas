@@ -11,7 +11,7 @@ export default function Home() {
             <Introduction />
             <Slide />
             <Kegiatan />
-            <Feed />
+            {/* <Feed /> */}
         </main>
     )
 }
