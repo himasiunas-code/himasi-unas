@@ -120,7 +120,17 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 8",
     subtitle: "International PKM  to the Guidance Center for Children of Indonesian Migrant Workers",
     date: "10 Juli 2025",
-    description: ``,
+    description: `HIMASI UNAS  Gelar PKM Internasional: Tingkatkan Literasi Digital Anak Pekerja Migran di Malaysia
+    KUALA LUMPUR – Dalam upaya mendukung kecerdasan digital generasi muda Indonesia di luar negeri, Himpunan Mahasiswa Sistem Informasi (HIMASI) bersama mahasiswa Fakultas Teknologi Komunikasi dan Informatika (FTKI) Universitas Nasional (UNAS) sukses menyelenggarakan kegiatan Pengabdian Kepada Masyarakat (PKM) Internasional.
+    Kegiatan yang berlangsung pada 11 Juli 2025 di Pusat Bimbingan Anak-Anak Pekerja Migran Indonesia (PMI). Mengusung tema besar “Empowering Digital Literacy: Introducing Information Systems”, para mahasiswa berusaha memberikan pemahaman dasar mengenai pentingnya teknologi informasi sejak dini.
+    Belajar Seru dengan Metode "Play and Learn" Menyadari bahwa audiens utama adalah anak-anak, tim PKM UNAS menerapkan metode pendekatan yang kreatif. Alih-alih memberikan materi yang kaku, mereka menggunakan konsep belajar sambil bermain. Strategi ini terbukti efektif dalam menjaga antusiasme anak-anak agar tidak mudah bosan selama sesi berlangsung.
+    Beberapa poin utama dalam kegiatan tersebut meliputi:
+    1. Edukasi Literasi Digital: Memberikan pemahaman tentang penggunaan teknologi secara bijak dan aman.
+    2. Pengenalan Sistem Informasi: Memperkenalkan konsep dasar teknologi yang relevan dengan kehidupan sehari-hari.
+    3. Interaksi Kreatif: Sesi pertanyaan edukatif yang dirancang untuk mengasah logika dan pengetahuan.
+    Kolaborasi untuk Dampak yang Lebih Luas
+    Kehadiran mahasiswa berjaket almamater hijau khas UNAS ini disambut hangat oleh pengelola pusat bimbingan dan anak-anak PMI. Foto bersama yang diabadikan menunjukkan keceriaan dan kedekatan yang terjalin antara mahasiswa dan peserta didik.
+    Melalui kegiatan ini, diharapkan anak-anak pekerja migran tetap mendapatkan akses edukasi teknologi yang layak, sehingga mereka memiliki bekal kompetensi yang kuat untuk masa depan di era digital. Semangat pengabdian lintas negara ini menjadi bukti nyata bahwa mahasiswa FTKI UNAS berkomitmen penuh dalam mengimplementasikan ilmu pengetahuan demi kemaslahatan masyarakat luas.`,
     image: "image/Home/Kegiatan/International PKM  to the Guidance Center for Children of Indonesian Migrant Workers.jpeg",
     buttonText: "Baca"
   },
