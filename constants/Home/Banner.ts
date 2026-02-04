@@ -66,13 +66,6 @@ export const BANNER_DATA: TBanner[] = [
   },
   {
     id: 10,
-    title: "International Visit",
-    description: "Visit to the Malaysian National Palace",
-    image: "image/Home/Kegiatan/Visit to the Malaysian National Palace.png",
-    alt: "Visit to the Malaysian National Palace",
-  },
-  {
-    id: 11,
     title: "Workshop",
     description:
       "Workshop Game Developer untuk meningkatkan keterampilan dalam pengembangan game.",
