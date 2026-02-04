@@ -167,7 +167,7 @@ export default function Artikel() {
 
                                 <div className="text-white">
                                     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
-                                        <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-2 tracking-wider">
+                                        <h2 className="text-sm md:text-base lg:text-lg font-bold mb-2 tracking-wider">
                                             {kegiatan.title}
                                         </h2>
                                         
