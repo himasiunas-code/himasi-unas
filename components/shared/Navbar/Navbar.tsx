@@ -87,21 +87,21 @@ export default function Navbar() {
           height={70}
           className="h-[50px] w-[50px] object-contain md:h-[60px] md:w-[100px]"
         /> */}
-            <div
-              className="text-white font-bold text-lg md:text-2xl tracking-wider"
-              style={{
-                transform: "skewX(10deg)",
-                textShadow: "4px 4px 8px rgba(0,0,0,0.3)",
-              }}
-            >
-              <div className="flex flex-row space-x-1.5 md:space-x-2.5">
+            <div className="flex flex-col">
+              <div
+                className="text-white font-bold text-lg md:text-2xl tracking-wider"
+                style={{
+                  transform: "skewX(10deg)",
+                  textShadow: "4px 4px 8px rgba(0,0,0,0.3)",
+                }}
+              >
                 <span className="bg-linear-to-r from-[#FFF0E6] to-[#F5D6CC] bg-clip-text text-transparent">
                   HIMASI
                 </span>
-                <span className="bg-linear-to-r from-[#F5D6CC] to-[#B05B7A] bg-clip-text text-transparent">
-                  UNAS
-                </span>
               </div>
+              <p className="text-white text-[8px] md:text-xs font-normal tracking-wide opacity-90">
+                Program Studi Sistem Informasi UNAS
+              </p>
             </div>
           </Link>
 
