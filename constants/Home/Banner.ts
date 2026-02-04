@@ -33,7 +33,7 @@ export const BANNER_DATA: TBanner[] = [
     id: 5,
     title: "Company Visit",
     description: "HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
-    image: "image/Home/Kegiatan/.png",
+    image: "image/Home/Kegiatan/Robopark.png",
     alt: "HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
   },
   {
