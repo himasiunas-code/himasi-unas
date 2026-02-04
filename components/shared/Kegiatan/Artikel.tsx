@@ -29,6 +29,14 @@ export default function Artikel() {
         }, 300); 
     };
 
+    // Handle click pada backdrop untuk close modal
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Hanya close jika klik di backdrop, bukan di modal content
+        if (e.target === e.currentTarget) {
+            handleCloseModal();
+        }
+    };
+
     // Handle scroll ke artikel berdasarkan hash URL
     useEffect(() => {
         const hash = window.location.hash;
@@ -211,7 +219,10 @@ export default function Artikel() {
             </div>
 
             {selectedKegiatan && (
-                <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-26 overflow-y-auto ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}>
+                <div 
+                    className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-26 overflow-y-auto ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
+                    onClick={handleBackdropClick}
+                >
                     <div className={`bg-[#4B061A] rounded-2xl max-w-4xl w-full my-8 relative ${isClosing ? 'animate-slideOut' : 'animate-slideIn'}`}>
                         {/* Close Button */}
                         <button
