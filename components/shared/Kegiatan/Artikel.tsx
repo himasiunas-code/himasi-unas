@@ -67,6 +67,24 @@ export default function Artikel() {
         setActiveIndex(clampedIndex);
     };
 
+    // Handle click pada dots untuk scroll ke kegiatan
+    const handleDotClick = (index: number) => {
+        const container = document.querySelector('.overflow-x-auto') as HTMLDivElement;
+        if (!container) return;
+
+        const items = container.querySelectorAll('[id^="kegiatan-"]');
+        const targetItem = items[index] as HTMLElement;
+        
+        if (targetItem) {
+            targetItem.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest',
+                inline: 'center'
+            });
+            setActiveIndex(index);
+        }
+    };
+
     return (
         <main className="bg-[#4B061A] pt-8 pb-16">
             <div className="border-t-2 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
@@ -75,9 +93,9 @@ export default function Artikel() {
             <div className="mb-8">
                 <div className="overflow-x-auto scrollbar-hide px-6" onScroll={handleScroll}>
                     <div className="flex gap-4" style={{ width: 'max-content' }}>
-                        {kegiatanData.slice().reverse().map((kegiatan) => (
+                        {kegiatanData.slice().reverse().map((kegiatan, idx) => (
                             <div 
-                                id={`${kegiatan.id}`}
+                                id={`kegiatan-${idx}`}
                                 key={kegiatan.id}
                                 className="flex flex-col w-75 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
                             >
@@ -125,13 +143,15 @@ export default function Artikel() {
                 {/* Dots Indicator */}
                 <div className="flex justify-center gap-2 mt-6">
                     {kegiatanData.map((_, index) => (
-                        <div
+                        <button
                             key={index}
-                            className={`h-2 rounded-full transition-all duration-300 ${
+                            onClick={() => handleDotClick(index)}
+                            className={`h-2 rounded-full transition-all duration-300 cursor-pointer hover:bg-white/70 ${
                                 index === activeIndex 
                                     ? 'w-8 bg-white' 
                                     : 'w-2 bg-white/30'
                             }`}
+                            aria-label={`Scroll ke kegiatan ${index + 1}`}
                         />
                     ))}
                 </div>
