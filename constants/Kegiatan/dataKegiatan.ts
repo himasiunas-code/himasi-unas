@@ -93,15 +93,6 @@ export const kegiatanData: KegiatanData[] = [
   {
     id: 10,
     title: "KEGIATAN 10",
-    subtitle: "Visit to the Malaysian National Palace",
-    date: "11 Juli 2025",
-    description: `Coming Soon...`,
-    image: "image/Home/Kegiatan/Visit to the Malaysian National Palace.png",
-    buttonText: "Baca"
-  },
-  {
-    id: 11,
-    title: "KEGIATAN 11",
     subtitle: "Godot for Beginners: Langkah Pertama Menjadi Game Developer",
     date: "20 Desember 2025",
     description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) bersama Program Studi Sistem Informasi 
