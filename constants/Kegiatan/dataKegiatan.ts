@@ -11,8 +11,8 @@ export interface KegiatanData {
 export const kegiatanData: KegiatanData[] = [
   {
     id: 1,
-    title: "Studi banding HIMASI UNAS × HMSI ITK",
-    subtitle: "KEGIATAN 1",
+    title: "Studi Banding HIMASI UNAS × HMSI ITK",
+    subtitle: "Kegiatan 1",
     date: "12 Agustus 2024",
     description: `Himpunan Mahasiswa Sistem Informasi Universitas Nasional (HIMASI UNAS) menerima kunjungan istimewa dari Himpunan Mahasiswa Sistem Informasi Institut Teknologi Kalimantan (HMSI ITK). Bertempat di Ruang Seminar Universitas Nasional, kegiatan studi banding ini mengangkat tema "A Brainstorming Approach to Improve Quality & Inter-Organizational Collaboration."
     Kunjungan yang berlangsung pada Senin, 12 Agustus 2024 ini bukan sekadar ajang silaturahmi, melainkan forum strategis untuk bertukar wawasan (benchmarking). Didampingi oleh Bapak I Putu Deny Arthawan Sugih Prabowo, S.Kom., M.Eng selaku dosen pembimbing, rombongan HMSI ITK disambut hangat oleh pengurus HIMASI UNAS yang didukung oleh Lembaga Sertifikasi Profesi Informatika (LSPI).
@@ -25,8 +25,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 2,
-    title: "KEGIATAN 2",
-    subtitle: "Company Visit Goes To PT. Torabika Eka Semesta",
+    title: "Company Visit Goes To PT. Torabika Eka Semesta",
+    subtitle: "Kegiatan 2",
     date: "26 Mei 2025",
     description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) bersama Program Studi Informatika Universitas Nasional sukses menggelar kegiatan Company Visit ke PT. Torabika Eka Semesta (Mayora Group) di Cikupa, Tangerang. Dilaksanakan pada Senin, 26 Mei 2025, kunjungan industri ini mengusung tema relevan: "Highlighting the Role of Data Analysts in Business Transformation."
     Rombongan mahasiswa FTKI UNAS disambut langsung oleh jajaran manajemen PT. Torabika, termasuk Bapak Bayu Irawan (Factory Manager), Bapak Soekma Swasono Darmawan (HRBP), dan Bapak Darwanto (Manager Industrial Relations & GA).
@@ -40,8 +40,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 3,
-    title: "KEGIATAN 3",
-    subtitle: "Workshop \"Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python\"",
+    title: "Workshop \"Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python\"",
+    subtitle: "Kegiatan 3",
     date: "30 Januari 2025",
     description: `Divisi Research and Development (R&D) Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional sukses menggelar workshop teknologi bertajuk "Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python".
     Bertempat di Laboratorium Data Science (Blok IV, Lt 4) Universitas Nasional , kegiatan ini menghadirkan Bapak Pungky Hari Wira Atmaja, S.Kom., MMSI sebagai narasumber utama.
@@ -54,8 +54,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 4,
-    title: "KEGIATAN 4",
-    subtitle: "CERMASI Podcast: Business Intelligence Susah Itu Susah? Gak Juga",
+    title: "CERMASI Podcast: Business Intelligence Susah Itu Susah? Gak Juga",
+    subtitle: "Kegiatan 4",
     date: "15 Mei 2025",
     description: `Program podcast andalan Himpunan Mahasiswa Sistem Informasi (HIMASI) UNAS, "Cermasi: Cerita Bersama Himasi", kembali menyapa pendengar dengan topik yang sangat relevan bagi mahasiswa teknologi masa kini.
     Dipandu oleh Raihan Fernandi, episode kali ini menghadirkan sosok akademisi sekaligus praktisi programming, Bapak Pungky Hari Wira Atmaja, S.Kom., MMSI. Diskusi berjalan hangat mengupas tuntas tentang pentingnya penguasaan Data Science dan Business Intelligence di era digital.
@@ -72,8 +72,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 5,
-    title: "KEGIATAN 5",
-    subtitle: "Company Visit HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
+    title: "Company Visit HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
+    subtitle: "Kegiatan 5",
     date: "18 Juni 2025",
     description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional sukses melaksanakan kegiatan kunjungan industri (Company Visit) ke PT Sari Teknologi (Robopark) yang berlokasi di Pluit, Jakarta Utara.
     Mengusung tema besar "Bridging Campus and Industry", kegiatan ini bertujuan untuk mempersempit jurang antara teori akademik di kampus dengan realita kebutuhan industri teknologi masa kini.
@@ -85,8 +85,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 6,
-    title: "KEGIATAN 6",
-    subtitle: "Student Mobility to University College Sedaya International (UCSI) Malaysia",
+    title: "Student Mobility to University College Sedaya International (UCSI) Malaysia",
+    subtitle: "Kegiatan 6",
     date: "9 Juli 2025",
     description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menunjukkan komitmennya dalam mencetak talenta digital berwawasan global. Melalui program kerja bertajuk "Menggali Potensi Mahasiswa Sistem Informasi di Kancah Internasional", sebanyak 20 Mahasiswa FTKI dan 5 dosen pendamping melakukan kunjungan akademik ke UCSI University, Malaysia.
     Kegiatan yang berlangsung pada Rabu, 9 Juli 2025 ini bertujuan untuk memperluas perspektif mahasiswa mengenai perkembangan teknologi komputer terkini serta standar penulisan ilmiah di tingkat internasional.
@@ -101,8 +101,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 7,
-    title: "KEGIATAN 7",
-    subtitle: "International Benchmarking at University Poly-Tech Malaysia (UPTM)",
+    title: "International Benchmarking at University Poly-Tech Malaysia (UPTM)",
+    subtitle: "Kegiatan 7",
     date: "10 Juli 2025",
     description: `Melanjutkan rangkaian kegiatan internasionalnya di Malaysia, delegasi Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional melakukan kunjungan strategis ke Universiti Poly-Tech Malaysia (UPTM) pada Kamis, 10 Juli 2025.
     Berbeda dengan agenda workshop di hari sebelumnya, kunjungan ke UPTM ini difokuskan pada sesi brainstorming dan diskusi mendalam mengenai potensi kemitraan (partnership) antar kedua institusi pendidikan.
@@ -117,8 +117,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 8,
-    title: "KEGIATAN 8",
-    subtitle: "International PKM  to the Guidance Center for Children of Indonesian Migrant Workers",
+    title: "International PKM  to the Guidance Center for Children of Indonesian Migrant Workers",
+    subtitle: "Kegiatan 8",
     date: "10 Juli 2025",
     description: `HIMASI UNAS  Gelar PKM Internasional: Tingkatkan Literasi Digital Anak Pekerja Migran di Malaysia
     KUALA LUMPUR – Dalam upaya mendukung kecerdasan digital generasi muda Indonesia di luar negeri, Himpunan Mahasiswa Sistem Informasi (HIMASI) bersama mahasiswa Fakultas Teknologi Komunikasi dan Informatika (FTKI) Universitas Nasional (UNAS) sukses menyelenggarakan kegiatan Pengabdian Kepada Masyarakat (PKM) Internasional.
@@ -136,8 +136,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 9,
-    title: "KEGIATAN 9",
-    subtitle: "Visit the Embassy of the Republic of Indonesia in Kuala Lumpur, Malaysia",
+    title: "Visit the Embassy of the Republic of Indonesia in Kuala Lumpur, Malaysia",
+    subtitle: "Kegiatan 9",
     date: "10 Juli 2025",
     description: `Menutup rangkaian kegiatan akademik di Malaysia, Mahasiswa Sistem Informasi (HIMASI)  Universitas Nasional melakukan kunjungan kehormatan ke Kedutaan Besar Republik Indonesia (KBRI) di Kuala Lumpur.
      Kunjungan yang berlangsung pada Kamis sore, 10 Juli 2025 ini disambut hangat oleh perwakilan atase pendidikan dan kebudayaan serta rekan-rekan dari Persatuan Pelajar Indonesia (PPI) Malaysia.
@@ -148,8 +148,8 @@ export const kegiatanData: KegiatanData[] = [
   },
   {
     id: 10,
-    title: "KEGIATAN 10",
-    subtitle: "Godot for Beginners: Langkah Pertama Menjadi Game Developer",
+    title: "Godot for Beginners: Langkah Pertama Menjadi Game Developer",
+    subtitle: "Kegiatan 10",
     date: "20 Desember 2025",
     description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) bersama Program Studi Sistem Informasi 
       Fakultas Teknologi Komunikasi dan Informatika (FTKI) Universitas Nasional sukses menyelenggarakan 
