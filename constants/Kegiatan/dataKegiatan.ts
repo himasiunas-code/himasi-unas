@@ -11,8 +11,8 @@ export interface KegiatanData {
 export const kegiatanData: KegiatanData[] = [
   {
     id: 1,
-    title: "KEGIATAN 1",
-    subtitle: "HIMASI UNAS × HMSI ITK",
+    title: "Studi banding HIMASI UNAS × HMSI ITK",
+    subtitle: "KEGIATAN 1",
     date: "12 Agustus 2024",
     description: `Himpunan Mahasiswa Sistem Informasi Universitas Nasional (HIMASI UNAS) menerima kunjungan istimewa dari Himpunan Mahasiswa Sistem Informasi Institut Teknologi Kalimantan (HMSI ITK). Bertempat di Ruang Seminar Universitas Nasional, kegiatan studi banding ini mengangkat tema "A Brainstorming Approach to Improve Quality & Inter-Organizational Collaboration."
     Kunjungan yang berlangsung pada Senin, 12 Agustus 2024 ini bukan sekadar ajang silaturahmi, melainkan forum strategis untuk bertukar wawasan (benchmarking). Didampingi oleh Bapak I Putu Deny Arthawan Sugih Prabowo, S.Kom., M.Eng selaku dosen pembimbing, rombongan HMSI ITK disambut hangat oleh pengurus HIMASI UNAS yang didukung oleh Lembaga Sertifikasi Profesi Informatika (LSPI).
