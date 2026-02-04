@@ -80,7 +80,7 @@ export const kegiatanData: KegiatanData[] = [
     Kunjungan yang dilaksanakan pada Rabu, 18 Juni 2025 ini menghadirkan langsung Bapak Yohanes Kurnia Widjaja (CEO PT Sari Teknologi) sebagai pemateri utama. Dalam sesinya, peserta tidak hanya mendengarkan paparan sejarah perusahaan, tetapi juga mendapatkan wawasan mendalam mengenai budaya kerja di industri manufaktur teknologi.
     Agenda kunjungan dirancang sangat interaktif. Mahasiswa diajak untuk mempraktikkan langsung cara pembuatan robot menggunakan Arduino IDE. Selain itu, peserta juga antusias mencoba berbagai simulasi teknologi masa depan, termasuk game berbasis Virtual Reality (VR) yang menjadi salah satu unggulan inovasi di Robopark.
      Tidak hanya sekadar kunjungan belajar, kegiatan ini juga menjadi momentum strategis bagi kedua belah pihak. Dalam rangkaian acara tersebut, dilakukan penandatanganan Nota Kesepahaman (MoU) antara Fakultas Teknologi Komunikasi dan Informatika (FTKI) UNAS dengan PT Sari Teknologi. Penandatanganan ini diharapkan membuka peluang magang, riset, dan kolaborasi proyek teknologi di masa depan.`,
-    image: "image/Home/Kegiatan/Robopark.png",
+    image: "image/Home/Kegiatan/Robopark.jpg",
     buttonText: "Baca"
   },
   {
