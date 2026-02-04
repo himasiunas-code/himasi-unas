@@ -49,7 +49,7 @@ export default function Hero() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 pt-2 lg:pt-4 justify-center lg:justify-start">
               <Link
-                href="http://si.ftki.unas.ac.id/"
+                href="https://ftki.unas.ac.id/program-studi-sistem-informasi/"
                 className="group inline-flex items-center justify-center px-6 lg:px-8 py-3 lg:py-4 bg-white text-[#4B061A] font-semibold rounded-full hover:bg-white/90 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl text-sm lg:text-base"
               >
                 <span className="mr-2">Jelajahi</span>
