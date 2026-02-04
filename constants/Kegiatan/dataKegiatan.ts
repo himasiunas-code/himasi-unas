@@ -14,7 +14,12 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 1",
     subtitle: "HIMASI UNAS × HMSI ITK",
     date: "12 Agustus 2024",
-    description: `Coming Soon...`,
+    description: `Himpunan Mahasiswa Sistem Informasi Universitas Nasional (HIMASI UNAS) menerima kunjungan istimewa dari Himpunan Mahasiswa Sistem Informasi Institut Teknologi Kalimantan (HMSI ITK). Bertempat di Ruang Seminar Universitas Nasional, kegiatan studi banding ini mengangkat tema "A Brainstorming Approach to Improve Quality & Inter-Organizational Collaboration."
+    Kunjungan yang berlangsung pada Senin, 12 Agustus 2024 ini bukan sekadar ajang silaturahmi, melainkan forum strategis untuk bertukar wawasan (benchmarking). Didampingi oleh Bapak I Putu Deny Arthawan Sugih Prabowo, S.Kom., M.Eng selaku dosen pembimbing, rombongan HMSI ITK disambut hangat oleh pengurus HIMASI UNAS yang didukung oleh Lembaga Sertifikasi Profesi Informatika (LSPI).
+    Agenda utama pertemuan ini meliputi pemaparan profil organisasi, bedah program kerja (proker), serta diskusi mendalam mengenai tantangan dan inovasi dalam pengelolaan himpunan mahasiswa di era digital.
+    Wakil Dekan Fakultas Teknologi Komunikasi dan Informatika (FTKI) UNAS, Ibu Ir. Endah Tri Esthi, MMSI, yang turut hadir memberikan sambutan, mengapresiasi inisiatif kedua himpunan ini. Beliau menegaskan bahwa kegiatan pertukaran pelajar dan studi banding seperti ini memiliki nilai strategis, tidak hanya bagi pengembangan soft skill mahasiswa, tetapi juga sebagai poin pendukung dalam proses akreditasi fakultas.
+    Dalam sesi sharing, kedua himpunan saling membedah struktur divisi dan alur kerja masing-masing. Diskusi berjalan interaktif dengan fokus pada strategi pengembangan kurikulum organisasi dan adaptasi teknologi dalam menjalankan program kerja.
+    Melalui kolaborasi ini, HIMASI UNAS dan HMSI ITK berharap dapat terus menjalin hubungan baik dan mengimplementasikan hasil brainstorming tersebut untuk menciptakan inovasi kegiatan yang lebih berdampak bagi mahasiswa Sistem Informasi di kedua institusi.`,
     image: "image/Home/Kegiatan/HIMASI UNAS × HMSI ITK.png",
     buttonText: "Baca"
   },
@@ -23,7 +28,13 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 2",
     subtitle: "Company Visit Goes To PT. Torabika Eka Semesta",
     date: "26 Mei 2025",
-    description: `Coming Soon...`,
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) bersama Program Studi Informatika Universitas Nasional sukses menggelar kegiatan Company Visit ke PT. Torabika Eka Semesta (Mayora Group) di Cikupa, Tangerang. Dilaksanakan pada Senin, 26 Mei 2025, kunjungan industri ini mengusung tema relevan: "Highlighting the Role of Data Analysts in Business Transformation."
+    Rombongan mahasiswa FTKI UNAS disambut langsung oleh jajaran manajemen PT. Torabika, termasuk Bapak Bayu Irawan (Factory Manager), Bapak Soekma Swasono Darmawan (HRBP), dan Bapak Darwanto (Manager Industrial Relations & GA).
+    Dalam kunjungan ini, mahasiswa diajak melihat langsung ekosistem produksi salah satu perusahaan FMCG (Fast-Moving Consumer Goods) terbesar di Indonesia. Kegiatan meliputi observasi alur produksi, mulai dari pengolahan bahan baku hingga distribusi barang jadi (finish good), serta bagaimana teknologi informasi terintegrasi dalam setiap lini operasional pabrik.
+    Sesuai tema yang diusung, diskusi utama menyoroti bagaimana data menjadi aset vital dalam pengambilan keputusan bisnis modern. Mahasiswa mendapatkan wawasan praktis mengenai implementasi analisis data untuk efisiensi produksi dan strategi pasar—sebuah validasi nyata atas kurikulum yang dipelajari di bangku kuliah.
+    Kegiatan ini turut didampingi oleh Ketua Program Studi Sistem Informasi, Dr. Andrianingsih, S.Kom., M.M.S.I., dan Ketua Program Studi Informatika, Ratih Titi Komalasari, S.T., M.M., M.M.S.I.
+    Selain sebagai sarana belajar mahasiswa, momen ini juga dimanfaatkan untuk mempererat kerjasama institusi melalui sosialisasi program Rekognisi Pembelajaran Lampau (RPL). FTKI UNAS membuka peluang bagi karyawan Mayora Group untuk mengonversi pengalaman kerja mereka menjadi kredit akademik guna menempuh pendidikan tinggi lanjutan.
+    Kunjungan ini diharapkan dapat membuka wawasan mahasiswa mengenai standar kompetensi yang dibutuhkan dunia kerja, khususnya di bidang analisis data dan teknologi industri.`,
     image: "image/Home/Kegiatan/Company Visit Goes To PT. Torabika Eka Semesta.png",
     buttonText: "Baca"
   },
@@ -31,9 +42,14 @@ export const kegiatanData: KegiatanData[] = [
     id: 3,
     title: "KEGIATAN 3",
     subtitle: "Workshop \"Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python\"",
-    date: "6 Februari 2025",
-    description: `Coming Soon...`,
-    image: "image/Home/Kegiatan/Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python.png",
+    date: "30 Januari 2025",
+    description: `Divisi Research and Development (R&D) Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional sukses menggelar workshop teknologi bertajuk "Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python".
+    Bertempat di Laboratorium Data Science (Blok IV, Lt 4) Universitas Nasional , kegiatan ini menghadirkan Bapak Pungky Hari Wira Atmaja, S.Kom., MMSI sebagai narasumber utama.
+    Workshop ini dirancang untuk menjawab tantangan dunia kerja yang semakin berorientasi pada data. Dalam pemaparannya, Pungky Hari Wira Atmaja mengajak peserta untuk memahami peran vital Business Intelligence (BI) dalam membantu organisasi mencapai tujuan strategisnya.
+    Mahasiswa dibekali keterampilan praktis (practical skills) untuk mengolah data secara optimal menggunakan teknologi modern, yakni bahasa pemrograman Python yang dijalankan di atas platform Google Colab.
+    Kegiatan yang berlangsung dari pukul 08.00 hingga 14.30 WIB ini berjalan interaktif. Sebanyak 25 mahasiswa Fakultas Teknologi Komunikasi dan Informatika (FTKI) mengikuti sesi pelatihan ini dengan penuh antusias, mulai dari pemaparan materi hingga sesi tanya jawab.
+    Penanggung jawab kegiatan, Ferdiansyach, berharap melalui workshop ini mahasiswa FTKI UNAS dapat memiliki wawasan mendalam mengenai pemanfaatan data yang kini menjadi aset penting dalam transformasi bisnis.`,
+    image: "image/Home/Kegiatan/Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python.jpg",
     buttonText: "Baca"
   },
   {
@@ -41,7 +57,16 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 4",
     subtitle: "CERMASI Podcast: Business Intelligence Susah Itu Susah? Gak Juga",
     date: "15 Mei 2025",
-    description: `Coming Soon...`,
+    description: `Program podcast andalan Himpunan Mahasiswa Sistem Informasi (HIMASI) UNAS, "Cermasi: Cerita Bersama Himasi", kembali menyapa pendengar dengan topik yang sangat relevan bagi mahasiswa teknologi masa kini.
+    Dipandu oleh Raihan Fernandi, episode kali ini menghadirkan sosok akademisi sekaligus praktisi programming, Bapak Pungky Hari Wira Atmaja, S.Kom., MMSI. Diskusi berjalan hangat mengupas tuntas tentang pentingnya penguasaan Data Science dan Business Intelligence di era digital.
+    Data Science: Wajib atau Sunnah? Ketika ditanya mengenai urgensi belajar data bagi mahasiswa, Pungky memberikan jawaban tegas. "Mahasiswa di mana pun, program studi apa pun, sebaiknya senang dengan Data Science. Semua sekarang bisa diukur dengan data," ujarnya.
+    Beliau mencontohkan kasus kebocoran data nasional yang pernah terjadi sebagai bukti betapa krusialnya pemahaman tentang data. Menurutnya, kemampuan mengolah data statistik menjadi insight bisnis (Data Mining) adalah kompetensi wajib yang harus dimiliki mahasiswa saat ini.
+    Tantangan Belajar: "Jangan Patah Saat Jatuh" Pungky tidak menampik bahwa mempelajari Data Science memiliki tantangan tersendiri. Namun, ia menekankan bahwa kuncinya ada pada tekad.
+    "Biasanya kita kalau mau belajar itu pas sudah jatuh, patah nih, nggak mau lanjut lagi. Kenapa? Karena kita nggak tahu mau nanya ke siapa," jelas Pungky. Solusinya, menurut beliau, adalah aktif mencari mentor dan berdiskusi dengan teman atau dosen, bukan memendam kesulitan sendirian.
+    AI vs Manusia: Siapa yang Menang? Diskusi semakin menarik saat menyinggung fenomena kecerdasan buatan seperti ChatGPT dan DeepSeek. Pungky memandang AI sebagai alat bantu, bukan ancaman yang akan sepenuhnya menggantikan manusia.
+    "AI itu kan yang menciptakan manusia. Sepintar-pintarnya AI, masih ada error-nya. Kita sebagai manusia harus lebih pintar, jangan telan mentah-mentah jawaban dari AI," pesannya. Ia mengingatkan mahasiswa untuk tetap memverifikasi informasi dari AI dengan literatur yang valid.
+    Pesan untuk Mahasiswa: Kurangi Scrolling, Perbanyak Coding Menutup sesi wawancara, Pungky memberikan nasehat menohok bagi generasi muda. Ia menyarankan agar mahasiswa mengurangi waktu untuk sekadar scrolling media sosial yang tidak produktif.
+    "Daripada kita scroll TikTok yang ilmunya sepotong-sepotong, mending tonton tutorial YouTube sampai tuntas. Implementasikan buat belajar, itu lebih bagus dapatnya," pungkas Dosen Universitas Cendekia Abditama ini.`,
     image: "image/Home/Kegiatan/Business Intelligence Susah Itu Susah, Gak Juga.png",
     buttonText: "Baca"
   },
@@ -49,9 +74,13 @@ export const kegiatanData: KegiatanData[] = [
     id: 5,
     title: "KEGIATAN 5",
     subtitle: "Company Visit HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
-    date: "",
-    description: `Coming Soon...`,
-    image: "",
+    date: "18 Juni 2025",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional sukses melaksanakan kegiatan kunjungan industri (Company Visit) ke PT Sari Teknologi (Robopark) yang berlokasi di Pluit, Jakarta Utara.
+    Mengusung tema besar "Bridging Campus and Industry", kegiatan ini bertujuan untuk mempersempit jurang antara teori akademik di kampus dengan realita kebutuhan industri teknologi masa kini.
+    Kunjungan yang dilaksanakan pada Rabu, 18 Juni 2025 ini menghadirkan langsung Bapak Yohanes Kurnia Widjaja (CEO PT Sari Teknologi) sebagai pemateri utama. Dalam sesinya, peserta tidak hanya mendengarkan paparan sejarah perusahaan, tetapi juga mendapatkan wawasan mendalam mengenai budaya kerja di industri manufaktur teknologi.
+    Agenda kunjungan dirancang sangat interaktif. Mahasiswa diajak untuk mempraktikkan langsung cara pembuatan robot menggunakan Arduino IDE. Selain itu, peserta juga antusias mencoba berbagai simulasi teknologi masa depan, termasuk game berbasis Virtual Reality (VR) yang menjadi salah satu unggulan inovasi di Robopark.
+     Tidak hanya sekadar kunjungan belajar, kegiatan ini juga menjadi momentum strategis bagi kedua belah pihak. Dalam rangkaian acara tersebut, dilakukan penandatanganan Nota Kesepahaman (MoU) antara Fakultas Teknologi Komunikasi dan Informatika (FTKI) UNAS dengan PT Sari Teknologi. Penandatanganan ini diharapkan membuka peluang magang, riset, dan kolaborasi proyek teknologi di masa depan.`,
+    image: "image/Home/Kegiatan/Robopark.png",
     buttonText: "Baca"
   },
   {
@@ -59,7 +88,14 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 6",
     subtitle: "Student Mobility to University College Sedaya International (UCSI) Malaysia",
     date: "9 Juli 2025",
-    description: `Coming Soon...`,
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menunjukkan komitmennya dalam mencetak talenta digital berwawasan global. Melalui program kerja bertajuk "Menggali Potensi Mahasiswa Sistem Informasi di Kancah Internasional", sebanyak 20 Mahasiswa FTKI dan 5 dosen pendamping melakukan kunjungan akademik ke UCSI University, Malaysia.
+    Kegiatan yang berlangsung pada Rabu, 9 Juli 2025 ini bertujuan untuk memperluas perspektif mahasiswa mengenai perkembangan teknologi komputer terkini serta standar penulisan ilmiah di tingkat internasional.
+      Belajar Langsung dari Pakar Internasional Agenda utama kunjungan ini adalah serangkaian workshop intensif yang menghadirkan akademisi terkemuka dari UCSI University. Mahasiswa HIMASI UNAS mendapatkan kesempatan langka untuk mendalami tiga topik krusial:
+      1. Perkembangan Teknologi Komputer yang dibawakan oleh Dr. Ts Raenu Kolandaisamy.
+      2. Penulisan Jurnal Ilmiah oleh Associate Professor Ts Dr. Shayla Islam, memberikan wawasan tentang bagaimana menembus publikasi riset bereputasi global.
+      3. Penerapan Artificial Intelligence (AI) yang dipaparkan oleh Prof. Dr. Kurunathan Ratnavelu, membahas tren dan implementasi kecerdasan buatan di berbagai sektor industri.
+      Selain transfer ilmu, kunjungan ini juga menjadi ajang networking antara Mahasiswa FTKI UNAS dan komunitas akademik di Malaysia. Acara dibuka dengan sesi pertukaran cenderamata (Token of Appreciation) antara perwakilan UNAS dan UCSI sebagai simbol persahabatan antar institusi.
+      Melalui kegiatan ini, HIMASI berharap para Mahasiswa tidak hanya menguasai keterampilan teknis (hardskill), tetapi juga memiliki kepercayaan diri untuk berkompetisi dan berkolaborasi di level global.`,
     image: "image/Home/Kegiatan/Student mobility to University College Sedaya International.png",
     buttonText: "Baca"
   },
@@ -68,7 +104,14 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 7",
     subtitle: "International Benchmarking at University Poly-Tech Malaysia (UPTM)",
     date: "10 Juli 2025",
-    description: `Coming Soon...`,
+    description: `Melanjutkan rangkaian kegiatan internasionalnya di Malaysia, delegasi Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional melakukan kunjungan strategis ke Universiti Poly-Tech Malaysia (UPTM) pada Kamis, 10 Juli 2025.
+    Berbeda dengan agenda workshop di hari sebelumnya, kunjungan ke UPTM ini difokuskan pada sesi brainstorming dan diskusi mendalam mengenai potensi kemitraan (partnership) antar kedua institusi pendidikan.
+    Dalam pertemuan yang berlangsung hangat ini, perwakilan dosen dan mahasiswa UNAS berdiskusi dengan pihak UPTM mengenai berbagai peluang kolaborasi akademik masa depan. Tiga poin utama yang menjadi sorotan dalam diskusi tersebut meliputi:
+    1. Student Exchange: Membuka peluang bagi mahasiswa Sistem Informasi UNAS untuk merasakan pengalaman belajar satu atau dua semester di UPTM, dan sebaliknya.
+    2. Double Degree Program: Penjajakan kemungkinan program gelar ganda yang memungkinkan mahasiswa mendapatkan ijazah dari dua universitas sekaligus.
+    3. Visiting Professor: Program pertukaran dosen tamu untuk memperkaya materi perkuliahan dengan perspektif internasional.
+    Kunjungan ini merupakan langkah konkret HIMASI dan Prodi Sistem Informasi UNAS dalam mendukung visi universitas menuju World Class University. Dengan membangun jembatan komunikasi dengan UPTM, diharapkan mahasiswa UNAS memiliki lebih banyak akses terhadap pendidikan berkualitas global dan eksposur budaya internasional.
+    Kegiatan ditutup dengan sesi foto bersama dan penyerahan cenderamata sebagai simbol komitmen awal untuk merealisasikan rencana-rencana kerjasama yang telah didiskusikan.`,
     image: "image/Home/Kegiatan/International Benchmarking at Universiti Poly-Tech Malaysia.png",
     buttonText: "Baca"
   },
@@ -77,7 +120,7 @@ export const kegiatanData: KegiatanData[] = [
     title: "KEGIATAN 8",
     subtitle: "International PKM  to the Guidance Center for Children of Indonesian Migrant Workers",
     date: "10 Juli 2025",
-    description: `Coming Soon...`,
+    description: ``,
     image: "image/Home/Kegiatan/International PKM  to the Guidance Center for Children of Indonesian Migrant Workers.jpeg",
     buttonText: "Baca"
   },
@@ -85,8 +128,11 @@ export const kegiatanData: KegiatanData[] = [
     id: 9,
     title: "KEGIATAN 9",
     subtitle: "Visit the Embassy of the Republic of Indonesia in Kuala Lumpur, Malaysia",
-    date: "11 Juli 2025",
-    description: `Coming Soon...`,
+    date: "10 Juli 2025",
+    description: `Menutup rangkaian kegiatan akademik di Malaysia, Mahasiswa Sistem Informasi (HIMASI)  Universitas Nasional melakukan kunjungan kehormatan ke Kedutaan Besar Republik Indonesia (KBRI) di Kuala Lumpur.
+     Kunjungan yang berlangsung pada Kamis sore, 10 Juli 2025 ini disambut hangat oleh perwakilan atase pendidikan dan kebudayaan serta rekan-rekan dari Persatuan Pelajar Indonesia (PPI) Malaysia.
+     Agenda utama dalam pertemuan ini adalah diskusi interaktif mengenai Program Kreativitas Mahasiswa (PKM) Internasional. Mahasiswa UNAS dan pengurus PPI Malaysia saling bertukar ide tentang proyek sosial dan teknologi yang dapat dikolaborasikan untuk membawa dampak positif bagi Warga Negara Indonesia (WNI) di Malaysia maupun masyarakat luas.
+      Selain membahas PKM, kunjungan ini juga dimanfaatkan untuk mencari informasi mengenai peluang magang (internship) di KBRI maupun di perusahaan-perusahaan mitra KBRI di Malaysia. Hal ini sejalan dengan visi program studi untuk mendorong mahasiswa mendapatkan pengalaman kerja di lingkungan profesional internasional.`,
     image: "image/Home/Kegiatan/Embassy of the Republic of Indonesia in Kuala Lumpur.png",
     buttonText: "Baca"
   },
