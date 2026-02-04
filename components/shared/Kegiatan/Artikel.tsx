@@ -9,6 +9,10 @@ export default function Artikel() {
     const [selectedKegiatan, setSelectedKegiatan] = useState<KegiatanData | null>(null);
     const [isClosing, setIsClosing] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const [hasMoved, setHasMoved] = useState(false);
 
     const handleOpenModal = (kegiatan: KegiatanData) => {
         setSelectedKegiatan(kegiatan);
@@ -85,13 +89,62 @@ export default function Artikel() {
         }
     };
 
+    // Handle mouse drag untuk scroll
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        const container = e.currentTarget;
+        setIsDragging(true);
+        setHasMoved(false);
+        setStartX(e.pageX - container.offsetLeft);
+        setScrollLeft(container.scrollLeft);
+        container.style.cursor = 'grabbing';
+        container.style.userSelect = 'none';
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        setIsDragging(false);
+        setHasMoved(false);
+        e.currentTarget.style.cursor = 'grab';
+    };
+
+    const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+        setIsDragging(false);
+        setHasMoved(false);
+        e.currentTarget.style.cursor = 'grab';
+    };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDragging) return;
+        
+        const container = e.currentTarget;
+        const x = e.pageX - container.offsetLeft;
+        const distance = Math.abs(x - startX);
+        
+        // Threshold minimal 5px baru mulai scroll (untuk menghindari accidental drag)
+        if (distance > 5) {
+            setHasMoved(true);
+        }
+        
+        if (hasMoved || distance > 5) {
+            e.preventDefault();
+            const walk = (x - startX) * 2; // Multiply by 2 untuk scroll lebih cepat
+            container.scrollLeft = scrollLeft - walk;
+        }
+    };
+
     return (
         <main className="bg-[#4B061A] pt-8 pb-16">
             <div className="border-t-2 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
             
             {/* Horizontal Scroll - All Devices */}
             <div className="mb-8">
-                <div className="overflow-x-auto scrollbar-hide px-6" onScroll={handleScroll}>
+                <div 
+                    className="overflow-x-auto scrollbar-hide px-6 cursor-grab active:cursor-grabbing" 
+                    onScroll={handleScroll}
+                    onMouseDown={handleMouseDown}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                >
                     <div className="flex gap-4" style={{ width: 'max-content' }}>
                         {kegiatanData.slice().reverse().map((kegiatan, idx) => (
                             <div 
@@ -114,7 +167,7 @@ export default function Artikel() {
 
                                 <div className="text-white">
                                     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
-                                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2 tracking-wider">
+                                        <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-2 tracking-wider">
                                             {kegiatan.title}
                                         </h2>
                                         
