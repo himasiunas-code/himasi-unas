@@ -32,7 +32,7 @@ export const navMenu = [
     title: "Kerja Sama",
   },
   {
-    path: "tentang-kami",
+    path: "/tentang-kami",
     title: "Tentang Kami",
   },
   {
