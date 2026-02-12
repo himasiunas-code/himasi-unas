@@ -19,7 +19,7 @@ export const BANNER_DATA: TBanner[] = [
     id: 3,
     title: "Workshop",
     description: "Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python",
-    image: "image/Home/Kegiatan/Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python.png",
+    image: "image/Home/Kegiatan/Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python.jpg",
     alt: "Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python",
   },
   {
@@ -33,7 +33,7 @@ export const BANNER_DATA: TBanner[] = [
     id: 5,
     title: "Company Visit",
     description: "HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
-    image: "image/Home/Kegiatan/Robopark.png",
+    image: "image/Home/Kegiatan/Robopark.jpg",
     alt: "HIMASI ke PT Sari Teknologi “Bridging Campus and Industry”",
   },
   {
