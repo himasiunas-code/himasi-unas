@@ -190,26 +190,38 @@ export default function Artikel() {
                                     </div>
                                 </div>
 
-                                <div className="text-white flex-1 flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
-                                    <h2 className="text-sm md:text-base lg:text-lg font-bold mb-2 tracking-wider">
-                                        {kegiatan.title}
-                                    </h2>
+                                <div className="text-white flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20 h-full">
+                                    {/* Section Title - Fixed Height */}
+                                    <div className="mb-3 min-h-[60px] flex items-start">
+                                        <h2 className="text-sm md:text-base lg:text-lg font-bold tracking-wider line-clamp-2">
+                                            {kegiatan.title}
+                                        </h2>
+                                    </div>
                                     
-                                    <p className="text-white/80 text-sm md:text-base mb-4 font-medium">
-                                        {kegiatan.date}
-                                    </p>
+                                    {/* Section Date - Fixed Height */}
+                                    <div className="mb-4 min-h-7 flex items-center">
+                                        <p className="text-white/80 text-sm md:text-base font-medium">
+                                            {kegiatan.date}
+                                        </p>
+                                    </div>
                                     
-                                    <div 
-                                        className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-3 flex-1"
-                                        dangerouslySetInnerHTML={{ __html: kegiatan.description }}
-                                    />
+                                    {/* Section Description - Flexible Height */}
+                                    <div className="flex-1 mb-6 min-h-[90px]">
+                                        <div 
+                                            className="text-white/90 text-sm md:text-base leading-relaxed line-clamp-3"
+                                            dangerouslySetInnerHTML={{ __html: kegiatan.description }}
+                                        />
+                                    </div>
                                     
-                                    <button
-                                        onClick={() => handleOpenModal(kegiatan)}
-                                        className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
-                                    >
-                                        {kegiatan.buttonText}
-                                    </button>
+                                    {/* Section Button - Fixed at Bottom */}
+                                    <div className="mt-auto">
+                                        <button
+                                            onClick={() => handleOpenModal(kegiatan)}
+                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                        >
+                                            {kegiatan.buttonText}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
