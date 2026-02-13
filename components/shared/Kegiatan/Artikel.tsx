@@ -46,12 +46,26 @@ export default function Artikel() {
                 // Jika hash hanya angka (misal: #1), tambahkan prefix 'kegiatan-'
                 const targetId = hash.replace('#', '');
                 const selector = /^\d+$/.test(targetId) ? `#kegiatan-${targetId}` : hash;
-                const element = document.querySelector(selector);
+                const element = document.querySelector(selector) as HTMLElement;
+                
                 if (element) {
-                    element.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
+                    // Cari parent container yang scrollable
+                    const scrollContainer = element.parentElement?.parentElement;
+                    
+                    if (scrollContainer) {
+                        // Hitung posisi untuk center horizontal scroll
+                        const elementLeft = element.offsetLeft;
+                        const elementWidth = element.offsetWidth;
+                        const containerWidth = scrollContainer.offsetWidth;
+                        
+                        // Scroll ke posisi yang membuat elemen di tengah
+                        const scrollPosition = elementLeft - (containerWidth / 2) + (elementWidth / 2);
+                        
+                        scrollContainer.scrollTo({
+                            left: scrollPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             }, 100);
         }
