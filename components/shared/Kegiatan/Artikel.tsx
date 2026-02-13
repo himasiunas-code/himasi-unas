@@ -43,7 +43,10 @@ export default function Artikel() {
         if (hash) {
             // Tunggu sebentar agar elemen sudah ter-render
             setTimeout(() => {
-                const element = document.querySelector(hash);
+                // Jika hash hanya angka (misal: #1), tambahkan prefix 'kegiatan-'
+                const targetId = hash.replace('#', '');
+                const selector = /^\d+$/.test(targetId) ? `#kegiatan-${targetId}` : hash;
+                const element = document.querySelector(selector);
                 if (element) {
                     element.scrollIntoView({ 
                         behavior: 'smooth', 
@@ -156,7 +159,7 @@ export default function Artikel() {
                     <div className="flex gap-4" style={{ width: 'max-content' }}>
                         {kegiatanData.slice().reverse().map((kegiatan, idx) => (
                             <div 
-                                id={`kegiatan-${idx}`}
+                                id={`kegiatan-${kegiatan.id}`}
                                 key={kegiatan.id}
                                 className="flex flex-col w-80 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
                             >
@@ -173,28 +176,26 @@ export default function Artikel() {
                                     </div>
                                 </div>
 
-                                <div className="text-white flex-1 flex flex-col">
-                                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20 flex flex-col h-full">
-                                        <h2 className="text-sm md:text-base lg:text-lg font-bold mb-2 tracking-wider">
-                                            {kegiatan.title}
-                                        </h2>
-                                        
-                                        <p className="text-white/80 text-sm md:text-base mb-4 font-medium">
-                                            {kegiatan.date}
-                                        </p>
-                                        
-                                        <div 
-                                            className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-3 flex-1"
-                                            dangerouslySetInnerHTML={{ __html: kegiatan.description }}
-                                        />
-                                        
-                                        <button
-                                            onClick={() => handleOpenModal(kegiatan)}
-                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full mt-auto"
-                                        >
-                                            {kegiatan.buttonText}
-                                        </button>
-                                    </div>
+                                <div className="text-white flex-1 flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
+                                    <h2 className="text-sm md:text-base lg:text-lg font-bold mb-2 tracking-wider">
+                                        {kegiatan.title}
+                                    </h2>
+                                    
+                                    <p className="text-white/80 text-sm md:text-base mb-4 font-medium">
+                                        {kegiatan.date}
+                                    </p>
+                                    
+                                    <div 
+                                        className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-3 flex-1"
+                                        dangerouslySetInnerHTML={{ __html: kegiatan.description }}
+                                    />
+                                    
+                                    <button
+                                        onClick={() => handleOpenModal(kegiatan)}
+                                        className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                    >
+                                        {kegiatan.buttonText}
+                                    </button>
                                 </div>
                             </div>
                         ))}
