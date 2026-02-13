@@ -158,9 +158,9 @@ export default function Artikel() {
                             <div 
                                 id={`kegiatan-${idx}`}
                                 key={kegiatan.id}
-                                className="flex flex-col w-75 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
+                                className="flex flex-col w-80 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
                             >
-                                <div className="block w-full mb-6">
+                                <div className="block w-full mb-3">
                                     <div className="relative w-full aspect-video rounded-lg overflow-hidden">
                                         {kegiatan.image && (
                                             <Image
@@ -173,8 +173,8 @@ export default function Artikel() {
                                     </div>
                                 </div>
 
-                                <div className="text-white">
-                                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
+                                <div className="text-white flex-1 flex flex-col">
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20 flex flex-col h-full">
                                         <h2 className="text-sm md:text-base lg:text-lg font-bold mb-2 tracking-wider">
                                             {kegiatan.title}
                                         </h2>
@@ -184,13 +184,13 @@ export default function Artikel() {
                                         </p>
                                         
                                         <div 
-                                            className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-3"
+                                            className="text-white/90 text-sm md:text-base leading-relaxed mb-6 line-clamp-3 flex-1"
                                             dangerouslySetInnerHTML={{ __html: kegiatan.description }}
                                         />
                                         
                                         <button
                                             onClick={() => handleOpenModal(kegiatan)}
-                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full mt-auto"
                                         >
                                             {kegiatan.buttonText}
                                         </button>
