@@ -211,6 +211,7 @@ export default function Pendaftaran() {
                   />
                 ) : activity.image.startsWith('data:') ? (
                   // Base64 data URL from admin upload
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={activity.image}
                     alt={`Banner ${activity.title}`}
