@@ -346,6 +346,7 @@ export default function RegistrationForm() {
       
       return () => clearTimeout(debounceTimer)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep, registrationId, step1Completed, formData])
 
   // Cache untuk activity status (mengurangi redundant API calls)
