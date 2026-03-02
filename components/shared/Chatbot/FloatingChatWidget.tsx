@@ -25,6 +25,7 @@ const FloatingChatWidget = () => {
         
         if (!isDeleting && displayedText !== currentText) {
             // Typing animation
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsTyping(true);
             const typingTimeout = setTimeout(() => {
                 setDisplayedText(currentText.slice(0, displayedText.length + 1));
