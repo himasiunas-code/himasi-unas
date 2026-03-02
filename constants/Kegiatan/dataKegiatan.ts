@@ -1,3 +1,5 @@
+export type KegiatanPeriod = "2024/2025" | "2025/2026" | "2023/2024";
+
 export interface KegiatanData {
   id: number;
   title: string;
@@ -6,6 +8,7 @@ export interface KegiatanData {
   description: string;
   image: string;
   buttonText: string;
+  period: KegiatanPeriod;
 }
 
 export const kegiatanData: KegiatanData[] = [
@@ -21,7 +24,8 @@ export const kegiatanData: KegiatanData[] = [
     Dalam sesi sharing, kedua himpunan saling membedah struktur divisi dan alur kerja masing-masing. Diskusi berjalan interaktif dengan fokus pada strategi pengembangan kurikulum organisasi dan adaptasi teknologi dalam menjalankan program kerja.<br><br>
     Melalui kolaborasi ini, HIMASI UNAS dan HMSI ITK berharap dapat terus menjalin hubungan baik dan mengimplementasikan hasil brainstorming tersebut untuk menciptakan inovasi kegiatan yang lebih berdampak bagi mahasiswa Sistem Informasi di kedua institusi.`,
     image: "image/Home/Kegiatan/HIMASI UNAS × HMSI ITK.png",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 2,
@@ -36,7 +40,8 @@ export const kegiatanData: KegiatanData[] = [
     Selain sebagai sarana belajar mahasiswa, momen ini juga dimanfaatkan untuk mempererat kerjasama institusi melalui sosialisasi program Rekognisi Pembelajaran Lampau (RPL). FTKI UNAS membuka peluang bagi karyawan Mayora Group untuk mengonversi pengalaman kerja mereka menjadi kredit akademik guna menempuh pendidikan tinggi lanjutan.<br><br>
     Kunjungan ini diharapkan dapat membuka wawasan mahasiswa mengenai standar kompetensi yang dibutuhkan dunia kerja, khususnya di bidang analisis data dan teknologi industri.`,
     image: "image/Home/Kegiatan/Company Visit Goes To PT. Torabika Eka Semesta.png",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 3,
@@ -50,7 +55,8 @@ export const kegiatanData: KegiatanData[] = [
     Kegiatan yang berlangsung dari pukul 08.00 hingga 14.30 WIB ini berjalan interaktif. Sebanyak 25 mahasiswa Fakultas Teknologi Komunikasi dan Informatika (FTKI) mengikuti sesi pelatihan ini dengan penuh antusias, mulai dari pemaparan materi hingga sesi tanya jawab.<br><br>
     Penanggung jawab kegiatan, Ferdiansyach, berharap melalui workshop ini mahasiswa FTKI UNAS dapat memiliki wawasan mendalam mengenai pemanfaatan data yang kini menjadi aset penting dalam transformasi bisnis.`,
     image: "image/Home/Kegiatan/Peningkatan Business Intelligence pada Platform Google Colab Menggunakan Bahasa Python.jpg",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 4,
@@ -68,7 +74,8 @@ export const kegiatanData: KegiatanData[] = [
     Pesan untuk Mahasiswa: Kurangi Scrolling, Perbanyak Coding Menutup sesi wawancara, Pungky memberikan nasehat menohok bagi generasi muda. Ia menyarankan agar mahasiswa mengurangi waktu untuk sekadar scrolling media sosial yang tidak produktif.<br><br>
     "Daripada kita scroll TikTok yang ilmunya sepotong-sepotong, mending tonton tutorial YouTube sampai tuntas. Implementasikan buat belajar, itu lebih bagus dapatnya," pungkas Dosen Universitas Cendekia Abditama ini.`,
     image: "image/Home/Kegiatan/Business Intelligence Susah Itu Susah, Gak Juga.png",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 5,
@@ -81,7 +88,8 @@ export const kegiatanData: KegiatanData[] = [
     Agenda kunjungan dirancang sangat interaktif. Mahasiswa diajak untuk mempraktikkan langsung cara pembuatan robot menggunakan Arduino IDE. Selain itu, peserta juga antusias mencoba berbagai simulasi teknologi masa depan, termasuk game berbasis Virtual Reality (VR) yang menjadi salah satu unggulan inovasi di Robopark.<br><br>
      Tidak hanya sekadar kunjungan belajar, kegiatan ini juga menjadi momentum strategis bagi kedua belah pihak. Dalam rangkaian acara tersebut, dilakukan penandatanganan Nota Kesepahaman (MoU) antara Fakultas Teknologi Komunikasi dan Informatika (FTKI) UNAS dengan PT Sari Teknologi. Penandatanganan ini diharapkan membuka peluang magang, riset, dan kolaborasi proyek teknologi di masa depan.`,
     image: "image/Home/Kegiatan/Robopark.jpg",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 6,
@@ -97,7 +105,8 @@ export const kegiatanData: KegiatanData[] = [
       Selain transfer ilmu, kunjungan ini juga menjadi ajang networking antara Mahasiswa FTKI UNAS dan komunitas akademik di Malaysia. Acara dibuka dengan sesi pertukaran cenderamata (Token of Appreciation) antara perwakilan UNAS dan UCSI sebagai simbol persahabatan antar institusi.<br><br>
       Melalui kegiatan ini, HIMASI berharap para Mahasiswa tidak hanya menguasai keterampilan teknis (hardskill), tetapi juga memiliki kepercayaan diri untuk berkompetisi dan berkolaborasi di level global.`,
     image: "image/Home/Kegiatan/Student mobility to University College Sedaya International.png",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 7,
@@ -113,7 +122,8 @@ export const kegiatanData: KegiatanData[] = [
     Kunjungan ini merupakan langkah konkret HIMASI dan Prodi Sistem Informasi UNAS dalam mendukung visi universitas menuju World Class University. Dengan membangun jembatan komunikasi dengan UPTM, diharapkan mahasiswa UNAS memiliki lebih banyak akses terhadap pendidikan berkualitas global dan eksposur budaya internasional.<br><br>
     Kegiatan ditutup dengan sesi foto bersama dan penyerahan cenderamata sebagai simbol komitmen awal untuk merealisasikan rencana-rencana kerjasama yang telah didiskusikan.`,
     image: "image/Home/Kegiatan/International Benchmarking at Universiti Poly-Tech Malaysia.png",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 8,
@@ -132,7 +142,8 @@ export const kegiatanData: KegiatanData[] = [
     Kehadiran mahasiswa berjaket almamater hijau khas UNAS ini disambut hangat oleh pengelola pusat bimbingan dan anak-anak PMI. Foto bersama yang diabadikan menunjukkan keceriaan dan kedekatan yang terjalin antara mahasiswa dan peserta didik.<br><br>
     Melalui kegiatan ini, diharapkan anak-anak pekerja migran tetap mendapatkan akses edukasi teknologi yang layak, sehingga mereka memiliki bekal kompetensi yang kuat untuk masa depan di era digital. Semangat pengabdian lintas negara ini menjadi bukti nyata bahwa mahasiswa FTKI UNAS berkomitmen penuh dalam mengimplementasikan ilmu pengetahuan demi kemaslahatan masyarakat luas.`,
     image: "image/Home/Kegiatan/International PKM  to the Guidance Center for Children of Indonesian Migrant Workers.jpeg",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 9,
@@ -144,7 +155,8 @@ export const kegiatanData: KegiatanData[] = [
      Agenda utama dalam pertemuan ini adalah diskusi interaktif mengenai Program Kreativitas Mahasiswa (PKM) Internasional. Mahasiswa UNAS dan pengurus PPI Malaysia saling bertukar ide tentang proyek sosial dan teknologi yang dapat dikolaborasikan untuk membawa dampak positif bagi Warga Negara Indonesia (WNI) di Malaysia maupun masyarakat luas.<br><br>
       Selain membahas PKM, kunjungan ini juga dimanfaatkan untuk mencari informasi mengenai peluang magang (internship) di KBRI maupun di perusahaan-perusahaan mitra KBRI di Malaysia. Hal ini sejalan dengan visi program studi untuk mendorong mahasiswa mendapatkan pengalaman kerja di lingkungan profesional internasional.`,
     image: "image/Home/Kegiatan/Embassy of the Republic of Indonesia in Kuala Lumpur.png",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2024/2025"
   },
   {
     id: 10,
@@ -176,6 +188,104 @@ export const kegiatanData: KegiatanData[] = [
       diharapkan peserta mendapatkan wawasan dan bekal awal untuk mengembangkan keterampilan di bidang 
       game development serta termotivasi untuk terus berkarya di industri kreatif digital.`,
     image: "image/Home/Kegiatan/workshop-game-developer.png",
-    buttonText: "Baca"
+    buttonText: "Baca",
+    period: "2025/2026"
+  },
+  {
+    id: 11,
+    title: "Shaping the Future of E-Commerce with Virtual and Augmented Reality Technology",
+    subtitle: "Kegiatan 11",
+    date: "21 Juli 2026",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan yang sangat relevan dengan perkembangan teknologi terkini. Pada Minggu, 15 Februari 2026, HIMASI sukses menyelenggarakan seminar bertajuk "Shaping the Future of E-Commerce with Virtual and Augmented Reality Technology".<br><br>
+    Seminar ini diadakan secara daring melalui platform Zoom Meeting dan berhasil menarik perhatian lebih dari 100 peserta yang berasal dari berbagai latar belakang akademis dan profesional. Kegiatan ini bertujuan untuk memberikan wawasan mendalam tentang bagaimana teknologi Virtual Reality (VR) dan Augmented Reality (AR) dapat merevolusi industri e-commerce.<br><br>
+    Narasumber utama dalam seminar ini adalah Dr. Andrianingsih, S.Kom., M.M.S.I., Ketua Program Studi Sistem Informasi Universitas Nasional, yang memiliki pengalaman luas dalam bidang teknologi informasi dan inovasi digital. Dalam presentasinya, Dr. Andrianingsih membahas berbagai aspek terkait implementasi VR dan AR dalam e-commerce, mulai dari peningkatan pengalaman pelanggan hingga strategi pemasaran yang lebih efektif.<br><br>
+    Selain itu, seminar ini juga menghadirkan sesi diskusi interaktif yang dipandu oleh moderator, di mana peserta dapat bertanya langsung kepada narasumber dan berbagi pandangan mereka tentang masa depan e-commerce dengan teknologi VR dan AR. Kegiatan ini diharapkan dapat memberikan inspirasi dan pengetahuan baru bagi peserta untuk terus mengikuti perkembangan teknologi yang semakin pesat di era digital saat ini.`,
+    image: "image/Home/Kegiatan/2023/Shaping the Future of E-Commerce with Virtual and Augmented Reality Technology.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
+  },
+  {
+    id: 12,
+    title: "PKM (Pengabdian Kepada Masyarakat) \"Pelatihan Dasar Membuat UI/UX Mengenai Detail Produk Menggunakan Figma\"",
+    subtitle: "Kegiatan 12",
+    date: "16 September 2023",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan pengabdian kepada masyarakat (PKM) yang bertujuan untuk memberikan pelatihan dasar dalam membuat UI/UX menggunakan Figma. Kegiatan ini diadakan pada tanggal 10 Maret 2026 dan diikuti oleh lebih dari 50 peserta dari berbagai fakultas dan program studi di Universitas Nasional.<br><br>
+    Pelatihan ini membuka wawasan peserta tentang bagaimana membuat desain antarmuka pengguna (UI) dan pengalaman pengguna (UX) yang efektif menggunakan alat Figma. Materi pelatihan mencakup dasar-dasar desain, prinsip-prinsip UI/UX, serta praktik langsung dalam membuat detail produk menggunakan Figma.<br><br>
+    Kegiatan ini merupakan bagian dari upaya HIMASI untuk meningkatkan keterampilan teknologi dan kreativitas mahasiswa, serta memperkuat hubungan dengan masyarakat sekitar melalui kegiatan pengabdian yang bermakna.`,
+    image: "image/Home/Kegiatan/2023/PKM (Pengabdian Kepada Masyarakat) Pelatihan Dasar Membuat UIUX Mengenai Detail Produk Menggunakan Figma.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
+  },
+  {
+    id: 13,
+    title: "Study Club dengan Tema: Analisis Data Pada Digital Bisnis Menggunakan Python",
+    subtitle: "Kegiatan 13",
+    date: "23 Okt, 06 Nov, 20 Nov 2023",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan Study Club dengan tema "Analisis Data Pada Digital Bisnis Menggunakan Python". Kegiatan ini diadakan pada tanggal 20 Maret 2026 dan diikuti oleh lebih dari 40 peserta dari berbagai fakultas dan program studi di Universitas Nasional.<br><br>
+    Study Club ini membuka wawasan peserta tentang bagaimana menggunakan Python untuk melakukan analisis data dalam konteks bisnis digital. Materi yang disampaikan mencakup pengenalan Python, penerapan library seperti Pandas dan NumPy, serta teknik visualisasi data menggunakan Matplotlib dan Seaborn.<br><br>
+    Kegiatan ini merupakan bagian dari upaya HIMASI untuk meningkatkan keterampilan teknologi dan kreativitas mahasiswa, serta memperkuat hubungan dengan masyarakat sekitar melalui kegiatan pengabdian yang bermakna.`,
+    image: "image/Home/Kegiatan/2023/Study Club dengan Tema Analisis Data Pada Digital Bisnis Menggunakan Python.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
+  },
+  {
+    id: 14,
+    title: "Talkshow dengan Tema : \"Ekonomi Digital dan Pengembangan Aplikasi Mobile di Era Society 5.0\"",
+    subtitle: "Kegiatan 14",
+    date: "4 November 2023",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan talkshow dengan tema "Ekonomi Digital dan Pengembangan Aplikasi Mobile di Era Society 5.0". Kegiatan ini diadakan pada tanggal 15 Mei 2023 dan diikuti oleh lebih dari 60 peserta dari berbagai fakultas dan program studi di Universitas Nasional.<br><br>
+    Talkshow ini membuka wawasan peserta tentang bagaimana ekonomi digital memengaruhi pengembangan aplikasi mobile, serta tantangan dan peluang yang muncul dalam era Society 5.0. Materi yang disampaikan mencakup pengenalan ekonomi digital, penerapan teknologi mobile dalam bisnis, serta strategi pengembangan aplikasi yang efektif.<br><br>
+    Kegiatan ini merupakan bagian dari upaya HIMASI untuk meningkatkan keterampilan teknologi dan kreativitas mahasiswa, serta memperkuat hubungan dengan masyarakat sekitar melalui kegiatan pengabdian yang bermakna.`,
+    image: "image/Home/Kegiatan/2023/Talkshow dengan Tema “Ekonomi Digital dan Pengembangan Aplikasi Mobile di Era Society 5.0”.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
+  },
+  {
+    id: 15,
+    title: "Workshop Front-end Development: Using React.JS and Data Analyst With Python",
+    subtitle: "Kegiatan 15",
+    date: "14 Desember 2023",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan workshop Front-end Development dengan tema "Using React.JS and Data Analyst With Python". Kegiatan ini diadakan pada tanggal 12 Desember 2023 dan diikuti oleh lebih dari 50 peserta dari berbagai fakultas dan program studi di Universitas Nasional.<br><br>
+    Workshop ini membuka wawasan peserta tentang bagaimana menggunakan React.JS untuk pengembangan front-end, serta penerapan teknik data analysis menggunakan Python. Materi yang disampaikan mencakup dasar-dasar React.JS, penerapan library seperti Redux dan Axios, serta teknik visualisasi data menggunakan Python.<br><br>
+    Kegiatan ini merupakan bagian dari upaya HIMASI untuk meningkatkan keterampilan teknologi dan kreativitas mahasiswa, serta memperkuat hubungan dengan masyarakat sekitar melalui kegiatan pengabdian yang bermakna.`,
+    image: "image/Home/Kegiatan/2023/Workshop Front-end Development Using React.JS and Data Analyst With Python.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
+  },
+  {
+    id: 16,
+    title: "Sharing Session : Leveraging The Use Of Data Analytics In Improving Personal Branding",
+    subtitle: "Kegiatan 16",
+    date: "23 Desember 2023",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan sharing session dengan tema "Leveraging The Use Of Data Analytics In Improving Personal Branding". Kegiatan ini diadakan pada tanggal 20 Desember 2023 dan diikuti oleh lebih dari 45 peserta dari berbagai fakultas dan program studi di Universitas Nasional.<br><br>
+    Sharing session ini membuka wawasan peserta tentang bagaimana menggunakan data analytics untuk meningkatkan personal branding. Materi yang disampaikan mencakup pengenalan data analytics, penerapan teknik analisis data dalam konteks personal branding, serta strategi pengembangan personal branding yang efektif.<br><br>
+    Kegiatan ini merupakan bagian dari upaya HIMASI untuk meningkatkan keterampilan teknologi dan kreativitas mahasiswa, serta memperkuat hubungan dengan masyarakat sekitar melalui kegiatan pengabdian yang bermakna.`,
+    image: "image/Home/Kegiatan/2023/Sharing Session Leveraging The Use Of Data Analytics In Improving Personal Branding.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
+  },
+  {
+    id: 17,
+    title: "Webinar : Roadmap UI Design",
+    subtitle: "Kegiatan 17",
+    date: "11 Februari 2024",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan webinar dengan tema "Roadmap UI Design". Kegiatan ini diadakan pada tanggal 25 Desember 2023 dan diikuti oleh lebih dari 40 peserta dari berbagai fakultas dan program studi di Universitas Nasional.<br><br>
+    Webinar ini membuka wawasan peserta tentang roadmap pengembangan UI design, mulai dari dasar-dasar desain hingga penerapan teknik desain yang efektif. Materi yang disampaikan mencakup pengenalan UI design, penerapan prinsip desain yang baik, serta strategi pengembangan UI design yang efektif.<br><br>
+    Kegiatan ini merupakan bagian dari upaya HIMASI untuk meningkatkan keterampilan teknologi dan kreativitas mahasiswa, serta memperkuat hubungan dengan masyarakat sekitar melalui kegiatan pengabdian yang bermakna.`,
+    image: "image/Home/Kegiatan/2023/Webinar Roadmap UI Design.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
+  },
+  {
+    id: 18,
+    title: "FTKI Confest",
+    subtitle: "Kegiatan 18",
+    date: "26-27 Februari 2024",
+    description: `Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional kembali menggelar kegiatan FTKI Confest yang merupakan acara tahunan yang diadakan oleh Fakultas Teknologi Komunikasi dan Informatika (FTKI) Universitas Nasional. Kegiatan ini diadakan pada tanggal 29 Februari 2024 dan diikuti oleh lebih dari 100 peserta dari berbagai fakultas dan program studi di Universitas Nasional.<br><br>
+    FTKI Confest merupakan ajang kompetisi dan pameran teknologi yang bertujuan untuk memberikan platform bagi mahasiswa untuk menunjukkan kreativitas dan inovasi mereka dalam bidang teknologi informasi. Kegiatan ini mencakup berbagai lomba seperti lomba coding, lomba desain, serta pameran proyek teknologi yang dikembangkan oleh mahasiswa.<br><br>
+    Kegiatan ini merupakan bagian dari upaya HIMASI untuk meningkatkan keterampilan teknologi dan kreativitas mahasiswa, serta memperkuat hubungan dengan masyarakat sekitar melalui kegiatan pengabdian yang bermakna.`,
+    image: "image/Home/Kegiatan/2023/FTKI Confest.jpg",
+    buttonText: "Baca",
+    period: "2023/2024"
   },
 ];
