@@ -23,6 +23,7 @@ export default function Artikel() {
     const handleOpenModal = (kegiatan: KegiatanData) => {
         setSelectedKegiatan(kegiatan);
         setIsClosing(false);
+        // eslint-disable-next-line react-hooks/immutability
         document.body.style.overflow = 'hidden';
     };
 
