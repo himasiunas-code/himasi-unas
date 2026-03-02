@@ -62,6 +62,7 @@ export default function Navbar() {
   // Keep navbar visible when menu is open
   useEffect(() => {
     if (menuOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsVisible(true);
     }
   }, [menuOpen]);
