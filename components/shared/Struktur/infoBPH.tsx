@@ -51,6 +51,71 @@ type Leader = {
   instagram: string;
 };
 
+function LeaderCard({ leader, alignRight = false, isVisible = true, roleColors, selectedRole }: { 
+  leader: Leader | undefined; 
+  alignRight?: boolean; 
+  isVisible?: boolean;
+  roleColors?: RoleColorScheme;
+  selectedRole?: string;
+}) {
+  if (!leader) return null
+  return (
+    <div
+      className={`flex flex-col ${
+        alignRight ? "md:flex-row-reverse" : "md:flex-row"
+      } items-center md:items-start gap-6 pt-8 transition-all duration-500 ease-in-out transform ${
+        isVisible 
+          ? 'opacity-100 translate-y-0 scale-100' 
+          : 'opacity-0 translate-y-8 scale-95'
+      }`}
+    >
+      <div className={`relative w-50 h-60 transition-all duration-700 ease-in-out group ${roleColors?.shadow || 'shadow-lg'} ${
+        isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+      }`} style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+        <div className={`absolute inset-0 rounded-2xl bg-linear-to-br ${roleColors?.gradient || 'from-purple-500 to-pink-500'} opacity-20 transition-all duration-700 group-hover:opacity-30`} style={{ transform: 'translate3d(0, 0, 0)' }} />
+        <Image
+          src={leader.image}
+          alt={leader.name}
+          fill
+          quality={85}
+          priority={leader.role === selectedRole}
+          placeholder="blur"
+          sizes="(max-width: 768px) 200px, 250px"
+          className="rounded-2xl object-cover transition-transform duration-500 hover:scale-105 relative z-10"
+        />
+      </div>
+
+      <div className={`text-center ${alignRight ? "md:text-right" : "md:text-left"} transition-all duration-500 ease-in-out delay-100 ${
+        isVisible ? 'opacity-100 translate-x-0' : `opacity-0 ${alignRight ? 'translate-x-8' : '-translate-x-8'}`
+      }`}>
+        <h2 className={`text-xl font-bold mb-1 transition-all duration-700 bg-linear-to-r ${roleColors?.gradient || 'from-purple-500 to-pink-500'} bg-clip-text text-transparent`}>
+          {leader.role}
+        </h2>
+        <h3 className="text-lg font-semibold transition-all duration-300 text-white">
+          {leader.name}
+        </h3>
+        <p className="mt-2 text-sm text-gray-200 max-w-lg transition-all duration-300">
+          {leader.description}
+        </p>
+        <Link
+          href={leader.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`group inline-flex items-center justify-center mt-4 p-3 rounded-full bg-linear-to-r ${roleColors?.gradient || 'from-purple-500 via-pink-500 to-red-500'} text-white shadow-lg transform transition-all duration-500 hover:scale-110 hover:shadow-xl ${roleColors?.shadow || 'hover:shadow-pink-500/25'} hover:-translate-y-1 cursor-pointer ${alignRight ? "mx-auto md:ml-auto" : ""}`}
+        >
+          <Instagram 
+            size={20} 
+            className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" 
+          />
+          <span className="ml-2 text-sm font-medium opacity-100 transition-all duration-300 transform translate-x-0 group-hover:rotate-5">
+            Follow
+          </span>
+        </Link>
+      </div>
+    </div>
+  )
+}
+
 export default function BPH() {
 
 
@@ -85,70 +150,6 @@ export default function BPH() {
     "Wakil Himpunan": wakil,
     Bendahara: bendahara,
     Sekretaris: sekretaris,
-  }
-
-  const LeaderCard = ({ leader, alignRight = false, isVisible = true, roleColors }: { 
-    leader: Leader | undefined; 
-    alignRight?: boolean; 
-    isVisible?: boolean;
-    roleColors?: RoleColorScheme
-  }) => {
-    if (!leader) return null
-    return (
-      <div
-        className={`flex flex-col ${
-          alignRight ? "md:flex-row-reverse" : "md:flex-row"
-        } items-center md:items-start gap-6 pt-8 transition-all duration-500 ease-in-out transform ${
-          isVisible 
-            ? 'opacity-100 translate-y-0 scale-100' 
-            : 'opacity-0 translate-y-8 scale-95'
-        }`}
-      >
-        <div className={`relative w-50 h-60 transition-all duration-700 ease-in-out group ${roleColors?.shadow || 'shadow-lg'} ${
-          isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
-        }`} style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
-          <div className={`absolute inset-0 rounded-2xl bg-linear-to-br ${roleColors?.gradient || 'from-purple-500 to-pink-500'} opacity-20 transition-all duration-700 group-hover:opacity-30`} style={{ transform: 'translate3d(0, 0, 0)' }} />
-          <Image
-            src={leader.image}
-            alt={leader.name}
-            fill
-            quality={85}
-            priority={leader.role === selectedRole}
-            placeholder="blur"
-            sizes="(max-width: 768px) 200px, 250px"
-            className="rounded-2xl object-cover transition-transform duration-500 hover:scale-105 relative z-10"
-          />
-        </div>
-
-        <div className={`text-center ${alignRight ? "md:text-right" : "md:text-left"} transition-all duration-500 ease-in-out delay-100 ${
-          isVisible ? 'opacity-100 translate-x-0' : `opacity-0 ${alignRight ? 'translate-x-8' : '-translate-x-8'}`
-        }`}>
-          <h2 className={`text-xl font-bold mb-1 transition-all duration-700 bg-linear-to-r ${roleColors?.gradient || 'from-purple-500 to-pink-500'} bg-clip-text text-transparent`}>
-            {leader.role}
-          </h2>
-          <h3 className="text-lg font-semibold transition-all duration-300 text-white">
-            {leader.name}
-          </h3>
-          <p className="mt-2 text-sm text-gray-200 max-w-lg transition-all duration-300">
-            {leader.description}
-          </p>
-          <Link
-            href={leader.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`group inline-flex items-center justify-center mt-4 p-3 rounded-full bg-linear-to-r ${roleColors?.gradient || 'from-purple-500 via-pink-500 to-red-500'} text-white shadow-lg transform transition-all duration-500 hover:scale-110 hover:shadow-xl ${roleColors?.shadow || 'hover:shadow-pink-500/25'} hover:-translate-y-1 cursor-pointer ${alignRight ? "mx-auto md:ml-auto" : ""}`}
-          >
-            <Instagram 
-              size={20} 
-              className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" 
-            />
-            <span className="ml-2 text-sm font-medium opacity-100 transition-all duration-300 transform translate-x-0 group-hover:rotate-5">
-              Follow
-            </span>
-          </Link>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -195,15 +196,16 @@ export default function BPH() {
             alignRight={false} 
             isVisible={!isAnimating}
             roleColors={currentColors}
+            selectedRole={selectedRole}
           />
         </div>
       </div>
 
       <div className="hidden md:block border-b-3 border-white pb-5">
-        <LeaderCard leader={ketua} alignRight={false} />
-        <LeaderCard leader={wakil} alignRight={true} />
-        <LeaderCard leader={bendahara} alignRight={false} />
-        <LeaderCard leader={sekretaris} alignRight={true} />
+        <LeaderCard leader={ketua} alignRight={false} selectedRole={selectedRole} />
+        <LeaderCard leader={wakil} alignRight={true} selectedRole={selectedRole} />
+        <LeaderCard leader={bendahara} alignRight={false} selectedRole={selectedRole} />
+        <LeaderCard leader={sekretaris} alignRight={true} selectedRole={selectedRole} />
       </div>
     </div>
   )
