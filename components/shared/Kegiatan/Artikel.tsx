@@ -2,13 +2,19 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { kegiatanData, KegiatanData } from '@/constants/Kegiatan/dataKegiatan';
+import { kegiatanData, KegiatanData, KegiatanPeriod } from '@/constants/Kegiatan/dataKegiatan';
 import { X, Calendar, FileText } from 'lucide-react';
 
 export default function Artikel() {
     const [selectedKegiatan, setSelectedKegiatan] = useState<KegiatanData | null>(null);
     const [isClosing, setIsClosing] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndexByPeriod, setActiveIndexByPeriod] = useState<Record<KegiatanPeriod, number>>({
+        '2023/2024': 0,
+        '2024/2025': 0,
+        '2025/2026': 0,
+    });
+
+    const periods: KegiatanPeriod[] = ['2025/2026', '2024/2025', '2023/2024'];
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
@@ -79,26 +85,23 @@ export default function Artikel() {
     }, []);
 
     // Handle scroll untuk dots indicator
-    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>, period: KegiatanPeriod) => {
         const container = e.currentTarget;
         const scrollLeft = container.scrollLeft;
         const scrollWidth = container.scrollWidth;
         const clientWidth = container.clientWidth;
         
-        // Hitung index berdasarkan persentase scroll
         const totalScrollableWidth = scrollWidth - clientWidth;
         const scrollPercentage = scrollLeft / totalScrollableWidth;
-        const totalItems = kegiatanData.length;
+        const totalItems = kegiatanData.filter(k => k.period === period).length;
         const index = Math.round(scrollPercentage * (totalItems - 1));
-        
-        // Pastikan index dalam range yang valid
         const clampedIndex = Math.max(0, Math.min(index, totalItems - 1));
-        setActiveIndex(clampedIndex);
+        setActiveIndexByPeriod(prev => ({ ...prev, [period]: clampedIndex }));
     };
 
     // Handle click pada dots untuk scroll ke kegiatan
-    const handleDotClick = (index: number) => {
-        const container = document.querySelector('.overflow-x-auto') as HTMLDivElement;
+    const handleDotClick = (period: KegiatanPeriod, index: number) => {
+        const container = document.querySelector(`[data-period="${period}"]`) as HTMLDivElement;
         if (!container) return;
 
         const items = container.querySelectorAll('[id^="kegiatan-"]');
@@ -110,7 +113,7 @@ export default function Artikel() {
                 block: 'nearest',
                 inline: 'center'
             });
-            setActiveIndex(index);
+            setActiveIndexByPeriod(prev => ({ ...prev, [period]: index }));
         }
     };
 
@@ -159,91 +162,100 @@ export default function Artikel() {
     return (
         <main className="bg-[#4B061A] pt-8 pb-16">
             <div className="border-t-2 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
-            
-            {/* Horizontal Scroll - All Devices */}
-            <div className="mb-8">
-                <div 
-                    className="overflow-x-auto scrollbar-hide px-6 cursor-grab active:cursor-grabbing" 
-                    onScroll={handleScroll}
-                    onMouseDown={handleMouseDown}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseUp={handleMouseUp}
-                    onMouseMove={handleMouseMove}
-                >
-                    <div className="flex gap-4" style={{ width: 'max-content' }}>
-                        {kegiatanData.slice().reverse().map((kegiatan, idx) => (
-                            <div 
-                                id={`kegiatan-${kegiatan.id}`}
-                                key={kegiatan.id}
-                                className="flex flex-col w-80 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
-                            >
-                                <div className="block w-full mb-3">
-                                    <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                                        {kegiatan.image && (
-                                            <Image
-                                                src={kegiatan.image}
-                                                alt={kegiatan.title}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        )}
-                                    </div>
-                                </div>
 
-                                <div className="text-white flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20 h-full">
-                                    {/* Section Title - Fixed Height */}
-                                    <div className="mb-3 min-h-[60px] flex items-start">
-                                        <h2 className="text-sm md:text-base lg:text-lg font-bold tracking-wider line-clamp-2">
-                                            {kegiatan.title}
-                                        </h2>
-                                    </div>
-                                    
-                                    {/* Section Date - Fixed Height */}
-                                    <div className="mb-4 min-h-7 flex items-center">
-                                        <p className="text-white/80 text-sm md:text-base font-medium">
-                                            {kegiatan.date}
-                                        </p>
-                                    </div>
-                                    
-                                    {/* Section Description - Flexible Height */}
-                                    <div className="flex-1 mb-6 min-h-[90px]">
+            {/* Sections per Period */}
+            {periods.map((period) => {
+                const periodData = kegiatanData.filter(k => k.period === period).slice().reverse();
+                return (
+                    <div key={period} className="mb-14">
+                        {/* Period Heading */}
+                        <div className="flex items-center gap-4 px-6 max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto mb-6">
+                            <div className="flex-1 h-px bg-white/30" />
+                            <h2 className="text-white font-bold text-lg md:text-xl whitespace-nowrap">Periode {period}</h2>
+                            <div className="flex-1 h-px bg-white/30" />
+                        </div>
+
+                        {/* Horizontal Scroll */}
+                        <div className="mb-4">
+                            <div 
+                                data-period={period}
+                                className="overflow-x-auto scrollbar-hide px-6 cursor-grab active:cursor-grabbing" 
+                                onScroll={(e) => handleScroll(e, period)}
+                                onMouseDown={handleMouseDown}
+                                onMouseLeave={handleMouseLeave}
+                                onMouseUp={handleMouseUp}
+                                onMouseMove={handleMouseMove}
+                            >
+                                <div className="flex gap-4" style={{ width: 'max-content' }}>
+                                    {periodData.map((kegiatan) => (
                                         <div 
-                                            className="text-white/90 text-sm md:text-base leading-relaxed line-clamp-3"
-                                            dangerouslySetInnerHTML={{ __html: kegiatan.description }}
-                                        />
-                                    </div>
-                                    
-                                    {/* Section Button - Fixed at Bottom */}
-                                    <div className="mt-auto">
-                                        <button
-                                            onClick={() => handleOpenModal(kegiatan)}
-                                            className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                            id={`kegiatan-${kegiatan.id}`}
+                                            key={kegiatan.id}
+                                            className="flex flex-col w-80 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
                                         >
-                                            {kegiatan.buttonText}
-                                        </button>
-                                    </div>
+                                            <div className="block w-full mb-3">
+                                                <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                                                    {kegiatan.image && (
+                                                        <Image
+                                                            src={kegiatan.image}
+                                                            alt={kegiatan.title}
+                                                            fill
+                                                            className="object-cover"
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="text-white flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20 h-full">
+                                                <div className="mb-3 min-h-[60px] flex items-start">
+                                                    <h2 className="text-sm md:text-base lg:text-lg font-bold tracking-wider line-clamp-2">
+                                                        {kegiatan.title}
+                                                    </h2>
+                                                </div>
+                                                <div className="mb-4 min-h-7 flex items-center">
+                                                    <p className="text-white/80 text-sm md:text-base font-medium">
+                                                        {kegiatan.date}
+                                                    </p>
+                                                </div>
+                                                <div className="flex-1 mb-6 min-h-[90px]">
+                                                    <div 
+                                                        className="text-white/90 text-sm md:text-base leading-relaxed line-clamp-3"
+                                                        dangerouslySetInnerHTML={{ __html: kegiatan.description }}
+                                                    />
+                                                </div>
+                                                <div className="mt-auto">
+                                                    <button
+                                                        onClick={() => handleOpenModal(kegiatan)}
+                                                        className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                                    >
+                                                        {kegiatan.buttonText}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        ))}
+
+                            {/* Dots Indicator */}
+                            <div className="flex justify-center gap-2 mt-6">
+                                {periodData.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleDotClick(period, index)}
+                                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer hover:bg-white/70 ${
+                                            index === activeIndexByPeriod[period]
+                                                ? 'w-8 bg-white' 
+                                                : 'w-2 bg-white/30'
+                                        }`}
+                                        aria-label={`Scroll ke kegiatan ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                {/* Dots Indicator */}
-                <div className="flex justify-center gap-2 mt-6">
-                    {kegiatanData.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => handleDotClick(index)}
-                            className={`h-2 rounded-full transition-all duration-300 cursor-pointer hover:bg-white/70 ${
-                                index === activeIndex 
-                                    ? 'w-8 bg-white' 
-                                    : 'w-2 bg-white/30'
-                            }`}
-                            aria-label={`Scroll ke kegiatan ${index + 1}`}
-                        />
-                    ))}
-                </div>
-            </div>
+                );
+            })}
 
             {selectedKegiatan && (
                 <div 
@@ -275,9 +287,9 @@ export default function Artikel() {
                                 )}
                             </div>
 
-                            <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">
+                            {/* <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">
                                 {selectedKegiatan.subtitle}
-                            </h2>
+                            </h2> */}
 
                             <div className="mb-6 flex items-center gap-2">
                                 <Calendar className="w-5 h-5 text-white" />
