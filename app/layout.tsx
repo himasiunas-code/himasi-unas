@@ -6,6 +6,7 @@ import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
 import FloatingChatWidget from "@/components/shared/Chatbot/FloatingChatWidget";
 import Hash from "@/components/shared/PathHash/Hash";
+import ClarityScript from "@/components/shared/ClarityScript";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${poppins.variable} font-poppins text-white overflow-x-hidden`}
       >
+        <ClarityScript />
         <Hash 
           enableTitle={false}
         />
