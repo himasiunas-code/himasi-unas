@@ -13,6 +13,10 @@
 # testing
 /coverage
 
+# doc
+/un-used
+/document
+
 # next.js
 /.next/
 /out/
