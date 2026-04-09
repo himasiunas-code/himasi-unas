@@ -339,7 +339,7 @@ export default function Pendaftaran() {
             {status === "open" &&
               activity.currentParticipants < activity.maxParticipants && (
                 <Link
-                  href="/pendaftaran"
+                  href="https://bit.ly/AMD_UNAS"
                   className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 transform hover:scale-105"
                   style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}
                 >
