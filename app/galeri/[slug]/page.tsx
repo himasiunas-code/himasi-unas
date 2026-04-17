@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import Hero from "@/components/shared/Galeri/Hero";
 import Filter from "@/components/shared/Galeri/filterGaleri";
 import { galleryEvent2024 } from "@/constants/Galeri/dataGallery2024";
@@ -57,11 +58,20 @@ export async function generateMetadata({ params }: GaleriSlugPageProps) {
     if (!yearData) {
         return {
             title: 'Galeri Tidak Ditemukan',
+            robots: {
+                index: false,
+                follow: false,
+            },
         };
     }
+
+    const canonicalPath = `/galeri/${slug}`;
 
     return {
         title: `Galeri ${yearData.displayYear} - HIMASI UNAS`,
         description: `Galeri kegiatan Himpunan Mahasiswa Sistem Informasi Universitas Nasional tahun akademik ${yearData.displayYear}`,
-    };
+        alternates: {
+            canonical: canonicalPath,
+        },
+    } satisfies Metadata;
 }
