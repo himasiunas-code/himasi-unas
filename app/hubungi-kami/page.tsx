@@ -6,7 +6,10 @@ import ContactForm from "@/components/shared/Hubungi/ContactForm";
 
 export const metadata: Metadata = {
   title: 'Hubungi Kami | HIMASI UNAS',
-  description: 'Silakan hubungi Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional jika Anda memiliki pertanyaan atau ingin bekerja sama.'
+  description: 'Silakan hubungi Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional jika Anda memiliki pertanyaan atau ingin bekerja sama.',
+  alternates: {
+    canonical: '/hubungi-kami',
+  },
 };
 
 export default function PageHubungi() {
