@@ -54,7 +54,7 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li className="transform transition-all duration-300 hover:translate-x-2 hover:scale-105">
-                  <Link href="/galeri" className="relative inline-block py-1 px-2 rounded-md transition-all duration-300 hover:bg-[#4B061A]/10 hover:text-[#4B061A] hover:shadow-sm before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-[#4B061A] before:transition-all before:duration-300 hover:before:w-full">
+                  <Link href="/galeri/2025-2026" className="relative inline-block py-1 px-2 rounded-md transition-all duration-300 hover:bg-[#4B061A]/10 hover:text-[#4B061A] hover:shadow-sm before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-[#4B061A] before:transition-all before:duration-300 hover:before:w-full">
                     Galeri
                   </Link>
                 </li>
