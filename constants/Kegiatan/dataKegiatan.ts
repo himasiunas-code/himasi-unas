@@ -288,4 +288,22 @@ export const kegiatanData: KegiatanData[] = [
     buttonText: "Baca",
     period: "2023/2024"
   },
+  {
+    id: 19,
+    title: "Seminar AMD Ryzen AI x HIMASI UNAS",
+    subtitle: "Kegiatan 19",
+    date: "13 April 2026",
+    description: `Jakarta – Kecerdasan Buatan (AI) kini bukan lagi sekadar buzzword di internet, melainkan alat praktis yang telah terintegrasi langsung ke dalam perangkat harian. Membawa semangat inovasi ini ke lingkungan akademis, acara Tech Gen: Advancing the AI Era yang diselenggarakan pada 13 April 2026 di Aula Universitas Nasional (UNAS) Blok A Lt. 4 sukses menyita perhatian para mahasiswa.<br><br>
+    Mengusung tema "Powered Creation for the Next Generation", acara yang didukung oleh jajaran prosesor AMD Ryzen™ AI Series ini tidak hanya sekadar seminar teknologi, tetapi juga sebuah wadah interaktif yang menunjukkan bagaimana AI dapat merevolusi alur kerja mahasiswa.<br><br>
+    Sesi utama acara ini diisi oleh dua pakar di bidangnya: Donnie Brahmandika, Product Marketing Manager AMD Indonesia, dan Ahmad Abdillah (@pack.ahmad), seorang Content Creator. Keduanya membedah secara tuntas bagaimana Local AI—kecerdasan buatan yang diproses langsung di dalam laptop tanpa memerlukan koneksi internet (berkat kehadiran NPU atau Neural Processing Unit)—dapat menjadi "asisten pribadi" yang andal.<br><br>
+    Terutama bagi mahasiswa yang bergelut di bidang teknologi dan pengembangan sistem, kemampuan menjalankan model AI secara lokal ini sangat mengubah cara kerja. Proses coding untuk pengembangan web—mulai dari menyusun komponen antarmuka hingga membangun arsitektur back-end yang kompleks menggunakan framework modern seperti Next.js—kini bisa diakselerasi. Mahasiswa dapat memanfaatkan AI chatbot atau asisten coding lokal untuk melakukan debugging dan code generation dengan efisien, cepat, dan privat, tanpa harus khawatir produktivitas terhenti saat koneksi internet kampus sedang tidak stabil.<br><br>
+    Di sisi lain, Ahmad Abdillah membagikan wawasannya mengenai workflow content creation. Dengan dukungan prosesor AMD Ryzen™ AI, tugas-tugas berat seperti rendering video, auto-framing, hingga koreksi warna yang ditenagai AI dapat berjalan mulus. Hal ini membuktikan bahwa laptop masa kini tidak hanya berfokus pada kecepatan mentah, tetapi juga efisiensi daya dan kecerdasan pemrosesan.<br><br>
+    Hal yang membuat AMD Tech Gen di UNAS ini terasa hidup adalah pendekatannya yang interaktif. Mahasiswa tidak hanya duduk mendengarkan teori, tetapi diajak untuk membuktikan sendiri ketangguhan teknologi tersebut.<br><br>
+    Terdapat Experience Zone di mana para peserta dapat mengeksplorasi langsung fitur-fitur AI secara hands-on melalui live demos. Tidak ketinggalan, acara ini juga dimeriahkan dengan Game Tournament yang sukses mencairkan suasana dan menumbuhkan semangat kompetitif di antara para peserta, membuktikan bahwa laptop bertenaga AI juga sangat mumpuni untuk kebutuhan gaming.<br><br>
+    Dengan antusiasme luar biasa dari mahasiswa Universitas Nasional, acara ini diharapkan menjadi batu loncatan bagi generasi muda untuk tidak sekadar menjadi konsumen teknologi, melainkan kreator yang mampu memaksimalkan potensi AI.<br><br>
+    `,
+    image: "image/Home/Kegiatan/Advancing The AI Era Tech Gen.png",
+    buttonText: "Baca",
+    period: "2025/2026"
+  },
 ];
