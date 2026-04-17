@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/galeri`,
+      url: `${baseUrl}/galeri/2025-2026`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
