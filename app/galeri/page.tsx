@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export default function GaleriPage() {
     // Redirect ke tahun akademik terbaru
-    redirect('/galeri/2025-2026');
+    permanentRedirect('/galeri/2025-2026');
 }
