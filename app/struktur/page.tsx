@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import BPH from "@/components/shared/Struktur/infoBPH";
 import Divisi from "@/components/shared/Struktur/infoDivision";
+
+export const metadata: Metadata = {
+  title: "Struktur Organisasi HIMASI UNAS",
+  description:
+    "Kenali struktur organisasi HIMASI UNAS, mulai dari BPH hingga divisi-divisi yang berperan dalam menjalankan program kerja himpunan.",
+  alternates: {
+    canonical: "/struktur",
+  },
+};
 
 export default function GaleriPage() {
   return (
