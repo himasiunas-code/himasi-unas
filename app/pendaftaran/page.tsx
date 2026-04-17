@@ -3,7 +3,10 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Pendaftaran Kegiatan | HIMASI UNAS',
-  description: 'Daftar untuk mengikuti kegiatan HIMASI UNAS'
+  description: 'Daftar untuk mengikuti kegiatan HIMASI UNAS',
+  alternates: {
+    canonical: '/pendaftaran',
+  },
 }
 
 export default function PendaftaranPage() {
