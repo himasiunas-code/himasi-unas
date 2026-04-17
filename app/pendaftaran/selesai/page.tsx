@@ -4,7 +4,14 @@ import { CheckCircle, MessageCircle, ArrowRight, Home } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Pendaftaran Selesai | HIMASI UNAS',
-  description: 'Terima kasih telah mendaftar kegiatan HIMASI UNAS'
+  description: 'Terima kasih telah mendaftar kegiatan HIMASI UNAS',
+  robots: {
+    index: false,
+    follow: false,
+  },
+  alternates: {
+    canonical: '/pendaftaran/selesai',
+  },
 }
 
 export default function PendaftaranSelesaiPage() {
