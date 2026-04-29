@@ -26,6 +26,14 @@ export const filterDescriptions2025: Record<
     displayName: "Mayora",
     description: "Company Visit Mayora 2025",
   },
+  "Goes to Malaysia": {
+    displayName: "Goes to Malaysia",
+    description: "Goes to Malaysia 2025",
+  },
+  "Stuban ITK": {
+    displayName: "Stuban ITK",
+    description: "Stuban ITK Kalimantan 2025",
+  },
   CERMASI: {
     displayName: "CERMASI",
     description: "CERMASI HIMASI 2025",
