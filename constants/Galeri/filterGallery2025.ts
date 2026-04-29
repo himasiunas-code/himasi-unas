@@ -5,6 +5,7 @@ export const galleryFilters2025: GalleryFilter[] = [
   "All",
   "PLBA",
   "Himpunan",
+  "CERMASI",
 ];
 
 // Filter display names and descriptions
@@ -20,5 +21,9 @@ export const filterDescriptions2025: Record<
   Himpunan: {
     displayName: "Himpunan",
     description: "Kebersamaan HIMASI 2025",
+  },
+  CERMASI: {
+    displayName: "CERMASI",
+    description: "CERMASI HIMASI 2025",
   },
 };

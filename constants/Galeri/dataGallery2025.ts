@@ -231,6 +231,186 @@ export const galleryImages2025: GalleryImage[] = [
     alt: "PLBA HIMASI 2025 - 16",
     category: "PLBA",
   },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103159.jpg",
+    alt: "CERMASI HIMASI 2025 - 1",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103214.jpg",
+    alt: "CERMASI HIMASI 2025 - 2",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103242.jpg",
+    alt: "CERMASI HIMASI 2025 - 3",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103321.jpg",
+    alt: "CERMASI HIMASI 2025 - 4",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103354.jpg",
+    alt: "CERMASI HIMASI 2025 - 5",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103431.jpg",
+    alt: "CERMASI HIMASI 2025 - 6",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103451.jpg",
+    alt: "CERMASI HIMASI 2025 - 7",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103516.jpg",
+    alt: "CERMASI HIMASI 2025 - 8",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103533.jpg",
+    alt: "CERMASI HIMASI 2025 - 9",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103542.jpg",
+    alt: "CERMASI HIMASI 2025 - 10",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103544.jpg",
+    alt: "CERMASI HIMASI 2025 - 11",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103633.jpg",
+    alt: "CERMASI HIMASI 2025 - 12",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103804.jpg",
+    alt: "CERMASI HIMASI 2025 - 13",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_103939.jpg",
+    alt: "CERMASI HIMASI 2025 - 14",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_104057.jpg",
+    alt: "CERMASI HIMASI 2025 - 15",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_104305.jpg",
+    alt: "CERMASI HIMASI 2025 - 16",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_105248.jpg",
+    alt: "CERMASI HIMASI 2025 - 17",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135559.jpg",
+    alt: "CERMASI HIMASI 2025 - 18",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135623.jpg",
+    alt: "CERMASI HIMASI 2025 - 19",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135637.jpg",
+    alt: "CERMASI HIMASI 2025 - 20",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135638.jpg",
+    alt: "CERMASI HIMASI 2025 - 21",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135640.jpg",
+    alt: "CERMASI HIMASI 2025 - 22",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135823.jpg",
+    alt: "CERMASI HIMASI 2025 - 23",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135846.jpg",
+    alt: "CERMASI HIMASI 2025 - 24",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135849.jpg",
+    alt: "CERMASI HIMASI 2025 - 25",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135924.jpg",
+    alt: "CERMASI HIMASI 2025 - 26",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_135931.jpg",
+    alt: "CERMASI HIMASI 2025 - 27",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140002.jpg",
+    alt: "CERMASI HIMASI 2025 - 28",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140020.jpg",
+    alt: "CERMASI HIMASI 2025 - 29",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140056.jpg",
+    alt: "CERMASI HIMASI 2025 - 30",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140114.jpg",
+    alt: "CERMASI HIMASI 2025 - 31",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140200.jpg",
+    alt: "CERMASI HIMASI 2025 - 32",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140556.jpg",
+    alt: "CERMASI HIMASI 2025 - 33",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140558.jpg",
+    alt: "CERMASI HIMASI 2025 - 34",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140635.jpg",
+    alt: "CERMASI HIMASI 2025 - 35",
+    category: "CERMASI",
+  },
+  {
+    src: "/image/Galeri/Cermasi/20260221_140640.jpg",
+    alt: "CERMASI HIMASI 2025 - 36",
+    category: "CERMASI",
+  },
 ];
 
 export const galleryEvent2025: GalleryEvent = {

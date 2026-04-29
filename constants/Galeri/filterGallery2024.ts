@@ -21,4 +21,8 @@ export const filterDescriptions2024: Record<
     displayName: "Himpunan",
     description: "Kebersamaan HIMASI 2024",
   },
+  CERMASI: {
+    displayName: "CERMASI",
+    description: "CERMASI HIMASI 2024",
+  },
 };
