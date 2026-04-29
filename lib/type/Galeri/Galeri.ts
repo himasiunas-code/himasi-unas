@@ -2,7 +2,7 @@
 export interface GalleryImage {
   src: string;
   alt: string;
-  category?: "PLBA" | "Himpunan" | "CERMASI" | "Mayora" | "Goes to Malaysia" | "Stuban ITK";
+  category?: "PLBA" | "Himpunan" | "CERMASI" | "Mayora" | "Goes to Malaysia" | "Stuban ITK" | "Seminar Kolab";
 }
 
 export interface GalleryEvent {
@@ -24,6 +24,7 @@ export interface FilteredGalleryItem {
     | "Mayora"
     | "Goes to Malaysia"
     | "Stuban ITK"
+    | "Seminar Kolab"
     // | "Wawancara"
     | "Himpunan";
   title: string;
@@ -45,5 +46,6 @@ export type GalleryFilter =
   | "Mayora"
   | "Goes to Malaysia"
   | "Stuban ITK"
+  | "Seminar Kolab"
   // | "Wawancara"
   | "Himpunan";

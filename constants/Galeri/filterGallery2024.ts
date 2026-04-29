@@ -30,4 +30,8 @@ export const filterDescriptions2024: Record<
     displayName: "CERMASI",
     description: "CERMASI HIMASI 2024",
   },
+  "Seminar Kolab": {
+    displayName: "Seminar Kolab",
+    description: "Seminar Kolaborasi AMD Ryzen AI 2024",
+  },
 };

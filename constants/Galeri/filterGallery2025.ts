@@ -6,6 +6,7 @@ export const galleryFilters2025: GalleryFilter[] = [
   "PLBA",
   "Himpunan",
   "CERMASI",
+  "Seminar Kolab",
 ];
 
 // Filter display names and descriptions
@@ -37,5 +38,9 @@ export const filterDescriptions2025: Record<
   CERMASI: {
     displayName: "CERMASI",
     description: "CERMASI HIMASI 2025",
+  },
+  "Seminar Kolab": {
+    displayName: "Seminar Kolab",
+    description: "Seminar Kolaborasi AMD Ryzen AI 2025",
   },
 };

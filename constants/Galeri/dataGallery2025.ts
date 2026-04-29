@@ -411,6 +411,36 @@ export const galleryImages2025: GalleryImage[] = [
     alt: "CERMASI HIMASI 2025 - 36",
     category: "CERMASI",
   },
+  {
+    src: "/image/Galeri/2025/Seminar Kolab/3a34b05c-c5b7-4074-97c0-2be2e6d3c079.jpg",
+    alt: "Seminar Kolaborasi AMD Ryzen AI HIMASI 2025 - 1",
+    category: "Seminar Kolab",
+  },
+  {
+    src: "/image/Galeri/2025/Seminar Kolab/5eea72bd-5529-4fbd-8f3c-4381575b8209.jpg",
+    alt: "Seminar Kolaborasi AMD Ryzen AI HIMASI 2025 - 2",
+    category: "Seminar Kolab",
+  },
+  {
+    src: "/image/Galeri/2025/Seminar Kolab/c1fade5c-b1d8-4a73-9319-a90b704bd729.jpg",
+    alt: "Seminar Kolaborasi AMD Ryzen AI HIMASI 2025 - 3",
+    category: "Seminar Kolab",
+  },
+  {
+    src: "/image/Galeri/2025/Seminar Kolab/f23fb6b3-f06c-41fb-ad95-7cf0aab0b11e.jpg",
+    alt: "Seminar Kolaborasi AMD Ryzen AI HIMASI 2025 - 4",
+    category: "Seminar Kolab",
+  },
+  {
+    src: "/image/Galeri/2025/Seminar Kolab/IMG_1872.JPG",
+    alt: "Seminar Kolaborasi AMD Ryzen AI HIMASI 2025 - 5",
+    category: "Seminar Kolab",
+  },
+  {
+    src: "/image/Galeri/2025/Seminar Kolab/IMG_1874.JPG",
+    alt: "Seminar Kolaborasi AMD Ryzen AI HIMASI 2025 - 6",
+    category: "Seminar Kolab",
+  },
 ];
 
 export const galleryEvent2025: GalleryEvent = {
