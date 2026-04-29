@@ -22,6 +22,10 @@ export const filterDescriptions2025: Record<
     displayName: "Himpunan",
     description: "Kebersamaan HIMASI 2025",
   },
+  Mayora: {
+    displayName: "Mayora",
+    description: "Company Visit Mayora 2025",
+  },
   CERMASI: {
     displayName: "CERMASI",
     description: "CERMASI HIMASI 2025",

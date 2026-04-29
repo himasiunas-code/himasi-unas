@@ -5,6 +5,7 @@ export const galleryFilters2024: GalleryFilter[] = [
   "All",
   "PLBA",
   "Himpunan",
+  "Mayora",
 ];
 
 // Filter display names and descriptions
@@ -20,6 +21,10 @@ export const filterDescriptions2024: Record<
   Himpunan: {
     displayName: "Himpunan",
     description: "Kebersamaan HIMASI 2024",
+  },
+  Mayora: {
+    displayName: "Mayora",
+    description: "Company Visit Mayora 2024",
   },
   CERMASI: {
     displayName: "CERMASI",
