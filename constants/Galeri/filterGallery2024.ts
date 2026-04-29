@@ -3,6 +3,7 @@ import { GalleryFilter } from "@/lib/type/Galeri/Galeri";
 // Filter categories
 export const galleryFilters2024: GalleryFilter[] = [
   "All",
+  "PLBA",
   "Mayora",
   "Goes to Malaysia",
   "Stuban ITK",
@@ -14,6 +15,10 @@ export const filterDescriptions2024: Record<
   { displayName: string; description: string }
 > = {
   All: { displayName: "All", description: "Semua Foto Kegiatan 2024" },
+  "PLBA": {
+    displayName: "PLBA",
+    description: "Pengenalan Lingkungan dan Budaya Akademik 2024",
+  },
   Mayora: {
     displayName: "Mayora",
     description: "Company Visit Mayora 2024",

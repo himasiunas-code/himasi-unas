@@ -2,6 +2,56 @@ import { GalleryImage, GalleryEvent } from "@/lib/type/Galeri/Galeri";
 
 export const galleryImages2024: GalleryImage[] = [
   {
+    src: "/image/Galeri/2024/PLBA/DSC00489.JPG",
+    alt: "PLBA HIMASI 2024 - 1",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00490.JPG",
+    alt: "PLBA HIMASI 2024 - 2",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00491.JPG",
+    alt: "PLBA HIMASI 2024 - 3",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00492.JPG",
+    alt: "PLBA HIMASI 2024 - 4",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00493.JPG",
+    alt: "PLBA HIMASI 2024 - 5",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00495.JPG",
+    alt: "PLBA HIMASI 2024 - 6",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00497.JPG",
+    alt: "PLBA HIMASI 2024 - 7",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00498.JPG",
+    alt: "PLBA HIMASI 2024 - 8",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00499.JPG",
+    alt: "PLBA HIMASI 2024 - 9",
+    category: "PLBA",
+  },
+  {
+    src: "/image/Galeri/2024/PLBA/DSC00500.JPG",
+    alt: "PLBA HIMASI 2024 - 10",
+    category: "PLBA",
+  },
+  {
     src: "/image/Galeri/2024/Mayora/20250526_102418.jpg",
     alt: "Company Visit Mayora HIMASI 2024 - 1",
     category: "Mayora",
