@@ -19,6 +19,10 @@ export const filterDescriptions2024: Record<
     displayName: "PLBA",
     description: "Pengenalan Lingkungan dan Budaya Akademik 2024",
   },
+  Himpunan: {
+    displayName: "Himpunan",
+    description: "Kebersamaan HIMASI 2024",
+  },
   Mayora: {
     displayName: "Mayora",
     description: "Company Visit Mayora 2024",
