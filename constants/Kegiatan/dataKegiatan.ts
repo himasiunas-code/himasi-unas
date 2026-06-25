@@ -314,7 +314,7 @@ export const kegiatanData: KegiatanData[] = [
     description: `Di episode kali ini, kita akan ngobrol santai tapi penuh insight bareng Kak Rangga SI’22, tentang perjalanan menjadi mahasiswa aktif dan berprestasi di dunia perkuliahan, organisasi, hingga lomba karya ilmiah di bidang IT! 🚀
     Mulai dari cerita awal terjun ke dunia kompetisi, cara membangun konsistensi, strategi membuat karya ilmiah yang standout, sampai tips mengatur waktu antara kuliah dan lomba akan dibahas lengkap di sini 👀
     Jadi.. episode ini cocok banget buat kamu yang ingin mulai ikut lomba, mencari motivasi selama perkuliahan, belajar konsisten berkembang, dan ingin jadi mahasiswa yang lebih produktif serta berani keluar dari zona nyaman. Karena jadi mahasiswa berprestasi bukan soal siapa yang paling cepat, tapi siapa yang paling konsisten dalam berproses 💯✨`,
-    image: "image/Home/Kegiatan/CERMASI.PNG",
+    image: "image/Home/Kegiatan/CERMASI.png",
     buttonText: "Baca",
     period: "2025/2026"
   },
