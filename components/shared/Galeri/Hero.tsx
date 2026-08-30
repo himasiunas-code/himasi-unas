@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { GalleryEvent } from "@/lib/type/Galeri/Galeri";
+import { GalleryEvent } from "@/lib/type/Galeri";
 
 interface EventCarouselProps {
   event: GalleryEvent;
