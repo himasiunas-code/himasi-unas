@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import Hero from "@/components/shared/Partner/Hero";
-import SlideLogo from "@/components/shared/Partner/slideLogo";
-import Contact from "@/components/shared/Partner/contact";
+import {
+  KerjaSamaHero,
+  KerjaSamaSlideLogo,
+  KerjaSamaContact,
+} from "@/components/shared/KerjaSama";
 
+// Metadata SEO untuk halaman kerja sama dan kemitraan
 export const metadata: Metadata = {
   title: "Kerja Sama HIMASI UNAS",
   description:
@@ -12,12 +15,18 @@ export const metadata: Metadata = {
   },
 };
 
+// Halaman utama Kerja Sama HIMASI UNAS
 export default function KerjaSamaPage() {
   return (
     <div>
-      <Hero />
-      <SlideLogo />
-      <Contact />
+      {/* Header hero kerja sama */}
+      <KerjaSamaHero />
+
+      {/* Daftar logo kemitraan dan riwayat kerja sama */}
+      <KerjaSamaSlideLogo />
+
+      {/* Kontak narahubung kemitraan */}
+      <KerjaSamaContact />
     </div>
   );
 }
