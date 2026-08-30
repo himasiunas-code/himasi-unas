@@ -1,9 +1,12 @@
-import { Metadata } from 'next';
-import BannerHubungi from "@/components/shared/Hubungi/HeroBanner"; 
-import ContactCard from "@/components/shared/Hubungi/ContactCards";
-import Location from "@/components/shared/Hubungi/LocationSection";
-import ContactForm from "@/components/shared/Hubungi/ContactForm";
+import type { Metadata } from 'next';
+import {
+  HubungiHero,
+  HubungiContactCards,
+  HubungiLocation,
+  HubungiContactForm,
+} from "@/components/shared/Hubungi";
 
+// Metadata SEO untuk halaman Hubungi Kami
 export const metadata: Metadata = {
   title: 'Hubungi Kami | HIMASI UNAS',
   description: 'Silakan hubungi Himpunan Mahasiswa Sistem Informasi (HIMASI) Universitas Nasional jika Anda memiliki pertanyaan atau ingin bekerja sama.',
@@ -12,13 +15,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PageHubungi() {
+// Halaman utama Hubungi Kami HIMASI UNAS
+export default function HubungiKamiPage() {
   return (
     <>
-      <BannerHubungi />
-      <ContactCard />
-      <Location />
-      <ContactForm />
+      {/* Header hero banner */}
+      <HubungiHero />
+
+      {/* Kartu kontak narahubung */}
+      <HubungiContactCards />
+
+      {/* Lokasi sekretariat dan jam operasional */}
+      <HubungiLocation />
+
+      {/* Formulir pengiriman pesan langsung dan peta */}
+      <HubungiContactForm />
     </>
-  )
+  );
 }
