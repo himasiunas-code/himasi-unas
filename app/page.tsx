@@ -1,27 +1,39 @@
 import type { Metadata } from "next";
-import Hero from "@/components/shared/Home/Hero";
-import Introduction from "@/components/shared/Home/Introduction";
-import Slide from "@/components/shared/Home/SlideImage";
-import Kegiatan from "@/components/shared/Home/Activity";
-import Feed from "@/components/shared/Home/Berita";
+import {
+  HomeHero,
+  HomeIntroduction,
+  HomeSlideImage,
+  HomeActivity,
+  HomeBerita,
+} from "@/components/shared/Home";
 
+// Metadata SEO untuk halaman utama
 export const metadata: Metadata = {
-    title: "HIMASI UNAS | Himpunan Mahasiswa Sistem Informasi Universitas Nasional",
-    description:
-        "Website resmi HIMASI UNAS. Temukan informasi kegiatan, galeri, struktur organisasi, pendaftaran, dan kolaborasi Himpunan Mahasiswa Sistem Informasi Universitas Nasional.",
-    alternates: {
-        canonical: "/",
-    },
+  title: "HIMASI UNAS | Himpunan Mahasiswa Sistem Informasi Universitas Nasional",
+  description:
+    "Website resmi HIMASI UNAS. Temukan informasi kegiatan, galeri, struktur organisasi, pendaftaran, dan kolaborasi Himpunan Mahasiswa Sistem Informasi Universitas Nasional.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function Home() {
-    return(
-        <main className="overflow-hidden">
-            <Hero />
-            <Introduction />
-            <Slide />
-            <Kegiatan />
-            {/* <Feed /> */}
-        </main>
-    )
+  return (
+    <main className="overflow-hidden">
+      {/* Seksi Hero utama */}
+      <HomeHero />
+
+      {/* Seksi pengenalan HIMASI dan divisi */}
+      <HomeIntroduction />
+
+      {/* Seksi slider momen & kebersamaan */}
+      <HomeSlideImage />
+
+      {/* Seksi daftar kegiatan */}
+      <HomeActivity />
+
+      {/* Seksi berita instagram (opsional) */}
+      {/* <HomeBerita /> */}
+    </main>
+  );
 }
