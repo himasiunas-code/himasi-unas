@@ -1,4 +1,4 @@
-import { MISSION_DATA } from "@/constants/Home/Mission";
+import { MISSION_DATA } from "@/constants/Home/HomeMission";
 
 export default function VM() {
     return(
