@@ -1,0 +1,320 @@
+'use client';
+
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { kegiatanData } from '@/constants/Kegiatan';
+import { KegiatanData, KegiatanPeriod } from '@/lib/type/Kegiatan';
+import { X, Calendar, FileText } from 'lucide-react';
+
+// Komponen daftar artikel dan arsip kegiatan per periode dengan modal detail
+export default function KegiatanArtikel() {
+    const [selectedKegiatan, setSelectedKegiatan] = useState<KegiatanData | null>(null);
+    const [isClosing, setIsClosing] = useState(false);
+    const [activeIndexByPeriod, setActiveIndexByPeriod] = useState<Record<KegiatanPeriod, number>>({
+        '2023/2024': 0,
+        '2024/2025': 0,
+        '2025/2026': 0,
+    });
+
+    const periods: KegiatanPeriod[] = ['2025/2026', '2024/2025', '2023/2024'];
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const [hasMoved, setHasMoved] = useState(false);
+
+    const handleOpenModal = (kegiatan: KegiatanData) => {
+        setSelectedKegiatan(kegiatan);
+        setIsClosing(false);
+        // eslint-disable-next-line react-hooks/immutability
+        document.body.style.overflow = 'hidden';
+    };
+
+    const handleCloseModal = () => {
+        setIsClosing(true);
+        document.body.style.overflow = 'unset';
+        setTimeout(() => {
+            setSelectedKegiatan(null);
+            setIsClosing(false);
+        }, 300); 
+    };
+
+    // Handle click pada backdrop untuk close modal
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Hanya close jika klik di backdrop, bukan di modal content
+        if (e.target === e.currentTarget) {
+            handleCloseModal();
+        }
+    };
+
+    // Handle scroll ke artikel berdasarkan hash URL
+    useEffect(() => {
+        const hash = window.location.hash;
+        if (hash) {
+            // Tunggu sebentar agar elemen sudah ter-render
+            setTimeout(() => {
+                // Jika hash hanya angka (misal: #1), tambahkan prefix 'kegiatan-'
+                const targetId = hash.replace('#', '');
+                const selector = /^\d+$/.test(targetId) ? `#kegiatan-${targetId}` : hash;
+                const element = document.querySelector(selector) as HTMLElement;
+                
+                if (element) {
+                    // Cari parent container yang scrollable
+                    const scrollContainer = element.parentElement?.parentElement;
+                    
+                    if (scrollContainer) {
+                        // Hitung posisi untuk center horizontal scroll
+                        const elementLeft = element.offsetLeft;
+                        const elementWidth = element.offsetWidth;
+                        const containerWidth = scrollContainer.offsetWidth;
+                        
+                        // Scroll ke posisi yang membuat elemen di tengah
+                        const scrollPosition = elementLeft - (containerWidth / 2) + (elementWidth / 2);
+                        
+                        scrollContainer.scrollTo({
+                            left: scrollPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }, 100);
+        }
+    }, []);
+
+    // Cleanup saat component unmount
+    useEffect(() => {
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
+
+    // Handle scroll untuk dots indicator
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>, period: KegiatanPeriod) => {
+        const container = e.currentTarget;
+        const scrollLeft = container.scrollLeft;
+        const scrollWidth = container.scrollWidth;
+        const clientWidth = container.clientWidth;
+        
+        const totalScrollableWidth = scrollWidth - clientWidth;
+        const scrollPercentage = scrollLeft / totalScrollableWidth;
+        const totalItems = kegiatanData.filter(k => k.period === period).length;
+        const index = Math.round(scrollPercentage * (totalItems - 1));
+        const clampedIndex = Math.max(0, Math.min(index, totalItems - 1));
+        setActiveIndexByPeriod(prev => ({ ...prev, [period]: clampedIndex }));
+    };
+
+    // Handle click pada dots untuk scroll ke kegiatan
+    const handleDotClick = (period: KegiatanPeriod, index: number) => {
+        const container = document.querySelector(`[data-period="${period}"]`) as HTMLDivElement;
+        if (!container) return;
+
+        const items = container.querySelectorAll('[id^="kegiatan-"]');
+        const targetItem = items[index] as HTMLElement;
+        
+        if (targetItem) {
+            targetItem.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest',
+                inline: 'center'
+            });
+            setActiveIndexByPeriod(prev => ({ ...prev, [period]: index }));
+        }
+    };
+
+    // Handle mouse drag untuk scroll
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        const container = e.currentTarget;
+        setIsDragging(true);
+        setHasMoved(false);
+        setStartX(e.pageX - container.offsetLeft);
+        setScrollLeft(container.scrollLeft);
+        container.style.cursor = 'grabbing';
+        container.style.userSelect = 'none';
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        setIsDragging(false);
+        setHasMoved(false);
+        e.currentTarget.style.cursor = 'grab';
+    };
+
+    const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+        setIsDragging(false);
+        setHasMoved(false);
+        e.currentTarget.style.cursor = 'grab';
+    };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDragging) return;
+        
+        const container = e.currentTarget;
+        const x = e.pageX - container.offsetLeft;
+        const distance = Math.abs(x - startX);
+        
+        // Threshold minimal 5px baru mulai scroll (untuk menghindari accidental drag)
+        if (distance > 5) {
+            setHasMoved(true);
+        }
+        
+        if (hasMoved || distance > 5) {
+            e.preventDefault();
+            const walk = (x - startX) * 2; // Multiply by 2 untuk scroll lebih cepat
+            container.scrollLeft = scrollLeft - walk;
+        }
+    };
+
+    return (
+        <main className="bg-[#4B061A] pt-8 pb-16">
+            <div className="border-t-2 border-white max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto rounded-lg mb-12" />
+
+            {/* Sections per Period */}
+            {periods.map((period) => {
+                const periodData = kegiatanData.filter(k => k.period === period).slice().reverse();
+                return (
+                    <div key={period} className="mb-14">
+                        {/* Period Heading */}
+                        <div className="flex items-center gap-4 px-6 max-w-2xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto mb-6">
+                            <div className="flex-1 h-px bg-white/30" />
+                            <h2 className="text-white font-bold text-lg md:text-xl whitespace-nowrap">Periode {period}</h2>
+                            <div className="flex-1 h-px bg-white/30" />
+                        </div>
+
+                        {/* Horizontal Scroll */}
+                        <div className="mb-4">
+                            <div 
+                                data-period={period}
+                                className="overflow-x-auto scrollbar-hide px-6 cursor-grab active:cursor-grabbing" 
+                                onScroll={(e) => handleScroll(e, period)}
+                                onMouseDown={handleMouseDown}
+                                onMouseLeave={handleMouseLeave}
+                                onMouseUp={handleMouseUp}
+                                onMouseMove={handleMouseMove}
+                            >
+                                <div className="flex gap-4" style={{ width: 'max-content' }}>
+                                    {periodData.map((kegiatan) => (
+                                        <div 
+                                            id={`kegiatan-${kegiatan.id}`}
+                                            key={kegiatan.id}
+                                            className="flex flex-col w-80 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
+                                        >
+                                            <div className="block w-full mb-3">
+                                                <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                                                    {kegiatan.image && (
+                                                        <Image
+                                                            src={kegiatan.image}
+                                                            alt={kegiatan.title}
+                                                            fill
+                                                            className="object-cover"
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="text-white flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20 h-full">
+                                                <div className="mb-3 min-h-[60px] flex items-start">
+                                                    <h2 className="text-sm md:text-base lg:text-lg font-bold tracking-wider line-clamp-2">
+                                                        {kegiatan.title}
+                                                    </h2>
+                                                </div>
+                                                <div className="mb-4 min-h-7 flex items-center">
+                                                    <p className="text-white/80 text-sm md:text-base font-medium">
+                                                        {kegiatan.date}
+                                                    </p>
+                                                </div>
+                                                <div className="flex-1 mb-6 min-h-[90px]">
+                                                    <div 
+                                                        className="text-white/90 text-sm md:text-base leading-relaxed line-clamp-3"
+                                                        dangerouslySetInnerHTML={{ __html: kegiatan.description }}
+                                                    />
+                                                </div>
+                                                <div className="mt-auto">
+                                                    <button
+                                                        onClick={() => handleOpenModal(kegiatan)}
+                                                        className="inline-block bg-white text-[#4B061A] px-6 py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl cursor-pointer w-full"
+                                                    >
+                                                        {kegiatan.buttonText}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Dots Indicator */}
+                            <div className="flex justify-center gap-2 mt-6">
+                                {periodData.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleDotClick(period, index)}
+                                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer hover:bg-white/70 ${
+                                            index === activeIndexByPeriod[period]
+                                                ? 'w-8 bg-white' 
+                                                : 'w-2 bg-white/30'
+                                        }`}
+                                        aria-label={`Scroll ke kegiatan ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
+            })}
+
+            {selectedKegiatan && (
+                <div 
+                    className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-26 overflow-y-auto ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
+                    onClick={handleBackdropClick}
+                >
+                    <div className={`bg-[#4B061A] rounded-2xl max-w-4xl w-full my-8 relative ${isClosing ? 'animate-slideOut' : 'animate-slideIn'}`}>
+                        {/* Close Button */}
+                        <button
+                            onClick={handleCloseModal}
+                            className="absolute top-4 right-4 z-10 bg-black/20 hover:bg-black/40 rounded-full p-2 transition-colors duration-200"
+                        >
+                            <X className="w-6 h-6 text-white" />
+                        </button>
+
+                        <div className="p-6 md:p-8">
+                            <h1 className="text-3xl md:text-4xl font-bold text-[#FFFFFF] mb-4 pr-16">
+                                {selectedKegiatan.title}
+                            </h1>
+
+                            <div className="relative w-full h-64 md:h-80 lg:h-96 mb-6 rounded-xl overflow-hidden bg-gray-200">
+                                {selectedKegiatan.image && (
+                                    <Image
+                                        src={selectedKegiatan.image}
+                                        alt={selectedKegiatan.title}
+                                        fill
+                                        className="object-contain"
+                                    />
+                                )}
+                            </div>
+
+                            {/* <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">
+                                {selectedKegiatan.subtitle}
+                            </h2> */}
+
+                            <div className="mb-6 flex items-center gap-2">
+                                <Calendar className="w-5 h-5 text-white" />
+                                <p className="text-white font-medium">
+                                    {selectedKegiatan.date}
+                                </p>
+                            </div>
+
+                            <div className="prose prose-lg max-w-none">
+                                <div className="flex items-start gap-2 mb-3">
+                                    <FileText className="w-5 h-5 text-white mt-1 shrink-0" />
+                                    <h3 className="text-lg font-semibold text-white">Deskripsi Lengkap</h3>
+                                </div>
+                                <div 
+                                    className="text-white leading-relaxed text-justify"
+                                    dangerouslySetInnerHTML={{ __html: selectedKegiatan.description }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </main>
+    );
+}
