@@ -348,6 +348,40 @@ body:has(.hide-navbar-footer) #root-layout > footer {
   animation: slideOut 0.3s ease-out forwards;
 }
 
+/* Struktur Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+  will-change: transform, opacity;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-1350px);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 15s linear infinite;
+}
+
+.group:hover .animate-scroll {
+  animation-play-state: paused;
+}
+
 @keyframes floatBase1 {
   0%,
   100% {
