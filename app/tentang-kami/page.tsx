@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import Hero from "@/components/shared/TentangKami/Hero";
-import VM from "@/components/shared/TentangKami/VM";
-import Filosofi from "@/components/shared/TentangKami/Filosofi";
-import Sejarah from "@/components/shared/TentangKami/Sejarah";
+import {
+  TentangKamiHero,
+  TentangKamiVM,
+  TentangKamiFilosofi,
+  TentangKamiSejarah,
+} from "@/components/shared/TentangKami";
 
+// Metadata SEO untuk halaman Tentang Kami
 export const metadata: Metadata = {
   title: "Tentang HIMASI UNAS",
   description:
@@ -13,13 +16,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+// Halaman utama Tentang Kami HIMASI UNAS
+export default function TentangKamiPage() {
   return (
     <main>
-      <Hero />
-      <VM />
-      <Filosofi />
-      <Sejarah />
+      {/* Header hero tentang kami */}
+      <TentangKamiHero />
+
+      {/* Visi dan misi */}
+      <TentangKamiVM />
+
+      {/* Filosofi logo */}
+      <TentangKamiFilosofi />
+
+      {/* Sejarah dan riwayat kepemimpinan */}
+      <TentangKamiSejarah />
     </main>
   );
 }
