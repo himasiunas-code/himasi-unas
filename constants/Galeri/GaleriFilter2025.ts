@@ -1,0 +1,46 @@
+import { GalleryFilter } from "@/lib/type/Galeri";
+
+// Kategori filter kegiatan 2025
+export const galleryFilters2025: GalleryFilter[] = [
+  "All",
+  "PLBA",
+  "Himpunan",
+  "CERMASI",
+  "Seminar Kolab",
+];
+
+// Keterangan dan nama display filter kegiatan 2025
+export const filterDescriptions2025: Record<
+  GalleryFilter,
+  { displayName: string; description: string }
+> = {
+  All: { displayName: "All", description: "Semua Foto Kegiatan 2025" },
+  "PLBA": {
+    displayName: "PLBA",
+    description: "Pengenalan Lingkungan dan Budaya Akademik 2025",
+  },
+  Himpunan: {
+    displayName: "Himpunan",
+    description: "Kebersamaan HIMASI 2025",
+  },
+  Mayora: {
+    displayName: "Mayora",
+    description: "Company Visit Mayora 2025",
+  },
+  "Goes to Malaysia": {
+    displayName: "Goes to Malaysia",
+    description: "Goes to Malaysia 2025",
+  },
+  "Stuban ITK": {
+    displayName: "Stuban ITK",
+    description: "Stuban ITK Kalimantan 2025",
+  },
+  CERMASI: {
+    displayName: "CERMASI",
+    description: "CERMASI HIMASI 2025",
+  },
+  "Seminar Kolab": {
+    displayName: "Seminar Kolab",
+    description: "Seminar Kolaborasi AMD Ryzen AI 2025",
+  },
+};
