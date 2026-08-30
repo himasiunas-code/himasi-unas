@@ -1,10 +1,8 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Hero from "@/components/shared/Galeri/Hero";
-import Filter from "@/components/shared/Galeri/filterGaleri";
-import { galleryEvent2024 } from "@/constants/Galeri/dataGallery2024";
-import { galleryEvent2025 } from "@/constants/Galeri/dataGallery2025";
-import { GalleryEvent } from "@/lib/type/Galeri/Galeri";
+import { GaleriHero, GaleriFilter } from "@/components/shared/Galeri";
+import { galleryEvent2024, galleryEvent2025 } from "@/constants/Galeri";
+import { GalleryEvent } from "@/lib/type/Galeri";
 
 interface GaleriSlugPageProps {
     params: Promise<{
@@ -12,6 +10,7 @@ interface GaleriSlugPageProps {
     }>;
 }
 
+// Pemetaan data tahun akademik kegiatan galeri
 const yearMapping: Record<string, { event: GalleryEvent; displayYear: string; filterYear: "2024" | "2025" }> = {
     "2024-2025": {
         event: galleryEvent2024,
@@ -28,7 +27,7 @@ const yearMapping: Record<string, { event: GalleryEvent; displayYear: string; fi
 export default async function GaleriSlugPage({ params }: GaleriSlugPageProps) {
     const { slug } = await params;
     
-    // Cek apakah slug valid
+    // Validasi apakah slug tahun akademik tersedia
     const yearData = yearMapping[slug];
     
     if (!yearData) {
@@ -37,20 +36,23 @@ export default async function GaleriSlugPage({ params }: GaleriSlugPageProps) {
 
     return (
         <div>
-            <Hero event={yearData.event} year={yearData.displayYear} />
-            <Filter year={yearData.filterYear} />
+            {/* Header carousel galeri tahun terkait */}
+            <GaleriHero event={yearData.event} year={yearData.displayYear} />
+
+            {/* Filter kategori dan grid foto */}
+            <GaleriFilter year={yearData.filterYear} />
         </div>
     );
 }
 
-// Generate static params untuk build time
+// Generate parameter statis untuk halaman galeri saat build
 export async function generateStaticParams() {
     return Object.keys(yearMapping).map((slug) => ({
         slug: slug,
     }));
 }
 
-// Metadata untuk SEO
+// Metadata SEO dinamis sesuai tahun akademik galeri
 export async function generateMetadata({ params }: GaleriSlugPageProps) {
     const { slug } = await params;
     const yearData = yearMapping[slug];
