@@ -1,0 +1,417 @@
+"use client";
+
+import { useState, useEffect, useMemo } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { UserLock, UserRoundPlus, UserRoundX } from "lucide-react";
+import { Activity } from "@/lib/type/Kegiatan";
+
+// Komponen pendaftaran kegiatan aktif dengan countdown dan kuota peserta
+export default function KegiatanPendaftaran() {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const [status, setStatus] = useState("waiting"); // 'waiting', 'open', 'closed'
+  const [activity, setActivity] = useState<Activity | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch activity data
+  useEffect(() => {
+    const fetchActivity = async () => {
+      try {
+        const response = await fetch("/api/activities/current");
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success && result.data) {
+            console.log('📊 Activity data fetched:', result.data);
+            console.log('🖼️ Image URL:', result.data.image);
+            console.log('🔍 Image type:', result.data.image?.startsWith('data:') ? 'Base64 Data URL' : 'Static Path');
+            setActivity(result.data);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch activity:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchActivity();
+  }, []);
+
+  const closeDate = useMemo(() => {
+    if (!activity?.registrationDeadline) return new Date();
+    return new Date(activity.registrationDeadline);
+  }, [activity]);
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      if (!activity) return;
+
+      const now = new Date().getTime();
+      const closeTime = closeDate.getTime();
+      const startTime = new Date(activity.startDate).getTime();
+
+      // Tentukan waktu pembukaan pendaftaran untuk debug
+      let debugOpenTime: number;
+      if (activity.registrationStartDate) {
+        debugOpenTime = new Date(activity.registrationStartDate).getTime();
+      } else {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        debugOpenTime = tomorrow.getTime();
+      }
+
+      // Debug logging
+      console.log("Auto-Open Registration Debug:", {
+        now: new Date(now).toLocaleString(),
+        registrationStartDate: activity.registrationStartDate,
+        registrationOpenTime: new Date(debugOpenTime).toLocaleString(),
+        registrationDeadline: activity.registrationDeadline,
+        isAutoOpen: now >= debugOpenTime ? "YES - AUTO OPENED" : "NO - WAITING",
+        adminRegistrationOpen: activity.registrationOpen,
+        eventStartTime: new Date(startTime).toLocaleString(),
+        eventStatus: now > startTime ? "EVENT STARTED" : "EVENT NOT STARTED",
+      });
+
+      // Cek apakah kegiatan sudah lewat
+      if (now > startTime) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setStatus("closed");
+        return;
+      }
+
+      // AUTO-OPEN: Logika otomatis membuka pendaftaran berdasarkan registrationStartDate
+
+      // Tentukan waktu pembukaan pendaftaran
+      let openTime: number;
+      if (activity.registrationStartDate) {
+        openTime = new Date(activity.registrationStartDate).getTime();
+      } else {
+        // Fallback: pembukaan registrasi besok jam 00:00
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        openTime = tomorrow.getTime();
+      }
+
+      // Cek apakah waktu pembukaan sudah tiba (otomatis terbuka)
+      const isRegistrationTimeOpen = now >= openTime;
+
+      if (!isRegistrationTimeOpen) {
+        // Waktu pembukaan belum tiba - tampilkan countdown
+        const difference = openTime - now;
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        setTimeLeft({ days, hours, minutes, seconds });
+        setStatus("waiting");
+      } else {
+        // Waktu pembukaan sudah tiba - cek status pendaftaran
+
+        // Cek apakah registrationDeadline valid dan masih berlaku
+        if (!activity.registrationDeadline) {
+          // Jika tidak ada deadline, anggap masih terbuka
+          console.log("Registration is open - no deadline set");
+          setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+          setStatus("open");
+        } else if (closeTime <= now) {
+          // Deadline sudah lewat - tutup pendaftaran
+          console.log("Registration is closed - deadline has passed");
+          setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+          setStatus("closed");
+        } else {
+          // Registrasi terbuka - countdown ke deadline
+          const difference = closeTime - now;
+          const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor(
+            (difference % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+          setTimeLeft({ days, hours, minutes, seconds });
+          setStatus("open");
+        }
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, [activity, closeDate]);
+
+  return (
+    <main className="relative bg-[#FFE8DB] pt-10 sm:pt-12 md:pt-16">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+        {loading ? (
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            {/* Spinner Animation */}
+            <div className="relative mb-6">
+              <div className="w-16 h-16 md:w-20 md:h-20 border-4 border-[#FFE8DB] border-t-[#4B061A] rounded-full animate-spin"></div>
+              <div className="absolute inset-0 w-16 h-16 md:w-20 md:h-20 border-4 border-transparent border-r-[#732E39] rounded-full animate-spin animation-delay-150"></div>
+            </div>
+            
+            {/* Loading Text with Animation */}
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#4B061A] mb-2">
+              Memuat Kegiatan
+            </h1>
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-[#4B061A] rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-[#732E39] rounded-full animate-bounce animation-delay-100"></div>
+              <div className="w-2 h-2 bg-[#994555] rounded-full animate-bounce animation-delay-200"></div>
+            </div>
+          </div>
+        ) : activity ? (
+          <>
+            {/* Dynamic Title */}
+            <div className="md:mb-2">
+              <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-[#4B061A] mb-1 md:mb-3">
+                {activity.title}
+              </h1>
+            </div>
+
+            {/* Banner Image - 16:9 Aspect Ratio */}
+            <div className="mb-5">
+              <div className="relative w-full aspect-square md:aspect-video rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-4xl">
+                {!activity.image ? (
+                  // No image - show fallback
+                  <Image
+                    src="/image/Home/Banner 1.png"
+                    alt={`Banner ${activity.title}`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 80vw"
+                  />
+                ) : activity.image.startsWith('data:') ? (
+                  // Base64 data URL from admin upload
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={activity.image}
+                    alt={`Banner ${activity.title}`}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      console.error('❌ Failed to load image:', activity.image?.substring(0, 50) + '...');
+                      e.currentTarget.src = '/image/Home/Banner 1.png';
+                    }}
+                  />
+                ) : (
+                  // Static file path from /public
+                  <Image
+                    src={activity.image}
+                    alt={`Banner ${activity.title}`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 80vw"
+                    onError={() => {
+                      console.error('❌ Failed to load image:', activity.image);
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="text-center">
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#FFFFFF] mb-3" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+              Tidak Ada Kegiatan Aktif
+            </h1>
+            <div className="w-24 md:w-32 h-1 bg-[#4B061A] mx-auto rounded-full"></div>
+            <p className="text-lg text-[#FFFFFF] mt-4" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+              Saat ini belum ada kegiatan yang tersedia untuk pendaftaran.
+            </p>
+          </div>
+        )}
+
+        {/* Countdown Timer & Registration Info */}
+        {activity && (
+          <div className="mb-1 md:mb-8">
+            <h3 className="text-lg pb-2 md:pb-5 md:text-3xl font-bold text-[#4B061A]">
+              {status === "waiting" &&
+                (timeLeft.days > 0 ||
+                timeLeft.hours > 0 ||
+                timeLeft.minutes > 0 ||
+                timeLeft.seconds > 0
+                  ? "Pendaftaran Dibuka Dalam:"
+                  : "Pendaftaran Segera Dibuka")}
+              {status === "open" &&
+                (timeLeft.days > 0 ||
+                timeLeft.hours > 0 ||
+                timeLeft.minutes > 0 ||
+                timeLeft.seconds > 0
+                  ? "Pendaftaran Berakhir Dalam:"
+                  : "Pendaftaran Sedang Dibuka")}
+              {status === "closed" &&
+                (new Date().getTime() > new Date(activity.startDate).getTime()
+                  ? "Kegiatan Telah Berakhir"
+                  : "Pendaftaran Telah Ditutup")}
+            </h3>
+
+            {/* Registration Stats */}
+            {/* <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 mb-6 border border-white/30 shadow-lg max-w-md mx-auto">
+              <div className="text-base md:text-lg font-bold text-[#4B061A] mb-2">
+                Slot Tersedia
+              </div>
+              <div className="text-lg md:text-2xl font-bold text-[#732E39]">
+                {activity.currentParticipants} / {activity.maxParticipants}{" "}
+                Terdaftar
+              </div>
+              <div className="w-full bg-white/30 rounded-full h-2 mt-2">
+                <div
+                  className="bg-[#4B061A] h-1 md:h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: `${Math.min(
+                      (activity.currentParticipants /
+                        activity.maxParticipants) *
+                        100,
+                      100
+                    )}%`,
+                  }}
+                ></div>
+              </div>
+            </div> */}
+
+            {(status === "waiting" || status === "open") &&
+              (timeLeft.days > 0 ||
+                timeLeft.hours > 0 ||
+                timeLeft.minutes > 0 ||
+                timeLeft.seconds > 0) && (
+                <div className="flex justify-center gap-4 md:gap-8 mb-4 md:mb-8">
+                  {[
+                    { label: "Hari", value: timeLeft.days },
+                    { label: "Jam", value: timeLeft.hours },
+                    { label: "Menit", value: timeLeft.minutes },
+                    { label: "Detik", value: timeLeft.seconds },
+                  ].map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-white/20 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/30 shadow-lg"
+                    >
+                      <div className="text-xl md:text-3xl lg:text-5xl font-bold text-[#4B061A] mb-2">
+                        {String(item.value).padStart(2, "0")}
+                      </div>
+                      <div className="text-sm md:text-base font-semibold text-[#732E39]">
+                        {item.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+          </div>
+        )}
+
+        {/* Registration Button */}
+        {activity && (
+          <div>
+            {status === "waiting" && (
+              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
+                <UserLock className="w-5 h-5 md:w-6 md:h-6" />
+                Belum Dibuka
+              </div>
+            )}
+
+            {status === "open" &&
+              activity.currentParticipants < activity.maxParticipants && (
+                <Link
+                  href="https://bit.ly/AMD_UNAS"
+                  className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 transform hover:scale-105"
+                  style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}
+                >
+                  <UserRoundPlus className="w-5 h-5 md:w-6 md:h-6" />
+                  Daftar Sekarang
+                </Link>
+              )}
+
+            {status === "open" &&
+              activity.currentParticipants >= activity.maxParticipants && (
+                <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
+                  <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
+                  Slot Penuh
+                </div>
+              )}
+
+            {status === "closed" && (
+              <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
+                <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
+                Pendaftaran Ditutup
+              </div>
+            )}
+
+            {status === "waiting" && (
+              <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+                {timeLeft.days > 0 ||
+                timeLeft.hours > 0 ||
+                timeLeft.minutes > 0 ||
+                timeLeft.seconds > 0
+                  ? "Pendaftaran akan otomatis dibuka pada waktu yang ditentukan. Bersiaplah!"
+                  : "Pendaftaran akan segera dibuka otomatis. Pantau terus ya!"}
+              </p>
+            )}
+
+            {status === "open" &&
+              activity.currentParticipants < activity.maxParticipants && (
+                <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+                  Jangan sampai terlewat! Daftar sebelum waktu dan slot habis.
+                </p>
+              )}
+
+            {status === "open" &&
+              activity.currentParticipants >= activity.maxParticipants && (
+                <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+                  Maaf, slot pendaftaran sudah penuh. Nantikan kegiatan
+                  berikutnya!
+                </p>
+              )}
+
+            {status === "closed" && (
+              <p className="pt-2 mt-1 md:mt-4 text-sm md:text-base text-white font-medium" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+                {new Date().getTime() > new Date(activity.startDate).getTime()
+                  ? "Kegiatan telah selesai dilaksanakan. Nantikan kegiatan berikutnya!"
+                  : new Date().getTime() >
+                    new Date(activity.registrationDeadline || "").getTime()
+                  ? "Batas waktu pendaftaran telah berakhir."
+                  : "Pendaftaran telah ditutup. Nantikan kegiatan berikutnya!"}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+      
+      {/* Bottom Wave Decoration */}
+      <div className="absolute bottom-0 left-0 right-0 z-0">
+        <svg viewBox="0 0 1200 120" className="w-full h-auto">
+          <path
+            d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z"
+            fill="rgba(75, 6, 26, 1)"
+          />
+        </svg>
+      </div>
+      
+      {/* Custom CSS for animation delays */}
+      <style jsx>{`
+        .animation-delay-100 {
+          animation-delay: 0.1s;
+        }
+        .animation-delay-150 {
+          animation-delay: 0.15s;
+        }
+        .animation-delay-200 {
+          animation-delay: 0.2s;
+        }
+      `}</style>
+    </main>
+  );
+}
