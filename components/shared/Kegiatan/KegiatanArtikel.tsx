@@ -6,6 +6,14 @@ import { kegiatanData } from '@/constants/Kegiatan';
 import { KegiatanData, KegiatanPeriod } from '@/lib/type/Kegiatan';
 import { X, Calendar, FileText } from 'lucide-react';
 
+const normalizeImageSrc = (src?: string) => {
+    if (!src) return "";
+    if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
+        return src;
+    }
+    return `/${src}`;
+};
+
 // Komponen daftar artikel dan arsip kegiatan per periode dengan modal detail
 export default function KegiatanArtikel() {
     const [selectedKegiatan, setSelectedKegiatan] = useState<KegiatanData | null>(null);
@@ -95,11 +103,16 @@ export default function KegiatanArtikel() {
         const clientWidth = container.clientWidth;
         
         const totalScrollableWidth = scrollWidth - clientWidth;
+        if (totalScrollableWidth <= 0) return;
         const scrollPercentage = scrollLeft / totalScrollableWidth;
         const totalItems = kegiatanData.filter(k => k.period === period).length;
         const index = Math.round(scrollPercentage * (totalItems - 1));
         const clampedIndex = Math.max(0, Math.min(index, totalItems - 1));
-        setActiveIndexByPeriod(prev => ({ ...prev, [period]: clampedIndex }));
+        
+        setActiveIndexByPeriod(prev => {
+            if (prev[period] === clampedIndex) return prev; // Hindari re-render berulang jika indeks tidak berubah
+            return { ...prev, [period]: clampedIndex };
+        });
     };
 
     // Handle click pada dots untuk scroll ke kegiatan
@@ -194,22 +207,26 @@ export default function KegiatanArtikel() {
                                         <div 
                                             id={`kegiatan-${kegiatan.id}`}
                                             key={kegiatan.id}
-                                            className="flex flex-col w-80 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 backdrop-blur-sm rounded-2xl p-3 md:p-4 border border-white/50"
+                                            className="flex flex-col w-80 md:w-96 lg:w-[450px] shrink-0 scroll-mt-2 bg-white/5 rounded-2xl p-3 md:p-4 border border-white/30"
+                                            style={{ contain: 'paint' }}
                                         >
                                             <div className="block w-full mb-3">
                                                 <div className="relative w-full aspect-video rounded-lg overflow-hidden">
                                                     {kegiatan.image && (
                                                         <Image
-                                                            src={kegiatan.image}
+                                                            src={normalizeImageSrc(kegiatan.image)}
                                                             alt={kegiatan.title}
                                                             fill
+                                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 384px, 450px"
+                                                            quality={80}
+                                                            loading="lazy"
                                                             className="object-cover"
                                                         />
                                                     )}
                                                 </div>
                                             </div>
 
-                                            <div className="text-white flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20 h-full">
+                                            <div className="text-white flex flex-col bg-white/10 rounded-xl p-6 md:p-8 border border-white/20 h-full">
                                                 <div className="mb-3 min-h-[60px] flex items-start">
                                                     <h2 className="text-sm md:text-base lg:text-lg font-bold tracking-wider line-clamp-2">
                                                         {kegiatan.title}
@@ -282,9 +299,11 @@ export default function KegiatanArtikel() {
                             <div className="relative w-full h-64 md:h-80 lg:h-96 mb-6 rounded-xl overflow-hidden bg-gray-200">
                                 {selectedKegiatan.image && (
                                     <Image
-                                        src={selectedKegiatan.image}
+                                        src={normalizeImageSrc(selectedKegiatan.image)}
                                         alt={selectedKegiatan.title}
                                         fill
+                                        sizes="(max-width: 768px) 100vw, 800px"
+                                        quality={85}
                                         className="object-contain"
                                     />
                                 )}
