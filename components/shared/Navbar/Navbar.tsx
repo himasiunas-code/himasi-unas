@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
@@ -17,47 +17,65 @@ import { AnimatePresence, motion } from "framer-motion";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
-  // Handle scroll detection
+  const lastScrollY = useRef(0);
+  const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Handle scroll detection dan auto-show saat idle
   useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Reset idle timer setiap ada aktivitas scroll
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-
-          // Determine scroll direction
-          if (currentScrollY < lastScrollY) {
-            // Scrolling up
+          // Scrolling ke atas atau di paling atas halaman -> munculkan navbar
+          if (currentScrollY < lastScrollY.current || currentScrollY < 50) {
             setIsVisible(true);
-          } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-            // Scrolling down past threshold
+          } else if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+            // Scrolling aktif ke bawah -> sembunyikan sementara agar konten leluasa
             setIsVisible(false);
           }
 
-          // Show at top of page
-          if (currentScrollY < 10) {
-            setIsVisible(true);
-          }
-
-          setLastScrollY(currentScrollY);
+          lastScrollY.current = currentScrollY;
           ticking = false;
         });
         ticking = true;
       }
+
+      // Saat idle (berhenti scroll selama 1.2 detik), munculkan kembali navbar secara otomatis
+      idleTimerRef.current = setTimeout(() => {
+        setIsVisible(true);
+      }, 1200);
+    };
+
+    // Munculkan navbar jika kursor mendekati bagian atas layar (<= 80px)
+    const handleMouseMove = (e: MouseEvent) => {
+      if (e.clientY <= 80) {
+        setIsVisible(true);
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
     };
-  }, [lastScrollY]);
+  }, []);
 
   // Keep navbar visible when menu is open
   useEffect(() => {
