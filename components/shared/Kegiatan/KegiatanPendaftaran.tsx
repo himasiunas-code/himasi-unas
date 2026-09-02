@@ -66,18 +66,6 @@ export default function KegiatanPendaftaran() {
         debugOpenTime = tomorrow.getTime();
       }
 
-      // Debug logging
-      console.log("Auto-Open Registration Debug:", {
-        now: new Date(now).toLocaleString(),
-        registrationStartDate: activity.registrationStartDate,
-        registrationOpenTime: new Date(debugOpenTime).toLocaleString(),
-        registrationDeadline: activity.registrationDeadline,
-        isAutoOpen: now >= debugOpenTime ? "YES - AUTO OPENED" : "NO - WAITING",
-        adminRegistrationOpen: activity.registrationOpen,
-        eventStartTime: new Date(startTime).toLocaleString(),
-        eventStatus: now > startTime ? "EVENT STARTED" : "EVENT NOT STARTED",
-      });
-
       // Cek apakah kegiatan sudah lewat
       if (now > startTime) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -298,7 +286,7 @@ export default function KegiatanPendaftaran() {
                   ].map((item, index) => (
                     <div
                       key={index}
-                      className="bg-white/20 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/30 shadow-lg"
+                      className="bg-white/60 rounded-xl p-4 md:p-6 border border-white/40 shadow-md"
                     >
                       <div className="text-xl md:text-3xl lg:text-5xl font-bold text-[#4B061A] mb-2">
                         {String(item.value).padStart(2, "0")}
