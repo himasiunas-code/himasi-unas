@@ -19,6 +19,7 @@ export default function TentangKamiFilosofi() {
                   src={Logo}
                   alt="Logo HIMASI UNAS"
                   fill
+                  sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 384px"
                   className="object-contain p-8"
                   priority
                 />
