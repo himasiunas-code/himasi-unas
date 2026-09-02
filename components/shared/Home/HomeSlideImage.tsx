@@ -25,8 +25,8 @@ export default function HomeSlideImage() {
                                         src={slide.src}
                                         alt={slide.alt}
                                         fill
-                                        quality={85}
-                                        priority={index < 6}
+                                        quality={75}
+                                        loading="lazy"
                                         placeholder="blur"
                                         sizes="(max-width: 768px) 100vw, 384px"
                                         className="object-cover slide-image"
