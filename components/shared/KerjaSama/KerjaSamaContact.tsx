@@ -67,6 +67,7 @@ export default function KerjaSamaContact() {
             src="/icon/Partner/AsetContact.png"
             alt="Contact Asset"
             fill
+            sizes="(max-width: 768px) 300px, 600px"
             className="object-contain"
           />
         </div>
