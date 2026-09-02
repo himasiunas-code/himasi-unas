@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -89,8 +87,10 @@ export default function HomeHero() {
                     src={Banner}
                     alt="HIMASI UNAS Team"
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 384px"
+                    quality={85}
                     priority
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Efek gradien hover */}
                   <div className="absolute inset-0 bg-linear-to-t from-[#4B061A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -111,6 +111,9 @@ export default function HomeHero() {
                     src={Logo}
                     alt="HIMASI UNAS"
                     fill
+                    sizes="(max-width: 1024px) 112px, 160px"
+                    quality={85}
+                    priority
                     className="object-cover"
                   />
                 </div>
