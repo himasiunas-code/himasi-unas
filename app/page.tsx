@@ -7,6 +7,10 @@ import {
   HomeBerita,
 } from "@/components/shared/Home";
 
+// Arsitektur Performa Kilat: Server Pre-rendering + Vercel Edge ISR
+export const dynamic = "force-static";
+export const revalidate = 3600; // ISR revalidation setiap 1 jam di Vercel Edge CDN
+
 // Metadata SEO untuk halaman utama
 export const metadata: Metadata = {
   title: "HIMASI UNAS | Himpunan Mahasiswa Sistem Informasi Universitas Nasional",
