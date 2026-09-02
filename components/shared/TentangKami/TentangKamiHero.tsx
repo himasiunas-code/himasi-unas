@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Logo from "@/public/icon/LOGO HIMASI UNAS.png";
@@ -30,6 +28,7 @@ export default function TentangKamiHero() {
                   src={Logo}
                   alt="Logo HIMASI UNAS"
                   fill
+                  sizes="(max-width: 1024px) 256px, 320px"
                   className="object-contain p-4 drop-shadow-2xl"
                   priority
                 />
