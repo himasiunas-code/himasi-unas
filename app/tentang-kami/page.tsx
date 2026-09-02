@@ -6,6 +6,10 @@ import {
   TentangKamiSejarah,
 } from "@/components/shared/TentangKami";
 
+// Arsitektur Performa Kilat: Server Pre-rendering + Vercel Edge ISR
+export const dynamic = "force-static";
+export const revalidate = 86400; // ISR revalidation setiap 24 jam di Vercel Edge CDN
+
 // Metadata SEO untuk halaman Tentang Kami
 export const metadata: Metadata = {
   title: "Tentang HIMASI UNAS",
