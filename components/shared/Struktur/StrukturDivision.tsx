@@ -15,18 +15,6 @@ export default function StrukturDivision() {
 
   const currentDivision = divisions.find((div) => div.id === selectedDivision);
 
-  useEffect(() => {
-    divisions.forEach((division) => {
-      division.members.forEach((member) => {
-        const link = document.createElement("link");
-        link.rel = "preload";
-        link.as = "image";
-        link.href = member.image.src;
-        document.head.appendChild(link);
-      });
-    });
-  }, []);
-
   const getAbbreviatedName = (name: string) => {
     const abbreviations: { [key: string]: string } = {
       "Research and Development": "R&D",
