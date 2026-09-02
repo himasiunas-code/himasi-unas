@@ -11,6 +11,8 @@ export default function HubungiHero() {
           src={Banner}
           alt="HIMASI UNAS"
           fill
+          sizes="100vw"
+          quality={85}
           className="object-cover"
           priority
         />
