@@ -5,6 +5,10 @@ import {
   KerjaSamaContact,
 } from "@/components/shared/KerjaSama";
 
+// Arsitektur Performa Kilat: Server Pre-rendering + Vercel Edge ISR
+export const dynamic = "force-static";
+export const revalidate = 86400; // ISR revalidation setiap 24 jam di Vercel Edge CDN
+
 // Metadata SEO untuk halaman kerja sama dan kemitraan
 export const metadata: Metadata = {
   title: "Kerja Sama HIMASI UNAS",
