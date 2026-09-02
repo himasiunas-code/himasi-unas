@@ -47,7 +47,7 @@ export default function KerjaSamaHero() {
         </div>
 
         <div className="flex justify-center font-bold text-center text-lg md:text-4xl uppercase pt-8 md:pt-15 max-w-2xl mx-auto text-black px-4 tracking-wider">
-          <h2 className="text-black">Partner <span className="text-[#4B061A]">Kami</span></h2>
+          <h1 className="text-black">Partner <span className="text-[#4B061A]">Kami</span></h1>
         </div>
         <div className="flex justify-center text-center text-sm md:text-2xl italic text-black max-w-4xl mx-auto py-5 md:py-10 px-4">
           <p>
