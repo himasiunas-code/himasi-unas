@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { GalleryEvent } from "@/lib/type/Galeri";
@@ -11,48 +11,100 @@ interface GaleriHeroProps {
   year?: string;
 }
 
+// Fungsi untuk memilih 2 indeks foto acak yang berbeda satu sama lain dan berbeda dari foto sebelumnya
+function getNextRandomPair(
+  len: number,
+  prevLeft: number,
+  prevRight: number
+): [number, number] {
+  if (len <= 1) return [0, 0];
+  if (len === 2) return [prevRight, prevLeft];
+
+  // Pilih foto kiri acak: bukan foto kiri sebelumnya dan bukan foto kanan sebelumnya
+  let left = Math.floor(Math.random() * len);
+  let attempts = 0;
+  while ((left === prevLeft || left === prevRight) && attempts < 50) {
+    left = Math.floor(Math.random() * len);
+    attempts++;
+  }
+
+  // Pilih foto kanan acak: bukan foto kiri baru, bukan foto kanan sebelumnya, dan bukan foto kiri sebelumnya
+  let right = Math.floor(Math.random() * len);
+  attempts = 0;
+  while (
+    (right === left || right === prevRight || right === prevLeft) &&
+    attempts < 50
+  ) {
+    right = Math.floor(Math.random() * len);
+    attempts++;
+  }
+
+  if (right === left) {
+    right = (left + 1) % len;
+  }
+
+  return [left, right];
+}
+
 // Komponen carousel hero utama halaman galeri per tahun akademik
 export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroProps) {
-  const [current, setCurrent] = useState(0);
-  const [next, setNext] = useState(1);
+  const [currentPair, setCurrentPair] = useState<[number, number]>([0, 1]);
+  const upcomingPairRef = useRef<[number, number]>([0, 1]);
 
-  // Inisialisasi indeks acak saat pertama kali dimuat di browser
+  // Inisialisasi sepasang foto acak saat pertama kali dimuat
   useEffect(() => {
     if (event.images.length > 1) {
-      const initialCurrent = Math.floor(Math.random() * event.images.length);
-      let initialNext = (initialCurrent + 1) % event.images.length;
-      while (initialNext === initialCurrent && event.images.length > 1) {
-        initialNext = Math.floor(Math.random() * event.images.length);
+      const initial = getNextRandomPair(event.images.length, -1, -1);
+      const upcoming = getNextRandomPair(event.images.length, initial[0], initial[1]);
+      setCurrentPair(initial);
+      upcomingPairRef.current = upcoming;
+
+      // Preload sepasang foto berikutnya ke memori browser
+      if (typeof window !== "undefined") {
+        if (event.images[upcoming[0]]?.src) {
+          const img1 = new window.Image();
+          img1.src = event.images[upcoming[0]].src;
+        }
+        if (event.images[upcoming[1]]?.src) {
+          const img2 = new window.Image();
+          img2.src = event.images[upcoming[1]].src;
+        }
       }
-      setCurrent(initialCurrent);
-      setNext(initialNext);
     }
-  }, [event.images.length]);
+  }, [event.images]);
 
-  // Preload gambar berikutnya ke memori browser sebelum giliran tampil tiba
-  useEffect(() => {
-    if (typeof window !== "undefined" && event.images[next]?.src) {
-      const img = new window.Image();
-      img.src = event.images[next].src;
-    }
-  }, [next, event.images]);
-
-  // Rotasi gambar berkala (5 detik) - gambar baru langsung muncul instan tanpa delay
+  // Rotasi berkala: kedua foto kiri dan kanan berganti ke foto acak baru secara independen
   useEffect(() => {
     if (event.images.length <= 1) return;
+
     const timer = setInterval(() => {
-      setCurrent(next);
-      setNext((prevNext) => {
-        let candidate = prevNext;
-        while ((candidate === prevNext || candidate === next) && event.images.length > 2) {
-          candidate = Math.floor(Math.random() * event.images.length);
+      const nextPair = upcomingPairRef.current;
+      setCurrentPair(nextPair);
+
+      // Siapkan pasangan acak berikutnya untuk preload
+      const nextUpcoming = getNextRandomPair(
+        event.images.length,
+        nextPair[0],
+        nextPair[1]
+      );
+      upcomingPairRef.current = nextUpcoming;
+
+      if (typeof window !== "undefined") {
+        if (event.images[nextUpcoming[0]]?.src) {
+          const img1 = new window.Image();
+          img1.src = event.images[nextUpcoming[0]].src;
         }
-        return candidate === prevNext ? (prevNext + 1) % event.images.length : candidate;
-      });
+        if (event.images[nextUpcoming[1]]?.src) {
+          const img2 = new window.Image();
+          img2.src = event.images[nextUpcoming[1]].src;
+        }
+      }
     }, interval);
 
     return () => clearInterval(timer);
-  }, [next, event.images.length, interval]);
+  }, [event.images, interval]);
+
+  const [leftIndex, rightIndex] = currentPair;
 
   return (
     <div className="relative w-full bg-[#FFE8DB]">
@@ -62,7 +114,7 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
             {event.images.length > 0 ? (
               <AnimatePresence>
                 <motion.div
-                  key={current + "-mobile"}
+                  key={leftIndex + "-mobile"}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -70,8 +122,8 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
                   className="absolute inset-0"
                 >
                   <Image
-                    src={event.images[current].src}
-                    alt={event.images[current].alt}
+                    src={event.images[leftIndex].src}
+                    alt={event.images[leftIndex].alt}
                     fill
                     sizes="(max-width: 768px) 100vw, 450px"
                     quality={85}
@@ -120,7 +172,7 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
               {event.images.length > 0 ? (
                 <AnimatePresence>
                   <motion.div
-                    key={current + "-main"}
+                    key={leftIndex + "-main"}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -128,8 +180,8 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
                     className="absolute inset-0"
                   >
                     <Image
-                      src={event.images[current].src}
-                      alt={event.images[current].alt}
+                      src={event.images[leftIndex].src}
+                      alt={event.images[leftIndex].alt}
                       fill
                       sizes="(max-width: 1024px) 350px, 450px"
                       quality={85}
@@ -149,7 +201,7 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
               <div className="relative w-1/2 h-60 lg:h-80 rounded-2xl overflow-hidden hidden md:block">
                 <AnimatePresence>
                   <motion.div
-                    key={next + "-preview"}
+                    key={rightIndex + "-side"}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -157,8 +209,8 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
                     className="absolute inset-0"
                   >
                     <Image
-                      src={event.images[next].src}
-                      alt={event.images[next].alt}
+                      src={event.images[rightIndex].src}
+                      alt={event.images[rightIndex].alt}
                       fill
                       sizes="(max-width: 1024px) 250px, 350px"
                       quality={85}
