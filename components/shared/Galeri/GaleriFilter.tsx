@@ -154,6 +154,9 @@ export default function GaleriFilter({ year }: GaleriFilterProps) {
                     src={image.src}
                     alt={image.alt}
                     fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    quality={75}
+                    loading="lazy"
                     className="object-cover"
                   />
 
@@ -232,6 +235,8 @@ export default function GaleriFilter({ year }: GaleriFilterProps) {
                 src={selectedImage.src}
                 alt={selectedImage.alt}
                 fill
+                sizes="90vw"
+                quality={85}
                 className="object-contain"
                 priority
               />
