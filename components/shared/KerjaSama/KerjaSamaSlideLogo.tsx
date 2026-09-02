@@ -39,6 +39,7 @@ export default function KerjaSamaSlideLogo() {
                       src={partner.logo}
                       alt={partner.name}
                       fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
                       className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
@@ -96,6 +97,7 @@ export default function KerjaSamaSlideLogo() {
                       src={partner.logo}
                       alt={partner.name}
                       fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
                       className="object-contain p-2"
                     />
                   </div>
