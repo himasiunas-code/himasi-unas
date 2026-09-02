@@ -27,9 +27,12 @@ export default function HomeActivity() {
                 >
                   <div className="relative aspect-video overflow-hidden">
                     <Image
-                      src={banner.image}
+                      src={banner.image.startsWith("/") ? banner.image : `/${banner.image}`}
                       alt={banner.alt}
                       fill
+                      sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, 384px"
+                      quality={75}
+                      loading="lazy"
                       className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
