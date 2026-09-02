@@ -139,7 +139,7 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
             )}
           </div>
 
-          <h2 className="uppercase font-extrabold text-center text-2xl text-black pb-10">
+          <h1 className="uppercase font-extrabold text-center text-2xl text-black pb-10">
             Welcome to gallery of{" "}
             <span className="bg-[#4B061A] bg-clip-text text-transparent">
               himpunan mahasiswa sistem informasi
@@ -149,12 +149,12 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
                 {year}
               </span>
             )}
-          </h2>
+          </h1>
         </div>
 
         <div className="hidden md:grid md:grid-cols-2 items-center pb-5">
           <div className="text-black max-w-xs lg:max-w-lg">
-            <h2 className="uppercase font-bold text-left text-xl lg:text-4xl mb-2">
+            <h1 className="uppercase font-bold text-left text-xl lg:text-4xl mb-2">
               Welcome to gallery of{" "}
               <span className="bg-[#4B061A] bg-clip-text text-transparent">
                 himpunan mahasiswa sistem informasi
@@ -164,7 +164,7 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
                   {year}
                 </span>
               )}
-            </h2>
+            </h1>
           </div>
 
           <div className="flex items-center w-full gap-4">
