@@ -154,9 +154,9 @@ export default function KegiatanPendaftaran() {
             </div>
             
             {/* Loading Text with Animation */}
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#4B061A] mb-2">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#4B061A] mb-2">
               Memuat Kegiatan
-            </h1>
+            </h2>
             <div className="flex space-x-1">
               <div className="w-2 h-2 bg-[#4B061A] rounded-full animate-bounce"></div>
               <div className="w-2 h-2 bg-[#732E39] rounded-full animate-bounce animation-delay-100"></div>
@@ -167,9 +167,9 @@ export default function KegiatanPendaftaran() {
           <>
             {/* Dynamic Title */}
             <div className="md:mb-2">
-              <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-[#4B061A] mb-1 md:mb-3">
+              <h2 className="text-lg md:text-xl lg:text-3xl font-bold text-[#4B061A] mb-1 md:mb-3">
                 {activity.title}
-              </h1>
+              </h2>
             </div>
 
             {/* Banner Image - 16:9 Aspect Ratio */}
@@ -214,9 +214,9 @@ export default function KegiatanPendaftaran() {
           </>
         ) : (
           <div className="text-center">
-            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#FFFFFF] mb-3" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
+            <h2 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#FFFFFF] mb-3" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
               Tidak Ada Kegiatan Aktif
-            </h1>
+            </h2>
             <div className="w-24 md:w-32 h-1 bg-[#4B061A] mx-auto rounded-full"></div>
             <p className="text-lg text-[#FFFFFF] mt-4" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)' }}>
               Saat ini belum ada kegiatan yang tersedia untuk pendaftaran.
