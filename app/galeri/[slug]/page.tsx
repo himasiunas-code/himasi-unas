@@ -4,6 +4,10 @@ import { GaleriHero, GaleriFilter } from "@/components/shared/Galeri";
 import { galleryEvent2024, galleryEvent2025 } from "@/constants/Galeri";
 import { GalleryEvent } from "@/lib/type/Galeri";
 
+// Arsitektur Performa Kilat: Server Pre-rendering + Vercel Edge ISR
+export const dynamic = "force-static";
+export const revalidate = 86400; // ISR revalidation setiap 24 jam di Vercel Edge CDN
+
 interface GaleriSlugPageProps {
     params: Promise<{
         slug: string;
