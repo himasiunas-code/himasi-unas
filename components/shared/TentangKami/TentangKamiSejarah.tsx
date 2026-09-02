@@ -94,6 +94,7 @@ export default function TentangKamiSejarah() {
           src="/image/Tentang-kami/background-support.png"
           alt="Background Sejarah HIMASI"
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -149,6 +150,9 @@ export default function TentangKamiSejarah() {
                       src={data.image}
                       alt={`Ketua HIMASI ${data.periode}`}
                       fill
+                      sizes="(max-width: 768px) 240px, 288px"
+                      quality={80}
+                      loading="lazy"
                       className="object-cover"
                     />
                   </div>
