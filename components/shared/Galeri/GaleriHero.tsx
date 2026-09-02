@@ -12,17 +12,47 @@ interface GaleriHeroProps {
 }
 
 // Komponen carousel hero utama halaman galeri per tahun akademik
-export default function GaleriHero({ event, interval = 3000, year }: GaleriHeroProps) {
+export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroProps) {
   const [current, setCurrent] = useState(0);
+  const [next, setNext] = useState(1);
 
+  // Inisialisasi indeks acak saat pertama kali dimuat di browser
+  useEffect(() => {
+    if (event.images.length > 1) {
+      const initialCurrent = Math.floor(Math.random() * event.images.length);
+      let initialNext = (initialCurrent + 1) % event.images.length;
+      while (initialNext === initialCurrent && event.images.length > 1) {
+        initialNext = Math.floor(Math.random() * event.images.length);
+      }
+      setCurrent(initialCurrent);
+      setNext(initialNext);
+    }
+  }, [event.images.length]);
 
+  // Preload gambar berikutnya ke memori browser sebelum giliran tampil tiba
+  useEffect(() => {
+    if (typeof window !== "undefined" && event.images[next]?.src) {
+      const img = new window.Image();
+      img.src = event.images[next].src;
+    }
+  }, [next, event.images]);
+
+  // Rotasi gambar berkala (5 detik) - gambar baru langsung muncul instan tanpa delay
   useEffect(() => {
     if (event.images.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % event.images.length);
+      setCurrent(next);
+      setNext((prevNext) => {
+        let candidate = prevNext;
+        while ((candidate === prevNext || candidate === next) && event.images.length > 2) {
+          candidate = Math.floor(Math.random() * event.images.length);
+        }
+        return candidate === prevNext ? (prevNext + 1) % event.images.length : candidate;
+      });
     }, interval);
+
     return () => clearInterval(timer);
-  }, [event.images.length, interval]);
+  }, [next, event.images.length, interval]);
 
   return (
     <div className="relative w-full bg-[#FFE8DB]">
@@ -30,19 +60,22 @@ export default function GaleriHero({ event, interval = 3000, year }: GaleriHeroP
         <div className="flex flex-col items-center md:hidden">
           <div className="relative w-full max-w-md h-52 rounded-2xl overflow-hidden mb-6">
             {event.images.length > 0 ? (
-              <AnimatePresence mode="wait">
+              <AnimatePresence>
                 <motion.div
                   key={current + "-mobile"}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -30 }}
-                  transition={{ duration: 0.6 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
                   className="absolute inset-0"
                 >
                   <Image
                     src={event.images[current].src}
                     alt={event.images[current].alt}
                     fill
+                    sizes="(max-width: 768px) 100vw, 450px"
+                    quality={85}
+                    priority
                     className="object-cover rounded-2xl"
                   />
                 </motion.div>
@@ -85,19 +118,22 @@ export default function GaleriHero({ event, interval = 3000, year }: GaleriHeroP
           <div className="flex items-center w-full gap-4">
             <div className="relative w-1/2 h-72 lg:h-96 rounded-2xl overflow-hidden">
               {event.images.length > 0 ? (
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   <motion.div
                     key={current + "-main"}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.6 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.7, ease: "easeInOut" }}
                     className="absolute inset-0"
                   >
                     <Image
                       src={event.images[current].src}
                       alt={event.images[current].alt}
                       fill
+                      sizes="(max-width: 1024px) 350px, 450px"
+                      quality={85}
+                      priority
                       className="object-cover rounded-2xl"
                     />
                   </motion.div>
@@ -111,19 +147,21 @@ export default function GaleriHero({ event, interval = 3000, year }: GaleriHeroP
 
             {event.images.length > 1 && (
               <div className="relative w-1/2 h-60 lg:h-80 rounded-2xl overflow-hidden hidden md:block">
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   <motion.div
-                    key={current + "-preview"}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.6 }}
+                    key={next + "-preview"}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.7, ease: "easeInOut" }}
                     className="absolute inset-0"
                   >
                     <Image
-                      src={event.images[(current + 1) % event.images.length].src}
-                      alt={event.images[(current + 1) % event.images.length].alt}
+                      src={event.images[next].src}
+                      alt={event.images[next].alt}
                       fill
+                      sizes="(max-width: 1024px) 250px, 350px"
+                      quality={85}
                       className="object-cover opacity-90 rounded-2xl"
                     />
                   </motion.div>
