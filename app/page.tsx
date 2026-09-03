@@ -4,7 +4,6 @@ import {
   HomeIntroduction,
   HomeSlideImage,
   HomeActivity,
-  HomeBerita,
 } from "@/components/shared/Home";
 
 // Arsitektur Performa Kilat: Server Pre-rendering + Vercel Edge ISR
@@ -35,9 +34,6 @@ export default function Home() {
 
       {/* Seksi daftar kegiatan */}
       <HomeActivity />
-
-      {/* Seksi berita instagram (opsional) */}
-      {/* <HomeBerita /> */}
     </main>
   );
 }
