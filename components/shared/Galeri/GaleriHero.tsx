@@ -56,8 +56,11 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
     if (event.images.length > 1) {
       const initial = getNextRandomPair(event.images.length, -1, -1);
       const upcoming = getNextRandomPair(event.images.length, initial[0], initial[1]);
-      setCurrentPair(initial);
-      upcomingPairRef.current = upcoming;
+
+      const timeoutId = setTimeout(() => {
+        setCurrentPair(initial);
+        upcomingPairRef.current = upcoming;
+      }, 0);
 
       // Preload sepasang foto berikutnya ke memori browser
       if (typeof window !== "undefined") {
@@ -70,6 +73,8 @@ export default function GaleriHero({ event, interval = 5000, year }: GaleriHeroP
           img2.src = event.images[upcoming[1]].src;
         }
       }
+
+      return () => clearTimeout(timeoutId);
     }
   }, [event.images]);
 
