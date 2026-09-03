@@ -2,9 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import Navbar from "@/components/shared/Navbar/Navbar";
-import Footer from "@/components/shared/Footer/Footer";
-import FloatingChatWidget from "@/components/shared/Chatbot/FloatingChatWidget";
+import AppLayoutShell from "@/components/shared/AppLayoutShell";
 import Hash from "@/components/shared/PathHash/Hash";
 import ClarityScript from "@/components/shared/ClarityScript";
 
@@ -160,12 +158,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           defaultTheme="light"
           enableSystem={false}
         >
-          <div id="root-layout">
-            <Navbar />
-            {children}
-            <FloatingChatWidget />
-            <Footer />
-          </div>
+          <AppLayoutShell>{children}</AppLayoutShell>
         </ThemeProvider>
       </body>
     </html>
