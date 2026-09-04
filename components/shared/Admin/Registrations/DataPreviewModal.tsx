@@ -45,11 +45,11 @@ export default function DataPreviewModal({
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Email</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Telepon</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">NPM</th>
+                  <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Angkatan</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Status</th>
-                  <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Asal Instansi</th>
+                  <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Instansi</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Fakultas</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Jurusan</th>
-                  <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Instagram</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Kegiatan</th>
                   <th className="border border-gray-300 px-3 py-3 text-center font-bold text-sm">Status</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold text-sm">Tanggal Daftar</th>
@@ -63,6 +63,7 @@ export default function DataPreviewModal({
                     <td className="border border-gray-300 px-4 py-2 text-sm">{reg.email}</td>
                     <td className="border border-gray-300 px-4 py-2 text-sm">{reg.phone}</td>
                     <td className="border border-gray-300 px-4 py-2 text-sm">{reg.npm || '-'}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-sm font-semibold text-[#4B061A]">{reg.yearClass || '-'}</td>
                     <td className="border border-gray-300 px-4 py-2 text-sm">{reg.academicStatus || '-'}</td>
                     <td className="border border-gray-300 px-4 py-2 text-sm">{reg.institution || '-'}</td>
                     <td className="border border-gray-300 px-4 py-2 text-sm">{reg.faculty || '-'}</td>
