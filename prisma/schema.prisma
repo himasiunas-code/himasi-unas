@@ -36,34 +36,35 @@ model Activity {
 }
 
 model Registration {
-  id              String             @id @default(cuid())
-  activityId      String
-  email           String
-  fullName        String
-  phone           String
-  npm             String?
-  academicStatus  String?
-  yearClass       String?
-  institution     String?
-  faculty         String?
-  major           String?
-  instagramProof  String?
-  instagramHandle String?
-  paymentMethod   String?
-  paymentProof    String?
-  status          RegistrationStatus @default(PENDING)
-  step1Completed  Boolean            @default(false)
-  step2Completed  Boolean            @default(false)
-  approvedAt      DateTime?
-  approvedBy      String?
-  rejectedReason  String?
-  motivation      String?
-  specialRequest  String?
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-  activity        Activity           @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  id                 String             @id @default(cuid())
+  activityId         String
+  email              String?
+  fullName           String
+  phone              String
+  npm                String?
+  academicStatus     String?
+  yearClass          String?
+  institution        String?
+  faculty            String?
+  major              String?
+  studentPortalProof String?
+  instagramProof     String?
+  instagramHandle    String?
+  paymentMethod      String?
+  paymentProof       String?
+  status             RegistrationStatus @default(PENDING)
+  step1Completed     Boolean            @default(false)
+  step2Completed     Boolean            @default(false)
+  approvedAt         DateTime?
+  approvedBy         String?
+  rejectedReason     String?
+  motivation         String?
+  specialRequest     String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  activity           Activity           @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
-  @@unique([activityId, email])
+  @@unique([activityId, npm])
   @@index([activityId, academicStatus])
   @@index([academicStatus])
   @@map("registrations")
