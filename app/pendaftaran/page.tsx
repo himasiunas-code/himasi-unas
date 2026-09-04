@@ -1,4 +1,5 @@
 import RegistrationForm from '@/components/shared/Registration/RegistrationForm'
+import { getCurrentActivityData } from '@/lib/activity'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function PendaftaranPage() {
+export default async function PendaftaranPage() {
+  // Ambil data kegiatan langsung dari server secara cepat
+  const initialActivity = await getCurrentActivityData()
+
   return (
     <div className="min-h-screen bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)]">
       <div className="container mx-auto px-4 py-8">
@@ -26,7 +30,7 @@ export default function PendaftaranPage() {
         </div>
 
         {/* Registration Form */}
-        <RegistrationForm />
+        <RegistrationForm initialActivity={initialActivity} />
       </div>
     </div>
   )
