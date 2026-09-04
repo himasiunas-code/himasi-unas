@@ -163,7 +163,12 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
 
     const checkActivityStatus = async () => {
       try {
-        const response = await fetch('/api/activities/current')
+        const response = await fetch('/api/activities/current', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        })
         const result = await response.json()
 
         if (isCancelled) return
@@ -181,17 +186,15 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
       }
     }
 
-    // Jika belum ada data awal, jalankan fetch langsung
-    if (!initialActivity) {
-      checkActivityStatus()
-    }
+    // Jalankan pengecekan langsung saat mount untuk memastikan data paling mutakhir
+    checkActivityStatus()
 
     const interval = setInterval(checkActivityStatus, 15000)
     return () => {
       isCancelled = true
       clearInterval(interval)
     }
-  }, [initialActivity, activityStatus])
+  }, [])
 
   // Hitung waktu mundur (countdown) jika pendaftaran belum dimulai
   useEffect(() => {

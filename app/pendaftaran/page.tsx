@@ -2,6 +2,9 @@ import RegistrationForm from '@/components/shared/Registration/RegistrationForm'
 import { getCurrentActivityData } from '@/lib/activity'
 import { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'Pendaftaran Kegiatan | HIMASI UNAS',
   description: 'Daftar untuk mengikuti kegiatan HIMASI UNAS',

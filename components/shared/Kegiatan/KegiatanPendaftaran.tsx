@@ -22,7 +22,12 @@ export default function KegiatanPendaftaran() {
   useEffect(() => {
     const fetchActivity = async () => {
       try {
-        const response = await fetch("/api/activities/current");
+        const response = await fetch("/api/activities/current", {
+          cache: "no-store",
+          headers: {
+            "Cache-Control": "no-cache",
+          },
+        });
         if (response.ok) {
           const result = await response.json();
           if (result.success && result.data) {
