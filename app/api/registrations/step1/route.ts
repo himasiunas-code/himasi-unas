@@ -145,24 +145,23 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('🔍 Checking for existing registration...')
-    
-    // Cek apakah email sudah terdaftar untuk kegiatan ini  
-    const existingRegistration = await prisma.registration.findUnique({
+    // Cek apakah NPM atau email sudah terdaftar untuk kegiatan ini  
+    const existingRegistration = await prisma.registration.findFirst({
       where: {
-        activityId_email: {
-          activityId: activity.id,
-          email
-        }
+        activityId: activity.id,
+        OR: [
+          ...(npm ? [{ npm: npm.trim() }] : []),
+          ...(email ? [{ email: email.trim() }] : [])
+        ]
       }
     })
 
     if (existingRegistration) {
-      console.log('❌ User already registered:', email)
+      console.log('❌ User already registered:', { npm, email })
       return NextResponse.json(
         {
           success: false,
-          message: 'Email Anda sudah terdaftar untuk kegiatan ini'
+          message: 'Data Anda sudah terdaftar untuk kegiatan ini'
         },
         { status: 400 }
       )
@@ -234,19 +233,20 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // Double-check untuk email yang sudah terdaftar dalam transaksi
-      const duplicateCheck = await tx.registration.findUnique({
+      // Double-check untuk pendaftaran yang sudah terdaftar dalam transaksi
+      const duplicateCheck = await tx.registration.findFirst({
         where: {
-          activityId_email: {
-            activityId: activity.id,
-            email
-          }
+          activityId: activity.id,
+          OR: [
+            ...(npm ? [{ npm: npm.trim() }] : []),
+            ...(email ? [{ email: email.trim() }] : [])
+          ]
         }
       })
 
       if (duplicateCheck) {
-        console.log('❌ Duplicate email found during transaction:', email)
-        throw new Error('EMAIL_DUPLICATE')
+        console.log('❌ Duplicate registration found during transaction:', { npm, email })
+        throw new Error('DUPLICATE_REGISTRATION')
       }
 
       console.log('✅ Slot available, creating registration...')
