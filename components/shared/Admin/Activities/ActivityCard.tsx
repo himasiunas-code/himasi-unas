@@ -101,9 +101,9 @@ export default function ActivityCard({ activity, onEdit, onDelete }: ActivityCar
                 {activity.currentParticipants}
                 {activity.maxParticipants ? `/${activity.maxParticipants}` : ''}
                 {(activity.maxParticipantsMahasiswa || activity.maxParticipantsPelajar) && (
-                  <span className="ml-2 text-xs text-gray-500">
-                    (👨‍🎓 {activity.mahasiswaCount || 0}/{activity.maxParticipantsMahasiswa || 0} | 📚{' '}
-                    {activity.pelajarCount || 0}/{activity.maxParticipantsPelajar || 0})
+                  <span className="ml-2 text-xs text-gray-500 font-medium">
+                    (🎓 2024: {activity.count2024 ?? activity.mahasiswaCount ?? 0}/{activity.maxParticipantsMahasiswa || 5} | 🎓 2025:{' '}
+                    {activity.count2025 ?? activity.pelajarCount ?? 0}/{activity.maxParticipantsPelajar || 5})
                   </span>
                 )}
               </span>
