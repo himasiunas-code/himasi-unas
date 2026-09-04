@@ -47,6 +47,22 @@ export default function KegiatanPendaftaran() {
     return new Date(activity.registrationDeadline);
   }, [activity]);
 
+  // Periksa apakah slot pendaftaran sudah benar-benar penuh
+  const isSlotFull = useMemo(() => {
+    if (!activity) return false;
+    const actAny = activity as any;
+    if (typeof actAny.isOverallFull === 'boolean') {
+      return actAny.isOverallFull;
+    }
+    if (actAny.isFull2024 && actAny.isFull2025) {
+      return true;
+    }
+    if (activity.maxParticipants && activity.maxParticipants > 0) {
+      return activity.currentParticipants >= activity.maxParticipants;
+    }
+    return false;
+  }, [activity]);
+
   useEffect(() => {
     const calculateTimeLeft = () => {
       if (!activity) return;
@@ -311,25 +327,23 @@ export default function KegiatanPendaftaran() {
               </div>
             )}
 
-            {status === "open" &&
-              activity.currentParticipants < activity.maxParticipants && (
-                <Link
-                  href="https://bit.ly/AMD_UNAS"
-                  className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 transform hover:scale-105"
-                  style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}
-                >
-                  <UserRoundPlus className="w-5 h-5 md:w-6 md:h-6" />
-                  Daftar Sekarang
-                </Link>
-              )}
+            {status === "open" && !isSlotFull && (
+              <Link
+                href="/pendaftaran"
+                className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-[#FFE8DB]/80 transition-all duration-300 transform hover:scale-105"
+                style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}
+              >
+                <UserRoundPlus className="w-5 h-5 md:w-6 md:h-6" />
+                Daftar Sekarang
+              </Link>
+            )}
 
-            {status === "open" &&
-              activity.currentParticipants >= activity.maxParticipants && (
-                <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
-                  <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
-                  Slot Penuh
-                </div>
-              )}
+            {status === "open" && isSlotFull && (
+              <div className="inline-flex items-center gap-2 bg-gray-400 text-white px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
+                <UserRoundX className="w-5 h-5 md:w-6 md:h-6" />
+                Slot Penuh
+              </div>
+            )}
 
             {status === "closed" && (
               <div className="inline-flex items-center gap-2 bg-[#FFE8DB] text-black px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-xl cursor-not-allowed shadow-2xl" style={{ boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)' }}>
