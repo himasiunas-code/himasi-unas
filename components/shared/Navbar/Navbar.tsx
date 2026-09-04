@@ -149,6 +149,7 @@ export default function Navbar() {
                           onMouseLeave={() => setDropdownOpen(null)}
                         >
                           <button
+                            type="button"
                             className={`
                       relative px-2 py-1 text-white transition-colors duration-150 flex items-center gap-1
                       after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-0.5 after:bg-white after:w-0 after:transition-all after:duration-300
