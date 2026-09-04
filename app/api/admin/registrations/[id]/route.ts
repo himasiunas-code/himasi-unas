@@ -61,7 +61,7 @@ export async function PATCH(
       
       const emailData = {
         fullName: registration.fullName,
-        email: registration.email,
+        email: registration.email || '',
         activityTitle: registration.activity.title,
         activitySlug: registration.activity.slug,
         activityStartDate: new Date(registration.activity.startDate).toLocaleDateString('id-ID', {
@@ -80,12 +80,14 @@ export async function PATCH(
       const notifications = []
 
       if (status === RegistrationStatus.APPROVED) {
-        // Send email
-        notifications.push(
-          emailService.sendApprovalEmail(emailData)
-            .then(() => console.log(`Approval email sent to ${registration.email}`))
-            .catch(error => console.error('Error sending approval email:', error))
-        )
+        // Send email jika email ada
+        if (registration.email) {
+          notifications.push(
+            emailService.sendApprovalEmail({ ...emailData, email: registration.email })
+              .then(() => console.log(`Approval email sent to ${registration.email}`))
+              .catch(error => console.error('Error sending approval email:', error))
+          )
+        }
         
         // Send WhatsApp
         notifications.push(
@@ -104,12 +106,14 @@ export async function PATCH(
             .catch(error => console.error('Error sending approval WhatsApp:', error))
         )
       } else if (status === RegistrationStatus.REJECTED) {
-        // Send email
-        notifications.push(
-          emailService.sendRejectionEmail(emailData)
-            .then(() => console.log(`Rejection email sent to ${registration.email}`))
-            .catch(error => console.error('Error sending rejection email:', error))
-        )
+        // Send email jika email ada
+        if (registration.email) {
+          notifications.push(
+            emailService.sendRejectionEmail({ ...emailData, email: registration.email })
+              .then(() => console.log(`Rejection email sent to ${registration.email}`))
+              .catch(error => console.error('Error sending rejection email:', error))
+          )
+        }
         
         // Send WhatsApp
         notifications.push(
