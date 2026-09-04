@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { invalidateCurrentActivityCache } from '@/lib/activity'
 
 // GET /api/activities - Ambil semua kegiatan dengan option filtering
 export async function GET(request: NextRequest) {
@@ -42,13 +43,13 @@ export async function GET(request: NextRequest) {
           prisma.registration.count({
             where: { 
               activityId,
-              academicStatus: 'Mahasiswa'
+              yearClass: '2024'
             }
           }),
           prisma.registration.count({
             where: { 
               activityId,
-              academicStatus: 'Pelajar'
+              yearClass: '2025'
             }
           })
         ])
@@ -57,7 +58,9 @@ export async function GET(request: NextRequest) {
           activityId,
           total,
           mahasiswaCount: mahasiswa,
-          pelajarCount: pelajar
+          pelajarCount: pelajar,
+          count2024: mahasiswa,
+          count2025: pelajar,
         }
       })
     )
@@ -70,7 +73,9 @@ export async function GET(request: NextRequest) {
         ...activity,
         currentParticipants: counts?.total || 0,
         mahasiswaCount: counts?.mahasiswaCount || 0,
-        pelajarCount: counts?.pelajarCount || 0
+        pelajarCount: counts?.pelajarCount || 0,
+        count2024: counts?.count2024 || 0,
+        count2025: counts?.count2025 || 0,
       }
     })
 
@@ -166,6 +171,7 @@ export async function POST(request: NextRequest) {
     })
 
     console.log('Kegiatan baru berhasil dibuat:', activity.title)
+    invalidateCurrentActivityCache()
 
     return NextResponse.json({
       success: true,
