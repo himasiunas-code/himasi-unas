@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { Prisma, RegistrationStatus } from '@prisma/client'
+import { invalidateCurrentActivityCache } from '@/lib/activity'
 
 // POST /api/registrations - Submit pendaftaran untuk kegiatan utama
 export async function POST(request: NextRequest) {
@@ -19,6 +20,7 @@ export async function POST(request: NextRequest) {
       phone,
       npm,
       yearClass,
+      studentPortalProof,
       faculty,
       major,
       instagramProof,
@@ -29,42 +31,51 @@ export async function POST(request: NextRequest) {
 
     console.log('🔍 Validating required fields...')
     
-    // Validasi required fields
-    if (!email || !fullName || !phone || !npm || !yearClass) {
-      console.log('❌ Missing required fields:', { email: !!email, fullName: !!fullName, phone: !!phone, npm: !!npm, yearClass: !!yearClass })
+    // Validasi required fields (Nama lengkap, nomor HP, NPM, tahun angkatan, dan bukti portal mahasiswa)
+    if (!fullName || !phone || !npm || !yearClass || !studentPortalProof) {
+      console.log('❌ Missing required fields:', {
+        fullName: !!fullName,
+        phone: !!phone,
+        npm: !!npm,
+        yearClass: !!yearClass,
+        studentPortalProof: !!studentPortalProof,
+      })
       return NextResponse.json(
         {
           success: false,
-          message: 'Email, nama lengkap, nomor HP, NPM, dan tahun angkatan wajib diisi'
+          message: 'Nama lengkap, nomor HP, NPM, tahun angkatan, dan bukti portal mahasiswa wajib diisi',
         },
         { status: 400 }
       )
     }
 
-    // Validasi format NPM (harus 12 digit)
-    if (npm && !/^\d{12}$/.test(npm.trim())) {
+    // Validasi format NPM (angka)
+    if (!/^\d{6,16}$/.test(npm.trim())) {
       console.log('❌ Invalid NPM format:', npm)
       return NextResponse.json(
         {
           success: false,
-          message: 'NPM harus terdiri dari 12 digit angka'
+          message: 'NPM harus berupa digit angka yang valid'
         },
         { status: 400 }
       )
     }
 
-    // Validasi format email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      console.log('❌ Invalid email format:', email)
+    // Validasi tahun angkatan (hanya 2024 atau 2025)
+    if (yearClass.trim() !== '2024' && yearClass.trim() !== '2025') {
       return NextResponse.json(
         {
           success: false,
-          message: 'Format email tidak valid'
+          message: 'Tahun angkatan harus 2024 atau 2025'
         },
         { status: 400 }
       )
     }
+
+    // Generate email unik berdasarkan NPM jika email tidak diisi dari form
+    const registrationEmail = email && email.trim() !== ''
+      ? email.trim()
+      : `${npm.trim()}@civitas.unas.ac.id`
 
     // Validasi instagram proof jika ada
     if (instagramProof && typeof instagramProof === 'string') {
@@ -190,13 +201,37 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Cek maksimal peserta
-    if (activity.maxParticipants && activity._count.registrations >= activity.maxParticipants) {
+    // Cek maksimal peserta total jika diset positif oleh admin
+    if (activity.maxParticipants && activity.maxParticipants > 0 && activity._count.registrations >= activity.maxParticipants) {
       console.log('❌ Activity is full:', activity._count.registrations, '>=', activity.maxParticipants)
       return NextResponse.json(
         {
           success: false,
-          message: 'Activity is full. Maximum participants reached.'
+          message: 'Kuota pendaftaran kegiatan sudah penuh'
+        },
+        { status: 400 }
+      )
+    }
+
+    // Cek kuota per angkatan sesuai konfigurasi kegiatan di admin
+    const targetYear = yearClass.trim()
+    const maxForYear = targetYear === '2024'
+      ? (activity.maxParticipantsMahasiswa && activity.maxParticipantsMahasiswa > 0 ? activity.maxParticipantsMahasiswa : 5)
+      : (activity.maxParticipantsPelajar && activity.maxParticipantsPelajar > 0 ? activity.maxParticipantsPelajar : 5)
+
+    const yearRegistrationsCount = await prisma.registration.count({
+      where: {
+        activityId: activity.id,
+        yearClass: targetYear
+      }
+    })
+
+    if (yearRegistrationsCount >= maxForYear) {
+      console.log(`❌ Quota full for Angkatan ${targetYear}: ${yearRegistrationsCount} >= ${maxForYear}`)
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Maaf, kuota pendaftaran untuk Angkatan ${targetYear} sudah penuh (${maxForYear} slot)`
         },
         { status: 400 }
       )
@@ -204,22 +239,23 @@ export async function POST(request: NextRequest) {
 
     console.log('🔍 Checking for existing registration...')
     
-    // Cek apakah email sudah terdaftar untuk kegiatan ini  
-    const existingRegistration = await prisma.registration.findUnique({
+    // Cek apakah email atau NPM sudah terdaftar untuk kegiatan ini  
+    const existingRegistration = await prisma.registration.findFirst({
       where: {
-        activityId_email: {
-          activityId: activity.id,
-          email
-        }
+        activityId: activity.id,
+        OR: [
+          { email: registrationEmail },
+          { npm: npm.trim() }
+        ]
       }
     })
 
     if (existingRegistration) {
-      console.log('❌ User already registered:', email)
+      console.log('❌ User already registered:', { email: registrationEmail, npm: npm.trim() })
       return NextResponse.json(
         {
           success: false,
-          message: 'You have already registered for this activity'
+          message: 'NPM ini sudah terdaftar untuk kegiatan ini'
         },
         { status: 400 }
       )
@@ -227,21 +263,26 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ All checks passed, creating registration...')
     
-    // Buat pendaftaran baru
+    // Buat pendaftaran baru (1 sesi langsung selesai)
     const registration = await prisma.registration.create({
       data: {
         activityId: activity.id,
-        email,
-        fullName,
-        phone,
-        npm,
-        yearClass,
-        faculty,
-        major,
-        instagramProof,
-        instagramHandle,
-        motivation,
-        specialRequest
+        email: registrationEmail,
+        fullName: fullName.trim(),
+        phone: phone.trim(),
+        npm: npm.trim(),
+        yearClass: yearClass.trim(),
+        academicStatus: 'Mahasiswa',
+        institution: 'Universitas Nasional',
+        faculty: faculty?.trim() || 'FTKI',
+        major: major?.trim() || 'Sistem Informasi',
+        instagramProof: studentPortalProof || instagramProof || null,
+        instagramHandle: instagramHandle || null,
+        motivation: motivation || null,
+        specialRequest: specialRequest || null,
+        step1Completed: true,
+        step2Completed: true,
+        status: 'PENDING'
       },
       include: {
         activity: {
@@ -255,12 +296,32 @@ export async function POST(request: NextRequest) {
     })
 
     console.log('✅ Registration created successfully:', registration.id)
+    invalidateCurrentActivityCache()
 
-    return NextResponse.json({
+    const responseData = {
+      ...registration,
+      studentPortalProof: (registration as any).studentPortalProof || registration.instagramProof
+    }
+
+    // Buat one-time token untuk mengizinkan akses ke /pendaftaran/selesai
+    const successToken = Math.random().toString(36).substring(2) + Date.now().toString(36)
+
+    const response = NextResponse.json({
       success: true,
       message: 'Registration submitted successfully!',
-      data: registration
+      data: responseData,
+      token: successToken,
     }, { status: 201 })
+
+    // Set cookie short-lived (60 detik) untuk mengizinkan akses ke /pendaftaran/selesai
+    response.cookies.set('reg_success_token', successToken, {
+      path: '/',
+      maxAge: 60, // 60 detik saja
+      httpOnly: false, // client-accessible agar bisa segera dikonsumsi/dihapus
+      sameSite: 'lax',
+    })
+
+    return response
 
   } catch (error) {
     console.error('❌ Error creating registration:', error)
@@ -332,9 +393,14 @@ export async function GET(request: NextRequest) {
       }
     })
 
+    const mappedRegistrations = registrations.map((reg) => ({
+      ...reg,
+      studentPortalProof: (reg as any).studentPortalProof || reg.instagramProof,
+    }))
+
     return NextResponse.json({
       success: true,
-      registrations: registrations
+      registrations: mappedRegistrations,
     })
   } catch (error) {
     console.error('Error fetching registrations:', error)
