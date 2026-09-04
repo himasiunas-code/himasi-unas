@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { invalidateCurrentActivityCache } from '@/lib/activity'
 
 // GET /api/activities/[id] - Get specific activity
 export async function GET(
@@ -139,6 +140,8 @@ export async function PUT(
       }
     })
 
+    invalidateCurrentActivityCache()
+
     return NextResponse.json({
       success: true,
       data: {
@@ -189,6 +192,8 @@ export async function DELETE(
         id: id
       }
     })
+
+    invalidateCurrentActivityCache()
 
     return NextResponse.json({
       success: true,
