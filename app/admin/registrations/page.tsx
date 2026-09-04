@@ -167,10 +167,15 @@ export default function RegistrationsPage() {
 
   // Filter daftar pendaftaran berdasarkan kata kunci pencarian dan status
   const filteredRegistrations = registrations.filter((registration) => {
+    const query = searchTerm.toLowerCase().trim()
     const matchesSearch =
-      registration.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      registration.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      registration.activity.title.toLowerCase().includes(searchTerm.toLowerCase())
+      query === '' ||
+      registration.fullName.toLowerCase().includes(query) ||
+      (registration.email && registration.email.toLowerCase().includes(query)) ||
+      (registration.npm && registration.npm.includes(query)) ||
+      (registration.phone && registration.phone.includes(query)) ||
+      (registration.yearClass && registration.yearClass.includes(query)) ||
+      registration.activity.title.toLowerCase().includes(query)
     const matchesStatus = statusFilter === '' || registration.status === statusFilter
     return matchesSearch && matchesStatus
   })
