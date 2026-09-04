@@ -6,9 +6,11 @@ export interface Registration {
   phone: string
   npm?: string
   academicStatus?: string
+  yearClass?: string
   institution?: string
   faculty?: string
   major?: string
+  studentPortalProof?: string
   instagramProof?: string
   instagramHandle?: string
   status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ATTENDED' | 'ABSENT'
