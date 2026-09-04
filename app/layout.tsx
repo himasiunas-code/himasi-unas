@@ -147,6 +147,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
+        suppressHydrationWarning
         className={`${poppins.variable} font-poppins text-white overflow-x-hidden`}
       >
         <ClarityScript />
