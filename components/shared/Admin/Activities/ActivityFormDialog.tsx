@@ -205,10 +205,10 @@ export default function ActivityFormDialog({
             </p>
           </div>
 
-          {/* Pembagian Kuota Mahasiswa & Pelajar */}
+          {/* Pembagian Kuota Angkatan 2024 & 2025 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="maxParticipantsMahasiswa">Slot Mahasiswa</Label>
+              <Label htmlFor="maxParticipantsMahasiswa">Slot Angkatan 2024</Label>
               <Input
                 id="maxParticipantsMahasiswa"
                 type="number"
@@ -219,12 +219,12 @@ export default function ActivityFormDialog({
                     maxParticipantsMahasiswa: parseInt(e.target.value) || 0,
                   }))
                 }
-                placeholder="0 = tidak dibatasi"
+                placeholder="5"
                 min="0"
               />
             </div>
             <div>
-              <Label htmlFor="maxParticipantsPelajar">Slot Pelajar</Label>
+              <Label htmlFor="maxParticipantsPelajar">Slot Angkatan 2025</Label>
               <Input
                 id="maxParticipantsPelajar"
                 type="number"
@@ -235,13 +235,13 @@ export default function ActivityFormDialog({
                     maxParticipantsPelajar: parseInt(e.target.value) || 0,
                   }))
                 }
-                placeholder="0 = tidak dibatasi"
+                placeholder="5"
                 min="0"
               />
             </div>
           </div>
           <p className="text-xs text-gray-500 -mt-2">
-            Pembagian slot berdasarkan status akademik. Kosongkan jika tidak perlu pembagian.
+            Pembagian slot kuota khusus per angkatan (contoh: 5 slot untuk 2024, 5 slot untuk 2025).
           </p>
 
           {/* Periode Registrasi */}
