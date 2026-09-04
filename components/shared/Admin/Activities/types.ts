@@ -16,6 +16,8 @@ export interface Activity {
   currentParticipants: number
   mahasiswaCount?: number
   pelajarCount?: number
+  count2024?: number
+  count2025?: number
   registrationOpen: boolean
   registrationDeadline?: string
   registrationStartDate?: string
@@ -45,7 +47,7 @@ export interface ActivityFormData {
   registrationOpen: boolean
 }
 
-// Nilai awal formulir kegiatan
+// Nilai awal formulir kegiatan (default 10 slot: 5 angkatan 2024, 5 angkatan 2025)
 export const initialFormData: ActivityFormData = {
   title: '',
   description: '',
@@ -54,9 +56,9 @@ export const initialFormData: ActivityFormData = {
   startDate: '',
   endDate: '',
   location: '',
-  maxParticipants: 0,
-  maxParticipantsMahasiswa: 0,
-  maxParticipantsPelajar: 0,
+  maxParticipants: 10,
+  maxParticipantsMahasiswa: 5,
+  maxParticipantsPelajar: 5,
   registrationDeadline: '',
   registrationStartDate: '',
   requiresApproval: false,
