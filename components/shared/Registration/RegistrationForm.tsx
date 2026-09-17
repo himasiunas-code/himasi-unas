@@ -1,91 +1,29 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import {
   User,
   Phone,
-  Calendar,
   AlertCircle,
-  CheckCircle,
-  X,
   Send,
   GraduationCap,
-  Upload,
 } from 'lucide-react'
-import confetti from 'canvas-confetti'
+import {
+  FormData,
+  FormErrors,
+  ActivityStatus,
+  RegistrationStatus,
+  RegistrationFormProps,
+} from './types'
+import { computeRegistrationStatus, triggerConfetti } from './utils'
+import { useCountdown } from '@/hooks'
+import RegistrationStatusScreen from './RegistrationStatusScreen'
+import RegistrationYearClassSelector from './RegistrationYearClassSelector'
+import RegistrationPortalProofUpload from './RegistrationPortalProofUpload'
+import RegistrationNotificationModal from './RegistrationNotificationModal'
 
-interface FormData {
-  fullName: string
-  phone: string
-  npm: string
-  yearClass: '2024' | '2025' | ''
-}
-
-interface FormErrors {
-  [key: string]: string
-}
-
-interface ActivityStatus {
-  id: string
-  title: string
-  registrationOpen: boolean
-  registrationStartDate: string | null
-  registrationDeadline: string | null
-  currentParticipants: number
-  maxParticipants: number | null
-  count2024?: number
-  count2025?: number
-  maxParticipants2024?: number
-  maxParticipants2025?: number
-  remaining2024?: number
-  remaining2025?: number
-  isFull2024?: boolean
-  isFull2025?: boolean
-}
-
-interface RegistrationFormProps {
-  initialActivity?: ActivityStatus | any
-}
-
-// Helper untuk menghitung status pendaftaran dari data kegiatan secara instan
-function computeRegistrationStatus(
-  act: any
-): 'loading' | 'open' | 'not-started' | 'closed' | 'full' | 'no-activity' {
-  if (!act) return 'no-activity'
-  const now = new Date()
-  const eventStartTime = new Date(act.startDate).getTime()
-
-  if (now.getTime() > eventStartTime) {
-    return 'closed'
-  }
-
-  const isAllFull =
-    act.isOverallFull ??
-    ((act.isFull2024 && act.isFull2025) ||
-      (act.maxParticipants && act.maxParticipants > 0 && act.currentParticipants >= act.maxParticipants))
-
-  if (isAllFull) {
-    return 'full'
-  }
-
-  const isAutoOpenTime = act.registrationStartDate
-    ? now >= new Date(act.registrationStartDate)
-    : true
-  const isWithinDeadline = act.registrationDeadline
-    ? now <= new Date(act.registrationDeadline)
-    : true
-
-  const isOpen = act.registrationOpen || (isAutoOpenTime && isWithinDeadline)
-
-  if (!isOpen) {
-    return !isAutoOpenTime ? 'not-started' : 'closed'
-  }
-  return 'open'
-}
-
-// Komponen formulir pendaftaran kegiatan HIMASI UNAS (1 Sesi ringkas)
+// Komponen formulir pendaftaran kegiatan HIMASI UNAS (Modular & Ringkas)
 export default function RegistrationForm({ initialActivity }: RegistrationFormProps = {}) {
   const router = useRouter()
   const [formData, setFormData] = useState<FormData>({
@@ -111,39 +49,22 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
   const [activityStatus, setActivityStatus] = useState<ActivityStatus | null>(
     initialActivity || null
   )
-  const [registrationStatus, setRegistrationStatus] = useState<
-    'loading' | 'open' | 'not-started' | 'closed' | 'full' | 'no-activity'
-  >(() => {
+  const [registrationStatus, setRegistrationStatus] = useState<RegistrationStatus>(() => {
     if (initialActivity) {
       return computeRegistrationStatus(initialActivity)
     }
     return 'loading'
   })
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+  const targetStartDate =
+    registrationStatus === 'not-started' ? activityStatus?.registrationStartDate : null
+  const timeLeft = useCountdown(targetStartDate, () => {
+    window.location.reload()
   })
 
   // Prefetch halaman selesai pendaftaran agar navigasi instan
   useEffect(() => {
     router.prefetch('/pendaftaran/selesai')
   }, [router])
-
-  // Efek confetti selebrasi saat pendaftaran berhasil
-  const triggerConfetti = () => {
-    try {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#4B061A', '#8B1C3B', '#FFD700', '#FF6B6B', '#4ECDC4'],
-      })
-    } catch (err) {
-      console.error('Confetti error:', err)
-    }
-  }
 
   // Tampilkan notifikasi pop-up
   const showNotification = (type: 'success' | 'error', title: string, message: string) => {
@@ -196,31 +117,6 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
     }
   }, [])
 
-  // Hitung waktu mundur (countdown) jika pendaftaran belum dimulai
-  useEffect(() => {
-    if (registrationStatus !== 'not-started' || !activityStatus?.registrationStartDate) return
-
-    const calculateTimeLeft = () => {
-      const now = new Date().getTime()
-      const openTime = new Date(activityStatus.registrationStartDate!).getTime()
-      const difference = openTime - now
-
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000),
-        })
-      } else {
-        window.location.reload()
-      }
-    }
-
-    calculateTimeLeft()
-    const timer = setInterval(calculateTimeLeft, 1000)
-    return () => clearInterval(timer)
-  }, [registrationStatus, activityStatus])
 
   // Handle perubahan input form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -386,116 +282,14 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
     }
   }
 
-  // Tampilan loading status
-  if (registrationStatus === 'loading') {
+  // Tampilkan layar status jika belum masuk ke kondisi form aktif
+  if (registrationStatus !== 'open') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[350px] bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl">
-        <div className="w-16 h-16 border-4 border-gray-200 border-t-[#4B061A] rounded-full animate-spin mb-4"></div>
-        <h2 className="text-xl font-bold text-gray-800 mb-2">Memeriksa Status Pendaftaran</h2>
-        <p className="text-gray-600">Mohon tunggu sebentar...</p>
-      </div>
-    )
-  }
-
-  // Tampilan belum ada kegiatan aktif
-  if (registrationStatus === 'no-activity') {
-    return (
-      <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center max-w-xl mx-auto">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-          <AlertCircle className="w-8 h-8 text-gray-400" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Tidak Ada Kegiatan Aktif</h2>
-        <p className="text-gray-600 mb-6">
-          Saat ini belum ada kegiatan yang tersedia untuk pendaftaran.
-        </p>
-        <button
-          onClick={() => (window.location.href = '/kegiatan')}
-          className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl hover:from-[#5B0720] hover:to-[#9B2C4B] transition-all duration-300 transform hover:scale-105 font-medium shadow-lg"
-        >
-          Kembali ke Halaman Kegiatan
-        </button>
-      </div>
-    )
-  }
-
-  // Tampilan belum dibuka
-  if (registrationStatus === 'not-started') {
-    return (
-      <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center max-w-xl mx-auto">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4">
-          <Calendar className="w-8 h-8 text-yellow-600" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Pendaftaran Belum Dibuka</h2>
-        <p className="text-gray-600 mb-6">
-          Pendaftaran untuk <strong>{activityStatus?.title}</strong> akan segera dibuka.
-        </p>
-        {(timeLeft.days > 0 ||
-          timeLeft.hours > 0 ||
-          timeLeft.minutes > 0 ||
-          timeLeft.seconds > 0) && (
-          <div className="grid grid-cols-4 gap-2 max-w-xs mx-auto mb-6">
-            {[
-              { label: 'Hari', val: timeLeft.days },
-              { label: 'Jam', val: timeLeft.hours },
-              { label: 'Menit', val: timeLeft.minutes },
-              { label: 'Detik', val: timeLeft.seconds },
-            ].map((t, i) => (
-              <div key={i} className="bg-gray-100 rounded-xl p-3 text-center">
-                <span className="text-xl font-bold text-[#4B061A]">{t.val}</span>
-                <p className="text-xs text-gray-500">{t.label}</p>
-              </div>
-            ))}
-          </div>
-        )}
-        <button
-          onClick={() => (window.location.href = '/kegiatan')}
-          className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl font-medium shadow-lg"
-        >
-          Kembali ke Halaman Kegiatan
-        </button>
-      </div>
-    )
-  }
-
-  // Tampilan ditutup
-  if (registrationStatus === 'closed') {
-    return (
-      <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center max-w-xl mx-auto">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
-          <X className="w-8 h-8 text-red-600" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Pendaftaran Ditutup</h2>
-        <p className="text-gray-600 mb-6">
-          Pendaftaran untuk kegiatan <strong>{activityStatus?.title}</strong> telah berakhir.
-        </p>
-        <button
-          onClick={() => (window.location.href = '/kegiatan')}
-          className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl font-medium shadow-lg"
-        >
-          Lihat Kegiatan Lainnya
-        </button>
-      </div>
-    )
-  }
-
-  // Tampilan kuota penuh
-  if (registrationStatus === 'full') {
-    return (
-      <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 border border-gray-200 shadow-2xl text-center max-w-xl mx-auto">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
-          <AlertCircle className="w-8 h-8 text-orange-600" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Kuota Pendaftaran Penuh</h2>
-        <p className="text-gray-600 mb-6">
-          Maaf, kuota untuk kegiatan <strong>{activityStatus?.title}</strong> sudah habis.
-        </p>
-        <button
-          onClick={() => (window.location.href = '/kegiatan')}
-          className="bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white px-6 py-3 rounded-xl font-medium shadow-lg"
-        >
-          Lihat Kegiatan Lainnya
-        </button>
-      </div>
+      <RegistrationStatusScreen
+        status={registrationStatus}
+        activityStatus={activityStatus}
+        timeLeft={timeLeft}
+      />
     )
   }
 
@@ -590,156 +384,23 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
         </div>
 
         {/* Pilihan Tahun Angkatan (2024 atau 2025) */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-700">
-            <Calendar className="w-4 h-4 inline mr-2 text-[#4B061A]" />
-            Tahun Angkatan <span className="text-red-500">*</span>
-          </label>
-          <div className="grid grid-cols-2 gap-4">
-            {(['2024', '2025'] as const).map((year) => {
-              const isSelected = formData.yearClass === year
-              const isFull = year === '2024' ? activityStatus?.isFull2024 : activityStatus?.isFull2025
-              const remaining = year === '2024'
-                ? (activityStatus?.remaining2024 ?? 5)
-                : (activityStatus?.remaining2025 ?? 5)
-              const maxSlot = year === '2024'
-                ? (activityStatus?.maxParticipants2024 ?? 5)
-                : (activityStatus?.maxParticipants2025 ?? 5)
-
-              return (
-                <button
-                  type="button"
-                  key={year}
-                  disabled={isFull}
-                  onClick={() => {
-                    if (isFull) return
-                    setFormData((prev) => ({ ...prev, yearClass: year }))
-                    if (errors.yearClass) {
-                      setErrors((prev) => ({ ...prev, yearClass: '' }))
-                    }
-                  }}
-                  className={`py-4 px-4 rounded-2xl border-2 flex flex-col items-center justify-center gap-2 transition-all duration-200 ${
-                    isFull
-                      ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-75'
-                      : isSelected
-                      ? 'bg-linear-to-r from-[#4B061A] to-[#8B1C3B] text-white border-[#4B061A] shadow-md scale-[1.02] cursor-pointer'
-                      : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400 hover:bg-gray-50 cursor-pointer'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
-                        isFull
-                          ? 'border-gray-300 bg-gray-200'
-                          : isSelected
-                          ? 'border-white bg-white'
-                          : 'border-gray-400'
-                      }`}
-                    >
-                      {isSelected && !isFull && <div className="w-2.5 h-2.5 rounded-full bg-[#4B061A]" />}
-                    </div>
-                    <span className="font-bold text-base md:text-lg">Angkatan {year}</span>
-                  </div>
-
-                  {/* Indikator Kuota / Sisa Slot */}
-                  <div>
-                    {isFull ? (
-                      <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold bg-red-100 text-red-700 border border-red-200">
-                        Kuota Penuh (0/{maxSlot})
-                      </span>
-                    ) : (
-                      <span
-                        className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${
-                          isSelected
-                            ? 'bg-white/25 text-white'
-                            : 'bg-green-100 text-green-800 border border-green-200'
-                        }`}
-                      >
-                        Sisa {remaining} dari {maxSlot} slot
-                      </span>
-                    )}
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-          {errors.yearClass && (
-            <p className="text-red-500 text-xs flex items-center mt-1">
-              <AlertCircle className="w-3.5 h-3.5 mr-1" />
-              {errors.yearClass}
-            </p>
-          )}
-        </div>
+        <RegistrationYearClassSelector
+          formData={formData}
+          setFormData={setFormData}
+          errors={errors}
+          setErrors={setErrors}
+          activityStatus={activityStatus}
+        />
 
         {/* Upload Bukti Portal Mahasiswa */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-700">
-            <Upload className="w-4 h-4 inline mr-2 text-[#4B061A]" />
-            Screenshot Portal Mahasiswa UNAS <span className="text-red-500">*</span>
-          </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 transition-all duration-200 hover:border-[#4B061A] bg-gray-50/60">
-            {!previewUrl ? (
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-white rounded-full mb-3 shadow-xs border border-gray-200 text-[#4B061A]">
-                  <Upload className="w-6 h-6" />
-                </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/jpg,image/png,image/webp"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  id="portalProof"
-                />
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="bg-[#4B061A] hover:bg-[#3A0514] text-white px-5 py-2.5 rounded-xl font-medium text-sm transition-all shadow-xs cursor-pointer"
-                  >
-                    Pilih Foto Screenshot Portal
-                  </button>
-                </div>
-                <p className="text-gray-500 text-xs mt-2">
-                  Format: JPG, JPEG, PNG, atau WEBP (Maksimal 5MB)
-                </p>
-                <p className="text-gray-400 text-xs mt-0.5">
-                  Lampirkan tangkapan layar (SS) portal mahasiswa UNAS Anda
-                </p>
-              </div>
-            ) : (
-              <div className="relative max-w-xs mx-auto">
-                <Image
-                  src={previewUrl}
-                  alt="Preview Screenshot Portal Mahasiswa"
-                  width={300}
-                  height={200}
-                  className="w-full max-h-48 object-contain rounded-xl shadow-md border border-gray-200 bg-white"
-                />
-                <button
-                  type="button"
-                  onClick={removeFile}
-                  className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-md transition-transform hover:scale-110 cursor-pointer"
-                  title="Hapus foto"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-                <div className="text-center mt-2">
-                  <p className="text-xs text-green-700 font-medium flex items-center justify-center">
-                    <CheckCircle className="w-3.5 h-3.5 mr-1 text-green-600" />
-                    {portalProof?.name || 'Screenshot berhasil dipilih'}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-          {errors.portalProof && (
-            <p className="text-red-500 text-xs flex items-center mt-1">
-              <AlertCircle className="w-3.5 h-3.5 mr-1" />
-              {errors.portalProof}
-            </p>
-          )}
-        </div>
+        <RegistrationPortalProofUpload
+          previewUrl={previewUrl}
+          portalProof={portalProof}
+          fileInputRef={fileInputRef}
+          handleFileChange={handleFileChange}
+          removeFile={removeFile}
+          errors={errors}
+        />
 
         {/* Tombol Submit Pendaftaran */}
         <div className="pt-4">
@@ -767,81 +428,13 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
       </form>
 
       {/* Pop-up notifikasi status */}
-      {showPopup && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4"
-          onClick={() => setShowPopup(false)}
-        >
-          <div
-            className={`relative max-w-md w-full p-6 rounded-3xl shadow-2xl transform transition-all ${
-              popupType === 'success'
-                ? 'bg-linear-to-br from-green-50 to-emerald-50 border-2 border-green-200'
-                : 'bg-linear-to-br from-red-50 to-rose-50 border-2 border-red-200'
-            }`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => {
-                setShowPopup(false)
-                if (popupType === 'success') {
-                  router.push('/pendaftaran/selesai')
-                }
-              }}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center justify-center mb-4">
-              <div
-                className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-md ${
-                  popupType === 'success' ? 'bg-green-600' : 'bg-red-600'
-                }`}
-              >
-                {popupType === 'success' ? (
-                  <CheckCircle className="w-8 h-8" />
-                ) : (
-                  <AlertCircle className="w-8 h-8" />
-                )}
-              </div>
-            </div>
-
-            <h3
-              className={`text-xl font-bold text-center mb-2 ${
-                popupType === 'success' ? 'text-green-800' : 'text-red-800'
-              }`}
-            >
-              {popupTitle}
-            </h3>
-
-            <p
-              className={`text-center text-sm mb-6 ${
-                popupType === 'success' ? 'text-green-700' : 'text-red-700'
-              }`}
-            >
-              {popupMessage}
-            </p>
-
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  setShowPopup(false)
-                  if (popupType === 'success') {
-                    router.push('/pendaftaran/selesai')
-                  }
-                }}
-                className={`px-6 py-2.5 rounded-xl font-semibold text-white transition-all shadow-md cursor-pointer ${
-                  popupType === 'success'
-                    ? 'bg-green-600 hover:bg-green-700'
-                    : 'bg-red-600 hover:bg-red-700'
-                }`}
-              >
-                {popupType === 'success' ? 'Lanjut ke Halaman Selesai →' : 'Tutup'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <RegistrationNotificationModal
+        show={showPopup}
+        onClose={() => setShowPopup(false)}
+        type={popupType}
+        title={popupTitle}
+        message={popupMessage}
+      />
     </div>
   )
 }
