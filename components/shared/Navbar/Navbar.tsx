@@ -69,23 +69,18 @@ export default function Navbar() {
     };
   }, []);
 
-  // Keep navbar visible when menu is open
-  useEffect(() => {
-    if (menuOpen) {
-      setIsVisible(true);
-    }
-  }, [menuOpen]);
-
   const handleMobileNavigate = (path: string) => {
     setTimeout(() => {
       router.push(path);
     }, 300);
   };
 
+  const isNavVisible = isVisible || menuOpen;
+
   return (
     <header
       className={`fixed z-60 inset-x-0 transition-all duration-500 ease-in-out pointer-events-none ${
-        isVisible ? "top-6 opacity-100" : "-top-24 opacity-0"
+        isNavVisible ? "top-6 opacity-100" : "-top-24 opacity-0"
       }`}
     >
       <div className="mx-auto max-w-[1440px] w-full px-4 pointer-events-auto">

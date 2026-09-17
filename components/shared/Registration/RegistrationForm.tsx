@@ -103,7 +103,9 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
         }
       } catch (err) {
         console.error('Gagal memeriksa status kegiatan:', err)
-        if (!isCancelled && !activityStatus) setRegistrationStatus('no-activity')
+        if (!isCancelled) {
+          setRegistrationStatus((prev) => (prev === 'loading' ? 'no-activity' : prev))
+        }
       }
     }
 
