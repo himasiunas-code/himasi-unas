@@ -174,7 +174,7 @@ Implementasi custom WebGL shader untuk efek cahaya yang mengikuti mouse:
 ```
 
 ### 2. AI Chatbot
-Chatbot cerdas dengan multi-provider support (Gemini, OpenAI, Groq):
+Chatbot cerdas dengan integrasi Google Gemini AI dan basis pengetahuan lokal:
 - 🤖 Natural Language Processing
 - 💬 Context-aware responses
 - 📚 Knowledge base integration

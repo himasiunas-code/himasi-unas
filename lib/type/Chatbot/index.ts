@@ -18,7 +18,7 @@ export interface ConversationContext {
   messages: ConversationMessage[];
 }
 
-export type AIProvider = 'openai' | 'gemini' | 'faq';
+export type AIProvider = 'gemini' | 'faq';
 
 export interface GoogleGenerativeModel {
   generateContent: (prompt: string) => Promise<{

@@ -1,4 +1,3 @@
-import OpenAI from 'openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import {
   FAQ,
@@ -13,7 +12,6 @@ import {
 
 export class HimasiAIBot {
   private faqs: FAQ[] = [];
-  private openai: OpenAI | null = null;
   private gemini: GoogleGenerativeModel | null = null;
   private himasiContext: string = '';
   private aiProvider: AIProvider = 'faq';
@@ -41,44 +39,20 @@ ${HIMASI_ORGANIZATION_CONTEXT}`;
   }
 
   private async initializeAI() {
-    const preferredProvider = process.env.AI_PROVIDER || 'auto';
-    const providersInitialized: string[] = [];
-
-    // Inisialisasi Google Gemini
+    // Inisialisasi Google Gemini sebagai generative AI utama
     const geminiApiKey = process.env.GOOGLE_AI_API_KEY;
     if (geminiApiKey && geminiApiKey !== 'your_gemini_api_key_here') {
       try {
         const genAI = new GoogleGenerativeAI(geminiApiKey);
-        this.gemini = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-        providersInitialized.push('gemini');
-
-        if (preferredProvider === 'gemini' || preferredProvider === 'auto') {
-          this.aiProvider = 'gemini';
-        }
+        const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+        this.gemini = genAI.getGenerativeModel({ model: modelName });
+        this.aiProvider = 'gemini';
       } catch (error) {
         console.error('❌ Failed to initialize Google Gemini:', error);
+        this.aiProvider = 'faq';
       }
-    }
-
-    // Inisialisasi OpenAI
-    if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'your_openai_api_key_here') {
-      try {
-        this.openai = new OpenAI({
-          apiKey: process.env.OPENAI_API_KEY,
-        });
-        providersInitialized.push('openai');
-
-        if (preferredProvider === 'openai') {
-          this.aiProvider = 'openai';
-        }
-      } catch (error) {
-        console.warn('⚠️ Failed to initialize OpenAI:', error);
-      }
-    }
-
-    // Prioritas provider: Gemini > OpenAI > FAQ
-    if (this.aiProvider === 'faq' && providersInitialized.length > 0) {
-      this.aiProvider = providersInitialized.includes('gemini') ? 'gemini' : 'openai';
+    } else {
+      this.aiProvider = 'faq';
     }
   }
 
@@ -148,30 +122,37 @@ ${HIMASI_ORGANIZATION_CONTEXT}`;
     return matrix[str2.length][str1.length];
   }
 
-  // Generative AI Response
+  // Generative AI Response (Google Gemini)
   private async getAIResponse(
     question: string,
     conversationHistory?: ConversationContext
   ): Promise<string> {
-    switch (this.aiProvider) {
-      case 'gemini':
-        return await this.getGeminiResponse(question);
-      case 'openai':
-        return await this.getOpenAIResponse(question, conversationHistory);
-      default:
-        throw new Error('Tidak ada AI provider yang tersedia. Menggunakan FAQ system.');
+    if (this.aiProvider === 'gemini') {
+      return await this.getGeminiResponse(question, conversationHistory);
     }
+
+    throw new Error('Google Gemini tidak tersedia. Menggunakan FAQ system.');
   }
 
   // Google Gemini Response
-  private async getGeminiResponse(question: string): Promise<string> {
+  private async getGeminiResponse(
+    question: string,
+    conversationHistory?: ConversationContext
+  ): Promise<string> {
     if (!this.gemini) {
       throw new Error('Google Gemini belum siap. Silakan coba lagi nanti. 😊');
     }
 
     try {
-      const prompt = `${this.himasiContext}
+      let historyContext = '';
+      if (conversationHistory?.messages && conversationHistory.messages.length > 0) {
+        historyContext = `\nRecent Conversation History:\n${conversationHistory.messages
+          .map((m) => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`)
+          .join('\n')}\n`;
+      }
 
+      const prompt = `${this.himasiContext}
+${historyContext}
 IMPORTANT FORMATTING GUIDELINES:
 - Use **bold text** for important points or emphasis
 - Use bullet points with • or - for lists
@@ -204,56 +185,6 @@ Please respond in Indonesian with proper formatting and structure:`;
       if (chatbotMode === 'hybrid') throw error;
 
       return 'Maaf, sistem Gemini AI sedang mengalami kendala. Silakan coba lagi dalam beberapa saat! 🤖';
-    }
-  }
-
-  // OpenAI Response
-  private async getOpenAIResponse(
-    question: string,
-    conversationHistory?: ConversationContext
-  ): Promise<string> {
-    if (!this.openai) {
-      throw new Error('OpenAI belum siap. Silakan coba lagi nanti. 😊');
-    }
-
-    try {
-      const messages = [
-        { role: 'system' as const, content: this.himasiContext },
-        ...(conversationHistory?.messages || []),
-        { role: 'user' as const, content: question },
-      ];
-
-      const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
-        messages: messages,
-        max_tokens: 500,
-        temperature: 0.8,
-      });
-
-      const aiResponse = completion.choices[0]?.message?.content?.trim();
-
-      if (aiResponse && aiResponse.length > 10) {
-        return this.formatResponse(aiResponse);
-      } else {
-        return 'Maaf, saya tidak bisa memberikan jawaban yang tepat untuk pertanyaan ini. Bisa coba tanya dengan cara yang berbeda? Atau hubungi langsung HIMASI UNAS ya! 😊';
-      }
-    } catch (error: unknown) {
-      const err = error as Error & { status?: number };
-      const chatbotMode = process.env.CHATBOT_MODE || 'hybrid';
-
-      if (err.status === 401) {
-        if (chatbotMode === 'hybrid') throw error;
-        return 'API Key tidak valid. Silakan periksa konfigurasi OpenAI API key. 🔑';
-      } else if (err.status === 429) {
-        if (chatbotMode === 'hybrid') throw error;
-        return 'Quota OpenAI terlampaui. Silakan coba lagi nanti atau periksa billing account OpenAI. 💳';
-      } else if (err.status === 500) {
-        if (chatbotMode === 'hybrid') throw error;
-        return 'Server OpenAI sedang bermasalah. Silakan coba beberapa saat lagi. 🔧';
-      }
-
-      if (chatbotMode === 'hybrid') throw error;
-      return 'Maaf, sistem AI sedang mengalami kendala. Silakan coba lagi dalam beberapa saat, atau hubungi HIMASI UNAS untuk bantuan langsung! 💬';
     }
   }
 
@@ -336,7 +267,7 @@ Please respond in Indonesian with proper formatting and structure:`;
     return 'Maaf, saya tidak menemukan jawaban untuk pertanyaan tersebut. Silakan coba dengan kata kunci yang berbeda atau hubungi tim support kami melalui halaman Hubungi Kami.';
   }
 
-  // Metode utama untuk mendapatkan jawaban bot (Hybrid, AI, atau FAQ)
+  // Metode utama untuk mendapatkan jawaban bot (Hybrid, Gemini AI, atau FAQ)
   public async getResponse(
     question: string,
     conversationHistory?: ConversationContext
