@@ -3,7 +3,6 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Poppins } from "next/font/google";
 import AppLayoutShell from "@/components/shared/AppLayoutShell";
-import Hash from "@/components/shared/PathHash/Hash";
 import ClarityScript from "@/components/shared/ClarityScript";
 
 const poppins = Poppins({
@@ -151,9 +150,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${poppins.variable} font-poppins text-white overflow-x-hidden`}
       >
         <ClarityScript />
-        <Hash 
-          enableTitle={false}
-        />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
