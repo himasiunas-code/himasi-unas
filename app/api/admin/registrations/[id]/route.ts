@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { RegistrationStatus, Prisma } from '@prisma/client'
 import { EmailService } from '@/lib/email-service'
-import { whatsappService } from '@/lib/whatsapp-service'
 
 // PATCH /api/admin/registrations/[id] - Update status pendaftaran
 export async function PATCH(
@@ -76,7 +75,7 @@ export async function PATCH(
         reason: registration.rejectedReason || undefined
       }
 
-      // Parallel execution untuk email dan WhatsApp
+      // Eksekusi notifikasi email
       const notifications = []
 
       if (status === RegistrationStatus.APPROVED) {
@@ -88,23 +87,6 @@ export async function PATCH(
               .catch(error => console.error('Error sending approval email:', error))
           )
         }
-        
-        // Send WhatsApp
-        notifications.push(
-          whatsappService.sendApprovalMessage(
-            registration.phone,
-            registration.fullName,
-            registration.activity.title
-          )
-            .then(success => {
-              if (success) {
-                console.log(`Approval WhatsApp sent to ${registration.phone}`)
-              } else {
-                console.error(`Failed to send approval WhatsApp to ${registration.phone}`)
-              }
-            })
-            .catch(error => console.error('Error sending approval WhatsApp:', error))
-        )
       } else if (status === RegistrationStatus.REJECTED) {
         // Send email jika email ada
         if (registration.email) {
@@ -114,34 +96,18 @@ export async function PATCH(
               .catch(error => console.error('Error sending rejection email:', error))
           )
         }
-        
-        // Send WhatsApp
-        notifications.push(
-          whatsappService.sendRejectionMessage(
-            registration.phone,
-            registration.fullName,
-            registration.activity.title,
-            registration.rejectedReason || 'Tidak memenuhi persyaratan'
-          )
-            .then(success => {
-              if (success) {
-                console.log(`Rejection WhatsApp sent to ${registration.phone}`)
-              } else {
-                console.error(`Failed to send rejection WhatsApp to ${registration.phone}`)
-              }
-            })
-            .catch(error => console.error('Error sending rejection WhatsApp:', error))
-        )
       }
 
       // Execute all notifications (don't wait for completion)
-      Promise.allSettled(notifications)
-        .then(results => {
-          const failed = results.filter(result => result.status === 'rejected')
-          if (failed.length > 0) {
-            console.error('Some notifications failed:', failed)
-          }
-        })
+      if (notifications.length > 0) {
+        Promise.allSettled(notifications)
+          .then(results => {
+            const failed = results.filter(result => result.status === 'rejected')
+            if (failed.length > 0) {
+              console.error('Some notifications failed:', failed)
+            }
+          })
+      }
     } catch (error) {
       console.error('Error sending notifications:', error)
       // Jangan sampai error notification menggagalkan update status
