@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import FilterIcon from "@/public/image/Galeri/Filter Support.png";
+import FilterIcon from "@/public/image/Galeri/filter-support.png";
 import { 
   galleryFilters2024,
   filterDescriptions2024,

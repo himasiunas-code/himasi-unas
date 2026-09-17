@@ -34,7 +34,7 @@ async function main() {
           <li>Text editor (VS Code recommended)</li>
         </ul>
       `,
-      image: "/image/Home/Banner 1.png",
+      image: "/image/Home/BannerV1.png",
       category: "Workshop",
       startDate: new Date('2024-10-15T09:00:00'),
       endDate: new Date('2024-10-15T17:00:00'),
@@ -67,7 +67,7 @@ async function main() {
           <li>Sarah Wijaya - ML Research Scientist</li>
         </ul>
       `,
-      image: "/image/Home/Banner 1.png",
+      image: "/image/Home/BannerV1.png",
       category: "Seminar",
       startDate: new Date('2024-11-05T13:00:00'),
       endDate: new Date('2024-11-05T16:00:00'),
@@ -107,7 +107,7 @@ async function main() {
           <li>Final: 15 Desember 2024</li>
         </ul>
       `,
-      image: "/image/Home/Banner 1.png",
+      image: "/image/Home/BannerV1.png",
       category: "Competition",
       startDate: new Date('2024-12-15T08:00:00'),
       endDate: new Date('2024-12-15T18:00:00'),

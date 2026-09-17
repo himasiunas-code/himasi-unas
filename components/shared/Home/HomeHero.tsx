@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Banner from "@/public/image/Home/BannerV1.png";
-import Logo from "@/public/icon/LOGO HIMASI UNAS.png";
+import Logo from "@/public/icon/logo-himasi-unas.png";
 
 export default function HomeHero() {
   return (

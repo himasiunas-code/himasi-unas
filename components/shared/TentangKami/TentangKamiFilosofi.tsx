@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Logo from "@/public/icon/LOGO HIMASI UNAS.png";
+import Logo from "@/public/icon/logo-himasi-unas.png";
 
 // Komponen filosofi makna dan elemen logo HIMASI UNAS
 export default function TentangKamiFilosofi() {

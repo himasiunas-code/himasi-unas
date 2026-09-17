@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Logo from "@/public/icon/LOGO HIMASI UNAS.png";
+import Logo from "@/public/icon/logo-himasi-unas.png";
 
 // Komponen hero header halaman Tentang Kami
 export default function TentangKamiHero() {

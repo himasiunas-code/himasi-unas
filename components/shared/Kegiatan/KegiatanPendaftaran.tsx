@@ -199,7 +199,7 @@ export default function KegiatanPendaftaran() {
                 {!activity.image ? (
                   // No image - show fallback
                   <Image
-                    src="/image/Home/Banner 1.png"
+                    src="/image/Home/BannerV1.png"
                     alt={`Banner ${activity.title}`}
                     fill
                     className="object-contain"
@@ -214,7 +214,7 @@ export default function KegiatanPendaftaran() {
                     className="w-full h-full object-contain"
                     onError={(e) => {
                       console.error('❌ Failed to load image:', activity.image?.substring(0, 50) + '...');
-                      e.currentTarget.src = '/image/Home/Banner 1.png';
+                      e.currentTarget.src = '/image/Home/BannerV1.png';
                     }}
                   />
                 ) : (

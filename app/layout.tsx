@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   publisher: "Universitas Nasional",
   icons: {
     icon: "/favicon.ico",
-    apple: "/icon/LOGO HIMASI UNAS.png",
+    apple: "/icon/logo-himasi-unas.png",
   },
   robots: {
     index: true,
