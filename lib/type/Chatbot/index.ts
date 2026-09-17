@@ -1,0 +1,30 @@
+export interface FAQ {
+  id: string;
+  question: string;
+  answers: string[];
+  keywords: string[];
+}
+
+export interface FAQData {
+  faqs: FAQ[];
+}
+
+export interface ConversationMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
+export interface ConversationContext {
+  messages: ConversationMessage[];
+}
+
+export type AIProvider = 'openai' | 'gemini' | 'faq';
+
+export interface GoogleGenerativeModel {
+  generateContent: (prompt: string) => Promise<{
+    response: {
+      text: () => string;
+    };
+  }>;
+  model?: string;
+}
