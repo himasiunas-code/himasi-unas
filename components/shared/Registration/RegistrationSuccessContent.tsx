@@ -92,7 +92,7 @@ export default function RegistrationSuccessContent() {
 
   const regData = authState.data
   // Link grup WhatsApp kegiatan
-  const whatsappGroupLink = 'https://chat.whatsapp.com/Hjb6ns5SoGb5I7C1qlXaN2?mode=hqrc'
+  const whatsappGroupLink = 'https://chat.whatsapp.com/F4cAHisN1KHIvD1vF76ygZ'
 
   return (
     <div className="min-h-screen bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)] py-6 sm:py-12">
