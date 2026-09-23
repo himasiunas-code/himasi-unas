@@ -26,14 +26,6 @@ export default function RegistrationYearClassSelector({
         {(['2024', '2025'] as const).map((year) => {
           const isSelected = formData.yearClass === year
           const isFull = year === '2024' ? activityStatus?.isFull2024 : activityStatus?.isFull2025
-          const remaining =
-            year === '2024'
-              ? (activityStatus?.remaining2024 ?? 5)
-              : (activityStatus?.remaining2025 ?? 5)
-          const maxSlot =
-            year === '2024'
-              ? (activityStatus?.maxParticipants2024 ?? 5)
-              : (activityStatus?.maxParticipants2025 ?? 5)
 
           return (
             <button
@@ -70,24 +62,14 @@ export default function RegistrationYearClassSelector({
                 <span className="font-bold text-base md:text-lg">Angkatan {year}</span>
               </div>
 
-              {/* Indikator Kuota / Sisa Slot */}
-              <div>
-                {isFull ? (
+              {/* Status Kuota Penuh */}
+              {isFull && (
+                <div>
                   <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold bg-red-100 text-red-700 border border-red-200">
-                    Kuota Penuh (0/{maxSlot})
+                    Kuota Penuh
                   </span>
-                ) : (
-                  <span
-                    className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${
-                      isSelected
-                        ? 'bg-white/25 text-white'
-                        : 'bg-green-100 text-green-800 border border-green-200'
-                    }`}
-                  >
-                    Sisa {remaining} dari {maxSlot} slot
-                  </span>
-                )}
-              </div>
+                </div>
+              )}
             </button>
           )
         })}
