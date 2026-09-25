@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, ArrowRight, Home } from 'lucide-react'
 import confetti from 'canvas-confetti'
@@ -15,83 +14,39 @@ interface RegistrationSuccessData {
 }
 
 export default function RegistrationSuccessContent() {
-  const router = useRouter()
-
-  // State awal selalu false pada server dan initial client hydration untuk mencegah hydration mismatch
-  const [authState, setAuthState] = useState<{
-    isMounted: boolean
-    isAuthorized: boolean
-    data: RegistrationSuccessData | null
-  }>({
-    isMounted: false,
-    isAuthorized: false,
-    data: null,
-  })
+  const [data, setData] = useState<RegistrationSuccessData | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    // Jalankan verifikasi one-time token setelah hydration selesai
-    const timer = setTimeout(() => {
-      // 🛑 CONSUME ONE-TIME COOKIE & TOKEN SEGERA:
-      // Hapus cookie dan session token agar halaman ini TIDAK BISA dibuka ulang jika diketik lewat URL dari beranda
-      const token = sessionStorage.getItem('registration_completed_token')
-      const stored = sessionStorage.getItem('registration_completed')
+    setIsMounted(true)
 
-      // Expire cookie reg_success_token seketika
-      document.cookie = 'reg_success_token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT'
-      sessionStorage.removeItem('registration_completed_token')
-      sessionStorage.removeItem('registration_completed')
-
-      // Jika token tidak ada atau data kosong, tolak akses dan kembalikan ke pendaftaran
-      if (!token || !stored) {
-        window.location.replace('/pendaftaran')
-        return
-      }
-
+    if (typeof window !== 'undefined') {
       try {
-        const parsed: RegistrationSuccessData = JSON.parse(stored)
-        // Validasi waktu submit (maksimal 5 menit)
-        if (parsed.timestamp && Date.now() - parsed.timestamp > 5 * 60 * 1000) {
-          window.location.replace('/pendaftaran')
-          return
+        const stored = sessionStorage.getItem('registration_completed')
+        if (stored) {
+          const parsed = JSON.parse(stored)
+          setData(parsed)
         }
-
-        setAuthState({
-          isMounted: true,
-          isAuthorized: true,
-          data: parsed,
-        })
-
-        // Selebrasi confetti saat pendaftaran berhasil dibuka pertama kali
-        try {
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#4B061A', '#8B1C3B', '#FFD700', '#25D366', '#4ECDC4'],
-          })
-        } catch {
-          // Abaikan jika confetti tidak didukung browser
-        }
-      } catch {
-        window.location.replace('/pendaftaran')
+      } catch (err) {
+        console.error('Gagal membaca data pendaftaran dari session:', err)
       }
-    }, 0)
 
-    return () => clearTimeout(timer)
-  }, [router])
+      // Selebrasi confetti saat pendaftaran berhasil
+      try {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#4B061A', '#8B1C3B', '#FFD700', '#25D366', '#4ECDC4'],
+        })
+      } catch {
+        // Abaikan jika confetti tidak didukung browser
+      }
+    }
+  }, [])
 
-  // Cegah tampilan halaman sampai status terverifikasi di client
-  if (!authState.isMounted || !authState.isAuthorized) {
-    return (
-      <div className="min-h-screen bg-[linear-gradient(to_bottom,#FFE8DB_70%,#E4C6BE_80%,#994555_85%,#732E39_90%,#4B061A_100%)] flex flex-col items-center justify-center p-4">
-        <div className="w-14 h-14 border-4 border-gray-200 border-t-[#4B061A] rounded-full animate-spin mb-4"></div>
-        <p className="text-gray-700 font-semibold text-sm">Memverifikasi pendaftaran...</p>
-      </div>
-    )
-  }
-
-  const regData = authState.data
-  // Link grup WhatsApp kegiatan
+  const regData = isMounted ? data : null
+  // Link grup WhatsApp resmi kegiatan
   const whatsappGroupLink = 'https://chat.whatsapp.com/F4cAHisN1KHIvD1vF76ygZ'
 
   return (
@@ -122,13 +77,13 @@ export default function RegistrationSuccessContent() {
             {/* Badge Rincian Pendaftar */}
             {(regData?.npm || regData?.yearClass) && (
               <div className="inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-xs sm:text-sm text-gray-700 mb-6">
-                {regData.npm && (
+                {regData?.npm && (
                   <span>
                     NPM: <strong>{regData.npm}</strong>
                   </span>
                 )}
-                {regData.npm && regData.yearClass && <span className="text-gray-300">|</span>}
-                {regData.yearClass && (
+                {regData?.npm && regData?.yearClass && <span className="text-gray-300">|</span>}
+                {regData?.yearClass && (
                   <span>
                     Angkatan: <strong>{regData.yearClass}</strong>
                   </span>

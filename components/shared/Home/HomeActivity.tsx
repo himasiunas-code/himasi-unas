@@ -53,7 +53,7 @@ export default function HomeActivity() {
           {/* Petunjuk geser kartu */}
           <div className="flex justify-center mt-4">
             <p className="text-white/70 text-xs sm:text-sm">
-              ← Geser untuk melihat kegiatan lainnya →
+              ← Geser untuk melihat kegiatan →
             </p>
           </div>
         </div>

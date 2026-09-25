@@ -61,10 +61,6 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
     window.location.reload()
   })
 
-  // Prefetch halaman selesai pendaftaran agar navigasi instan
-  useEffect(() => {
-    router.prefetch('/pendaftaran/selesai')
-  }, [router])
 
   // Tampilkan notifikasi pop-up
   const showNotification = (type: 'success' | 'error', title: string, message: string) => {
@@ -244,11 +240,10 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
         throw new Error(result.message || 'Gagal mengirim pendaftaran')
       }
 
-      // Simpan session pendaftaran selesai agar halaman selesai dapat diakses
+      // Simpan session pendaftaran selesai agar rincian nama/NPM tampil di halaman selesai
       if (typeof window !== 'undefined') {
         const token = result.token || Math.random().toString(36).substring(2)
-        // Pasang cookie di client juga sebagai jaminan instan untuk middleware/server
-        document.cookie = `reg_success_token=${token}; path=/; max-age=60; SameSite=Lax`
+        document.cookie = `reg_success_token=${token}; path=/; max-age=3600; SameSite=Lax`
         sessionStorage.setItem('registration_completed_token', token)
         sessionStorage.setItem(
           'registration_completed',
@@ -260,20 +255,11 @@ export default function RegistrationForm({ initialActivity }: RegistrationFormPr
             timestamp: Date.now(),
           })
         )
+
+        // Langsung arahkan ke halaman sukses berisi grup WhatsApp tanpa modal/notifikasi
+        window.location.assign('/pendaftaran/selesai')
+        return
       }
-
-      // Notifikasi sukses dan selebrasi
-      triggerConfetti()
-      showNotification(
-        'success',
-        '🎉 Pendaftaran Berhasil!',
-        'Data Anda telah berhasil terdaftar. Mengalihkan ke halaman selesai...'
-      )
-
-      // Redirect instan menggunakan router Next.js (cepat tanpa reload penuh browser)
-      setTimeout(() => {
-        router.push('/pendaftaran/selesai')
-      }, 1000)
     } catch (error) {
       console.error('Error submitting registration:', error)
       const message =

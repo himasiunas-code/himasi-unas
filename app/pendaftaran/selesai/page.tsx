@@ -1,6 +1,4 @@
 import { Metadata } from 'next'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 import RegistrationSuccessContent from '@/components/shared/Registration/RegistrationSuccessContent'
 
 export const dynamic = 'force-dynamic'
@@ -17,14 +15,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function PendaftaranSelesaiPage() {
-  const cookieStore = await cookies()
-  const token = cookieStore.get('reg_success_token')?.value
-
-  // Server-side guard: jika tidak ada cookie pendaftaran berhasil, redirect langsung ke /pendaftaran
-  if (!token) {
-    redirect('/pendaftaran')
-  }
-
+export default function PendaftaranSelesaiPage() {
   return <RegistrationSuccessContent />
 }
